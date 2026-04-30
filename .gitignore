@@ -1,0 +1,46 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Runner/GoogleService-Info.plist
+*.ipa
+
+# Android
+android/.gradle/
+android/app/google-services.json
+android/local.properties
+android/key.properties
+*.keystore
+*.jks
+*.apk
+*.aab
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
+
+# Env / secrets
+.env
+.env.*
+secrets/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+**/.DS_Store

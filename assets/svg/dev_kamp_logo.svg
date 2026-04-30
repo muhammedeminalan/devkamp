@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="devkampGrad" x1="512" y1="0" x2="512" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="0.6" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#4338CA"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="295" fill="url(#devkampGrad)"/>
+  <path d="M554.667 213.333L170.667 725.333H426.667L384 938.667L768 426.667H512L554.667 213.333Z" fill="#FFFFFF"/>
+</svg>

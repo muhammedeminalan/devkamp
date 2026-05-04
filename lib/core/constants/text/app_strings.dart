@@ -48,4 +48,19 @@ final class AppStrings {
   static const String savedEmptySubtitle =
       'Tekrar etmek için soru kaydet — burada görünürler.';
   static const String savedEmptyAction = 'Keşfetmeye başla';
+
+  static const String profileLevelLabel = 'Seviye 5 — Kıdemli Geliştirici';
+  static const String profileStatsTotal = 'Toplam';
+  static const String profileStatsStreak = 'Seri';
+  static const String profileStatsBest = 'En İyi';
+  static const String profileStatsQuestionSuffix = 'soru';
+  static const String profileStatsDaySuffix = 'gün';
+  static const String profilePerformanceTitle = 'Kategori Performansı';
+  static const String profileAchievementsTitle = 'Başarımlar';
+  static const String profileSettingsTitle = 'Ayarlar';
+  static const String profileSettingDifficulty = 'Tercih edilen zorluk';
+  static const String profileSettingNotifications = 'Bildirimler';
+  static const String profileSettingReminder = 'Günlük hatırlatıcı';
+  static const String profileReminderTime = '09:00';
+  static const String profileSignOut = 'Çıkış Yap';
 }

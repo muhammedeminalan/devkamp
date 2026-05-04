@@ -1,0 +1,105 @@
+import 'package:app/config/theme/constants/color/neutral_color.dart';
+import 'package:app/config/theme/constants/color/warning_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
+import 'package:flutter/material.dart';
+
+class ProfileStatsSection extends StatelessWidget {
+  const ProfileStatsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: <Widget>[
+        Expanded(
+          child: _ProfileStatCard(
+            label: AppStrings.profileStatsTotal,
+            value: '243',
+            suffix: AppStrings.profileStatsQuestionSuffix,
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: _ProfileStatCard(
+            label: AppStrings.profileStatsStreak,
+            value: '5',
+            suffix: AppStrings.profileStatsDaySuffix,
+            hot: true,
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: _ProfileStatCard(
+            label: AppStrings.profileStatsBest,
+            value: '21',
+            suffix: AppStrings.profileStatsDaySuffix,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileStatCard extends StatelessWidget {
+  const _ProfileStatCard({
+    required this.label,
+    required this.value,
+    required this.suffix,
+    this.hot = false,
+  });
+
+  final String label;
+  final String value;
+  final String suffix;
+  final bool hot;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: NeutralColor.neutral100),
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: NeutralColor.neutral500,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.4,
+                ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (hot)
+                const Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 16,
+                  color: WarningColor.warning600,
+                ),
+              if (hot) const SizedBox(width: 4),
+              Text(
+                value,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: hot ? WarningColor.warning700 : NeutralColor.neutral900,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Text(
+            suffix,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: NeutralColor.neutral400,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -18,20 +18,23 @@ class HomeView extends StatelessWidget {
         authState.user?.name ?? AppStrings.homeFallbackUserName;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 56, 20, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              HomeHeaderSection(userName: userName),
-              16.h,
-              const HomeProgressSection(),
-              24.h,
-              const HomeContinueSection(),
-              24.h,
-              const HomeCategoriesSection(),
-            ],
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HomeHeaderSection(userName: userName),
+                16.h,
+                const HomeProgressSection(),
+                24.h,
+                const HomeContinueSection(),
+                24.h,
+                const HomeCategoriesSection(),
+              ],
+            ),
           ),
         ),
       ),

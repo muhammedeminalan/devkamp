@@ -29,5 +29,7 @@ final class AppStrings {
   static const String homeContinueButton = 'Devam Et';
   static const String homeCategoriesTitle = 'Kategoriler';
   static const String homeSeeAll = 'Tümünü gör';
+  static const String homeAllCategoriesTitle = 'Tüm Kategoriler';
+  static const String homeAllCategoriesSubtitle = 'Çalışmak istediğin alanı seç';
   static const String homeQuestionsSuffix = 'soru';
 }

@@ -16,6 +16,7 @@ class ProfileView extends StatelessWidget {
     final AuthState state = context.watch<AuthBloc>().state;
     final String name = state.user?.name ?? 'Kullanıcı';
     final String email = state.user?.email ?? '-';
+    final String? avatarUrl = state.user?.avatarUrl;
 
     return BlocListener<AuthBloc, AuthState>(
       listenWhen: (AuthState previous, AuthState current) =>
@@ -33,7 +34,11 @@ class ProfileView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
             child: Column(
               children: <Widget>[
-                ProfileHeaderSection(name: name, email: email),
+                ProfileHeaderSection(
+                  name: name,
+                  email: email,
+                  avatarUrl: avatarUrl,
+                ),
                 24.h,
                 const ProfileStatsSection(),
                 24.h,

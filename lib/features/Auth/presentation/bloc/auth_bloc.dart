@@ -15,11 +15,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
     required SignInWithEmailUseCase signInWithEmailUseCase,
     required SignOutUseCase signOutUseCase,
+    AppUser? initialUser,
   })  : _checkSessionUseCase = checkSessionUseCase,
         _signInWithGoogleUseCase = signInWithGoogleUseCase,
         _signInWithEmailUseCase = signInWithEmailUseCase,
         _signOutUseCase = signOutUseCase,
-        super(const AuthState.initial()) {
+        super(
+          initialUser == null
+              ? const AuthState(status: AuthStatus.unauthenticated)
+              : AuthState(
+                  status: AuthStatus.authenticated,
+                  user: initialUser,
+                ),
+        ) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<AuthSignInWithGoogleRequested>(_onAuthSignInWithGoogleRequested);
     on<AuthSignInWithEmailRequested>(_onAuthSignInWithEmailRequested);

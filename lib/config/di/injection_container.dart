@@ -1,5 +1,6 @@
 import 'package:app/config/router/app_router.dart';
-import 'package:app/features/Auth/data/repositories/fake_auth_repository.dart';
+import 'package:app/features/Auth/data/repositories/firebase_auth_repository.dart';
+import 'package:app/features/Auth/domain/entities/app_user.dart';
 import 'package:app/features/Auth/domain/repositories/auth_repository.dart';
 import 'package:app/features/Auth/domain/usecases/check_session_usecase.dart';
 import 'package:app/features/Auth/domain/usecases/sign_in_with_email_usecase.dart';
@@ -12,7 +13,7 @@ final GetIt sl = GetIt.instance;
 
 Future<void> setupDependencies() async {
   if (!sl.isRegistered<AuthRepository>()) {
-    sl.registerLazySingleton<AuthRepository>(FakeAuthRepository.new);
+    sl.registerLazySingleton<AuthRepository>(FirebaseAuthRepository.new);
   }
 
   if (!sl.isRegistered<CheckSessionUseCase>()) {
@@ -35,6 +36,8 @@ Future<void> setupDependencies() async {
     sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase(sl()));
   }
 
+  final AppUser? initialUser = await sl<AuthRepository>().getCurrentUser();
+
   if (!sl.isRegistered<AuthBloc>()) {
     sl.registerLazySingleton<AuthBloc>(
       () => AuthBloc(
@@ -42,7 +45,8 @@ Future<void> setupDependencies() async {
         signInWithGoogleUseCase: sl(),
         signInWithEmailUseCase: sl(),
         signOutUseCase: sl(),
-      )..add(const AuthCheckRequested()),
+        initialUser: initialUser,
+      ),
     );
   }
 

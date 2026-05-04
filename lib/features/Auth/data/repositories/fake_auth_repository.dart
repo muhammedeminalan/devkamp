@@ -19,6 +19,7 @@ class FakeAuthRepository implements AuthRepository {
       id: 'fake-google-1',
       name: 'Muhammed Emin',
       email: 'emin.dev@example.com',
+      avatarUrl: 'https://i.pravatar.cc/300?img=12',
     );
     _isAuthenticated = true;
     _cachedUser = user;
@@ -32,6 +33,7 @@ class FakeAuthRepository implements AuthRepository {
       id: 'fake-email-1',
       name: 'Muhammed Emin',
       email: 'emin.email@example.com',
+      avatarUrl: 'https://i.pravatar.cc/300?img=12',
     );
     _isAuthenticated = true;
     _cachedUser = user;

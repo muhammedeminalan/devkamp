@@ -8,11 +8,13 @@ class ProfileHeaderSection extends StatelessWidget {
   const ProfileHeaderSection({
     required this.name,
     required this.email,
+    required this.avatarUrl,
     super.key,
   });
 
   final String name;
   final String email;
+  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +46,23 @@ class ProfileHeaderSection extends StatelessWidget {
                 ],
               ),
               alignment: Alignment.center,
-              child: Text(
-                initial,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: BasicColor.white,
-                      fontWeight: FontWeight.w800,
-                    ),
-              ),
+              child: avatarUrl != null && avatarUrl!.isNotEmpty
+                  ? ClipOval(
+                      child: Image.network(
+                        avatarUrl!,
+                        width: 78,
+                        height: 78,
+                        fit: BoxFit.cover,
+                        errorBuilder: (
+                          BuildContext context,
+                          Object error,
+                          StackTrace? stackTrace,
+                        ) {
+                          return _InitialAvatar(initial: initial);
+                        },
+                      ),
+                    )
+                  : _InitialAvatar(initial: initial),
             ),
             Positioned(
               right: -4,
@@ -113,6 +125,23 @@ class ProfileHeaderSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _InitialAvatar extends StatelessWidget {
+  const _InitialAvatar({required this.initial});
+
+  final String initial;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      initial,
+      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: BasicColor.white,
+            fontWeight: FontWeight.w800,
+          ),
     );
   }
 }

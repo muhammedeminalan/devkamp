@@ -1,3 +1,4 @@
+import 'package:app/config/router/auth_guard.dart';
 import 'package:app/config/router/router_refresh_notifier.dart';
 import 'package:app/app/navigation/presentation/widgets/main_shell_scaffold.dart';
 import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
@@ -24,7 +25,9 @@ class AppRouter {
   late final RouterRefreshNotifier _refreshNotifier;
 
   late final GoRouter router = GoRouter(
-    initialLocation: splashPath,
+    initialLocation: _authBloc.state.status == AuthStatus.authenticated
+        ? homePath
+        : authPath,
     refreshListenable: _refreshNotifier,
     redirect: _redirect,
     routes: <RouteBase>[
@@ -92,27 +95,10 @@ class AppRouter {
   );
 
   String? _redirect(BuildContext context, GoRouterState state) {
-    final AuthStatus status = _authBloc.state.status;
-    final String location = state.matchedLocation;
-
-    final bool isSplash = location == splashPath;
-    final bool isAuth = location == authPath;
-
-    if (status == AuthStatus.unknown) {
-      if (isSplash) return null;
-      return splashPath;
-    }
-
-    if (status == AuthStatus.unauthenticated) {
-      if (isAuth) return null;
-      return authPath;
-    }
-
-    if (isSplash || isAuth) {
-      return homePath;
-    }
-
-    return null;
+    return AuthGuard.redirect(
+      status: _authBloc.state.status,
+      location: state.matchedLocation,
+    );
   }
 
   void dispose() {

@@ -1,0 +1,30 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "dev-kamp",
+                    "appId": "1:282962330758:android:b7a590b788ace56b36bd07",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "dev-kamp",
+                    "appId": "1:282962330758:ios:86ab170f104c115736bd07",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "dev-kamp",
+                    "configurations": {
+                        "android": "1:282962330758:android:b7a590b788ace56b36bd07",
+                        "ios": "1:282962330758:ios:86ab170f104c115736bd07"
+                    }
+                }
+            }
+        }
+    }
+}

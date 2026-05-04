@@ -1,5 +1,10 @@
-import 'package:app/config/theme/constants/color/neutral_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/Home/presentation/sections/home_categories_section.dart';
+import 'package:app/features/Home/presentation/sections/home_continue_section.dart';
+import 'package:app/features/Home/presentation/sections/home_header_section.dart';
+import 'package:app/features/Home/presentation/sections/home_progress_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,31 +14,23 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthState authState = context.watch<AuthBloc>().state;
+    final String userName =
+        authState.user?.name ?? AppStrings.homeFallbackUserName;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ana Sayfa')),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(20, 56, 20, 24),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'Hoş geldin ${authState.user?.name ?? ''}'.trim(),
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: NeutralColor.neutral900,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Şimdilik fake auth ile çalışıyoruz. Gerçek servis geldiğinde sadece data katmanını değiştireceğiz.',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: NeutralColor.neutral600,
-                    ),
-                textAlign: TextAlign.center,
-              ),
+              HomeHeaderSection(userName: userName),
+              16.h,
+              const HomeProgressSection(),
+              24.h,
+              const HomeContinueSection(),
+              24.h,
+              const HomeCategoriesSection(),
             ],
           ),
         ),

@@ -32,4 +32,20 @@ final class AppStrings {
   static const String homeAllCategoriesTitle = 'Tüm Kategoriler';
   static const String homeAllCategoriesSubtitle = 'Çalışmak istediğin alanı seç';
   static const String homeQuestionsSuffix = 'soru';
+
+  static const String savedTitle = 'Kaydedilen Sorular';
+  static const String savedReviewCountSuffix = 'tekrar edilecek soru';
+  static const String savedFilterAll = 'Tümü';
+  static const String savedFilterFlutter = 'Flutter';
+  static const String savedFilterPython = 'Python';
+  static const String savedFilterIos = 'iOS';
+  static const String savedFilterSql = 'SQL';
+  static const String savedFilterSystemDesign = 'System Design';
+  static const String savedDifficultyEasy = 'Kolay';
+  static const String savedDifficultyMedium = 'Orta';
+  static const String savedDifficultyHard = 'Zor';
+  static const String savedEmptyTitle = 'Henüz kaydedilen soru yok';
+  static const String savedEmptySubtitle =
+      'Tekrar etmek için soru kaydet — burada görünürler.';
+  static const String savedEmptyAction = 'Keşfetmeye başla';
 }

@@ -1,21 +1,19 @@
+import 'package:app/core/errors/app_exception.dart';
+import 'package:app/features/Auth/data/datasources/auth_remote_datasource.dart';
 import 'package:app/features/Auth/domain/entities/app_user.dart';
 import 'package:app/features/Auth/domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
   FirebaseAuthRepository({
-    FirebaseAuth? firebaseAuth,
-    GoogleSignIn? googleSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn();
+    required AuthRemoteDataSource remoteDataSource,
+  }) : _remoteDataSource = remoteDataSource;
 
-  final FirebaseAuth _firebaseAuth;
-  final GoogleSignIn _googleSignIn;
+  final AuthRemoteDataSource _remoteDataSource;
 
   @override
   Future<AppUser?> getCurrentUser() async {
-    final User? user = _firebaseAuth.currentUser;
+    final User? user = _remoteDataSource.currentUser;
     if (user == null) {
       return null;
     }
@@ -24,23 +22,12 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<AppUser> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) {
-      throw Exception('Google giriş işlemi iptal edildi.');
-    }
-
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final UserCredential userCredential =
-        await _firebaseAuth.signInWithCredential(credential);
-    final User? user = userCredential.user;
+    final User? user = await _remoteDataSource.signInWithGoogle();
 
     if (user == null) {
-      throw Exception('Google hesabı ile girişten kullanıcı bilgisi alınamadı.');
+      throw const AuthException(
+        'Google hesabı ile girişten kullanıcı bilgisi alınamadı.',
+      );
     }
 
     return _mapUser(user);
@@ -48,13 +35,12 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<AppUser> signInWithEmail() async {
-    throw Exception('E-posta ile giriş henüz aktif değil.');
+    throw const AuthException('E-posta ile giriş henüz aktif değil.');
   }
 
   @override
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-    await _googleSignIn.signOut();
+    await _remoteDataSource.signOut();
   }
 
   AppUser _mapUser(User user) {

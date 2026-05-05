@@ -1,7 +1,7 @@
 import 'package:app/core/extensions/project_extensions.dart';
-import 'package:app/features/Auth/presentation/widgets/auth_actions.dart';
-import 'package:app/features/Auth/presentation/widgets/auth_illustration.dart';
-import 'package:app/features/Auth/presentation/widgets/auth_title_section.dart';
+import 'package:app/sub_features/auth/auth_actions.dart';
+import 'package:app/sub_features/auth/auth_illustration.dart';
+import 'package:app/sub_features/auth/auth_title_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

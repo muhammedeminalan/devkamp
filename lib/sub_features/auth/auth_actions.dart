@@ -3,11 +3,11 @@ import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
-import 'package:app/core/widgets/small_button_loader.dart';
+import 'package:app/core/widgets/loaders/small_button_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/auth_bloc.dart';
+import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
 
 class AuthActions extends StatelessWidget {
   const AuthActions({super.key});

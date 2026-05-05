@@ -1,6 +1,7 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/core/widgets/cards/app_category_card.dart';
 import 'package:app/features/Home/presentation/model/home_category_ui_model.dart';
 import 'package:flutter/material.dart';
@@ -103,33 +104,15 @@ class HomeCategoriesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<HomeCategoryUiModel> categories = _buildCategories();
-    final List<HomeCategoryUiModel> previewCategories =
-        categories.take(4).toList();
+    final List<HomeCategoryUiModel> previewCategories = categories.take(4).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              AppStrings.homeCategoriesTitle,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: NeutralColor.neutral900,
-                    fontWeight: FontWeight.w800,
-                  ),
-            ),
-            TextButton(
-              onPressed: () => _showAllCategoriesSheet(context, categories),
-              child: Text(
-                AppStrings.homeSeeAll,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: PrimaryColor.primary600,
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-            ),
-          ],
+        AppSectionHeader(
+          title: AppStrings.homeCategoriesTitle,
+          actionLabel: AppStrings.homeSeeAll,
+          onActionTap: () => _showAllCategoriesSheet(context, categories),
         ),
         const SizedBox(height: 10),
         GridView.builder(

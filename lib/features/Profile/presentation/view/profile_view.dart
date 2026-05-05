@@ -1,10 +1,10 @@
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
-import 'package:app/features/Profile/presentation/sections/profile_achievements_section.dart';
-import 'package:app/features/Profile/presentation/sections/profile_header_section.dart';
-import 'package:app/features/Profile/presentation/sections/profile_performance_section.dart';
-import 'package:app/features/Profile/presentation/sections/profile_settings_section.dart';
-import 'package:app/features/Profile/presentation/sections/profile_stats_section.dart';
+import 'package:app/sub_features/profile/profile_achievements_section.dart';
+import 'package:app/sub_features/profile/profile_header_section.dart';
+import 'package:app/sub_features/profile/profile_performance_section.dart';
+import 'package:app/sub_features/profile/profile_settings_section.dart';
+import 'package:app/sub_features/profile/profile_stats_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

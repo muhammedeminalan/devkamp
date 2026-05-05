@@ -7,11 +7,10 @@ environment:
   sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
-  # Framework
   flutter:
     sdk: flutter
 
-  # Architecture / State Management
+  # State Management
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
 
@@ -20,29 +19,40 @@ dependencies:
 
   # Dependency Injection
   get_it: ^8.0.3
+  injectable: ^2.5.0
 
-  # Utilities / Extensions
-  wonzy_core_utils: ^2.0.0
+  # Models
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
 
   # Firebase
   firebase_core: ^3.13.1
   firebase_auth: ^5.7.0
   google_sign_in: ^6.3.0
 
-  # SVG
+  # UI
   flutter_svg: ^2.0.10+1
-
-  # Lottie
   lottie: ^3.1.2
 
+  # Utils
+  wonzy_core_utils: ^2.0.0
+
 dev_dependencies:
-  # Testing
   flutter_test:
     sdk: flutter
-  mocktail: ^1.0.4
 
-  # Lints
-  flutter_lints: ^4.0.0
+  # Lint
+  very_good_analysis: ^7.0.0
+
+  # Code Generation
+  build_runner: ^2.4.13
+  freezed: ^3.2.5
+  json_serializable: ^6.11.1
+  injectable_generator: ^2.9.0
+
+  # Testing
+  mocktail: ^1.0.4
+  bloc_test: ^9.1.7
 
 flutter:
   uses-material-design: true

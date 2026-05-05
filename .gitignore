@@ -44,3 +44,8 @@ secrets/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Local agent and reports
+.claude/
+coverage/
+docs/

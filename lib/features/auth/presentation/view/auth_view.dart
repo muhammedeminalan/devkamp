@@ -2,10 +2,9 @@ import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/sections/auth_actions.dart';
 import 'package:app/features/auth/presentation/sections/auth_illustration.dart';
 import 'package:app/features/auth/presentation/sections/auth_title_section.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/auth_bloc.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({super.key});

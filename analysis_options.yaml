@@ -5,3 +5,14 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - lib/firebase_options.dart
+  errors:
+    public_member_api_docs: ignore
+    lines_longer_than_80_chars: ignore
+    omit_local_variable_types: ignore
+    directives_ordering: ignore
+    require_trailing_commas: ignore
+    avoid_escaping_inner_quotes: ignore
+    sort_pub_dependencies: ignore
+    prefer_const_constructors: ignore
+    avoid_redundant_argument_values: ignore
+    use_named_constants: ignore

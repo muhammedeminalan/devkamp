@@ -21,7 +21,7 @@ final List<Category> _testCategories = <Category>[
     id: 'flutter',
     title: 'Flutter',
     questionCount: 10,
-    colorValue: Colors.blue.value,
+    colorValue: Colors.blue.toARGB32(),
     iconPath: 'assets/icons/flutter.svg',
   ),
 ];

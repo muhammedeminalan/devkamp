@@ -1,8 +1,8 @@
 import 'package:app/features/saved/presentation/model/saved_question_ui_model.dart';
-import 'package:app/sub_features/saved/saved_empty_state_section.dart';
-import 'package:app/sub_features/saved/saved_filter_chips_section.dart';
-import 'package:app/sub_features/saved/saved_header_section.dart';
-import 'package:app/sub_features/saved/saved_question_list_section.dart';
+import 'package:app/features/saved/presentation/sections/saved_empty_state_section.dart';
+import 'package:app/features/saved/presentation/sections/saved_filter_chips_section.dart';
+import 'package:app/features/saved/presentation/sections/saved_header_section.dart';
+import 'package:app/features/saved/presentation/sections/saved_question_list_section.dart';
 import 'package:flutter/material.dart';
 
 class SavedView extends StatefulWidget {

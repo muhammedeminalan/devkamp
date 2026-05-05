@@ -1,6 +1,6 @@
 import 'package:app/config/router/auth_guard.dart';
 import 'package:app/config/router/router_refresh_notifier.dart';
-import 'package:app/sub_features/main_shell/main_shell_scaffold.dart';
+import 'package:app/app/navigation/presentation/widgets/main_shell_scaffold.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/auth/presentation/view/auth_view.dart';
 import 'package:app/features/home/presentation/view/home_view.dart';

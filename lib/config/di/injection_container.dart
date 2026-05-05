@@ -12,6 +12,9 @@ import 'package:app/features/home/data/repositories/fake_home_repository.dart';
 import 'package:app/features/home/domain/repositories/home_repository.dart';
 import 'package:app/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
+import 'package:app/features/profile/data/repositories/fake_profile_repository.dart';
+import 'package:app/features/profile/domain/repositories/profile_repository.dart';
+import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart';
 import 'package:app/features/saved/data/repositories/fake_saved_repository.dart';
 import 'package:app/features/saved/domain/repositories/saved_repository.dart';
 import 'package:app/features/saved/domain/usecases/get_saved_questions_usecase.dart';
@@ -100,6 +103,22 @@ Future<void> setupDependencies() async {
   if (!sl.isRegistered<RemoveSavedQuestionUseCase>()) {
     sl.registerLazySingleton<RemoveSavedQuestionUseCase>(
       () => RemoveSavedQuestionUseCase(sl()),
+    );
+  }
+
+  if (!sl.isRegistered<ProfileRepository>()) {
+    sl.registerLazySingleton<ProfileRepository>(FakeProfileRepository.new);
+  }
+
+  if (!sl.isRegistered<GetUserStatsUseCase>()) {
+    sl.registerLazySingleton<GetUserStatsUseCase>(
+      () => GetUserStatsUseCase(sl()),
+    );
+  }
+
+  if (!sl.isRegistered<GetAchievementsUseCase>()) {
+    sl.registerLazySingleton<GetAchievementsUseCase>(
+      () => GetAchievementsUseCase(sl()),
     );
   }
 }

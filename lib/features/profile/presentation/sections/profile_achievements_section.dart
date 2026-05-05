@@ -1,22 +1,35 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
+import 'package:app/features/profile/domain/entities/achievement.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAchievementsSection extends StatelessWidget {
-  const ProfileAchievementsSection({super.key});
+  const ProfileAchievementsSection({
+    required this.achievements,
+    super.key,
+  });
+
+  final List<Achievement> achievements;
+
+  Color _resolveColor(int index) {
+    const List<Color> palette = <Color>[
+      Color(0xFFF59E0B),
+      Color(0xFF10B981),
+      Color(0xFF4F46E5),
+      Color(0xFF8B5CF6),
+      Color(0xFFEC4899),
+    ];
+    return palette[index % palette.length];
+  }
+
+  String _resolveEmoji(int index) {
+    const List<String> emojis = <String>['🔥', '✅', '⚡', '🧠', '🏆'];
+    return emojis[index % emojis.length];
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<({String emoji, String label, String sub, Color color, bool locked})>
-        badges = <({String emoji, String label, String sub, Color color, bool locked})>[
-      (emoji: '🔥', label: 'Ateşli', sub: '5 günlük seri', color: const Color(0xFFF59E0B), locked: false),
-      (emoji: '✅', label: 'Yüzbaşı', sub: '100 soru', color: const Color(0xFF10B981), locked: false),
-      (emoji: '⚡', label: 'Hızlı Çeken', sub: '<30sn ort.', color: const Color(0xFF4F46E5), locked: false),
-      (emoji: '🧠', label: 'Çok Dilli', sub: '3 dil', color: const Color(0xFF8B5CF6), locked: true),
-      (emoji: '🏆', label: 'Şampiyon', sub: 'İlk %10', color: const Color(0xFFEC4899), locked: true),
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -25,18 +38,21 @@ class ProfileAchievementsSection extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: badges.map((badge) {
+            children: achievements.asMap().entries.map((entry) {
+              final int index = entry.key;
+              final Achievement badge = entry.value;
+
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: _AchievementBadge(
-                  emoji: badge.emoji,
-                  label: badge.label,
-                  sub: badge.sub,
-                  color: badge.color,
-                  locked: badge.locked,
+                  emoji: _resolveEmoji(index),
+                  label: badge.title,
+                  sub: badge.description,
+                  color: _resolveColor(index),
+                  locked: !badge.isUnlocked,
                 ),
               );
-            }).toList(),
+            }).toList(growable: false),
           ),
         ),
       ],
@@ -87,7 +103,9 @@ class _AchievementBadge extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: locked ? const Color(0xFFE5E7EB) : color.withValues(alpha: 0.13),
+                color: locked
+                    ? const Color(0xFFE5E7EB)
+                    : color.withValues(alpha: 0.13),
                 border: Border.all(
                   color: locked ? const Color(0xFFD1D5DB) : color,
                   width: 2,

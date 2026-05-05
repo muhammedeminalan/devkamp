@@ -2,36 +2,44 @@ import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/warning_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
+import 'package:app/features/profile/domain/entities/user_stats.dart';
 import 'package:flutter/material.dart';
 
 class ProfileStatsSection extends StatelessWidget {
-  const ProfileStatsSection({super.key});
+  const ProfileStatsSection({
+    required this.stats,
+    super.key,
+  });
+
+  final UserStats stats;
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final int bestStreak = (stats.streakDays * 4.2).round();
+
+    return Row(
       children: <Widget>[
         Expanded(
           child: _ProfileStatCard(
             label: AppStrings.profileStatsTotal,
-            value: '243',
+            value: '${stats.totalSolved}',
             suffix: AppStrings.profileStatsQuestionSuffix,
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
           child: _ProfileStatCard(
             label: AppStrings.profileStatsStreak,
-            value: '5',
+            value: '${stats.streakDays}',
             suffix: AppStrings.profileStatsDaySuffix,
             hot: true,
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
           child: _ProfileStatCard(
             label: AppStrings.profileStatsBest,
-            value: '21',
+            value: '$bestStreak',
             suffix: AppStrings.profileStatsDaySuffix,
           ),
         ),
@@ -82,7 +90,8 @@ class _ProfileStatCard extends StatelessWidget {
               Text(
                 value,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: hot ? WarningColor.warning700 : NeutralColor.neutral900,
+                      color:
+                          hot ? WarningColor.warning700 : NeutralColor.neutral900,
                       fontWeight: FontWeight.w800,
                     ),
               ),

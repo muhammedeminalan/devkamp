@@ -1,18 +1,13 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AppUser extends Equatable {
-  const AppUser({
-    required this.id,
-    required this.name,
-    required this.email,
-    this.avatarUrl,
-  });
+part 'app_user.freezed.dart';
 
-  final String id;
-  final String name;
-  final String email;
-  final String? avatarUrl;
-
-  @override
-  List<Object?> get props => <Object?>[id, name, email, avatarUrl];
+@freezed
+abstract class AppUser with _$AppUser {
+  const factory AppUser({
+    required String id,
+    required String name,
+    required String email,
+    String? avatarUrl,
+  }) = _AppUser;
 }

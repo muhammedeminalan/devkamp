@@ -76,17 +76,18 @@ void main() {
     );
 
     blocTest<SavedBloc, SavedState>(
-      'SavedQuestionRemoved sonrası listeyi yeniden yükler',
+      'SavedQuestionRemoved soruyu anında listeden çıkarır',
       build: () {
         when(() => mockRemoveSavedQuestion('q1'))
             .thenAnswer((_) async => const Success<void>(null));
-        when(() => mockGetSavedQuestions())
-            .thenAnswer((_) async => Success<List<SavedQuestion>>(<SavedQuestion>[]));
         return buildBloc();
       },
+      seed: () => SavedState(
+        status: SavedStatus.success,
+        questions: _testQuestions,
+      ),
       act: (SavedBloc bloc) => bloc.add(const SavedQuestionRemoved('q1')),
       expect: () => const <SavedState>[
-        SavedState(status: SavedStatus.loading),
         SavedState(status: SavedStatus.success, questions: <SavedQuestion>[]),
       ],
     );

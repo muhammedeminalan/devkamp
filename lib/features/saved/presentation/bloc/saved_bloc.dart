@@ -49,6 +49,18 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     SavedQuestionRemoved event,
     Emitter<SavedState> emit,
   ) async {
+    final List<SavedQuestion> previousQuestions = state.questions;
+    final List<SavedQuestion> updatedQuestions = previousQuestions
+        .where((SavedQuestion question) => question.id != event.questionId)
+        .toList();
+
+    emit(
+      state.copyWith(
+        status: SavedStatus.success,
+        questions: updatedQuestions,
+      ),
+    );
+
     final Result<void> removeResult = await _removeSavedQuestionUseCase(
       event.questionId,
     );
@@ -57,12 +69,10 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
       emit(
         state.copyWith(
           status: SavedStatus.failure,
+          questions: previousQuestions,
           errorMessage: removeResult.exception.message,
         ),
       );
-      return;
     }
-
-    add(const SavedQuestionsLoaded());
   }
 }

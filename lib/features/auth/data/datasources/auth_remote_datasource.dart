@@ -1,6 +1,7 @@
 import 'package:app/core/errors/app_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 
 abstract interface class AuthRemoteDataSource {
   User? get currentUser;
@@ -8,15 +9,12 @@ abstract interface class AuthRemoteDataSource {
   Future<void> signOut();
 }
 
+@LazySingleton(as: AuthRemoteDataSource)
 class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
-  FirebaseAuthRemoteDataSource({
-    FirebaseAuth? firebaseAuth,
-    GoogleSignIn? googleSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn();
+  FirebaseAuthRemoteDataSource();
 
-  final FirebaseAuth _firebaseAuth;
-  final GoogleSignIn _googleSignIn;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   User? get currentUser => _firebaseAuth.currentUser;

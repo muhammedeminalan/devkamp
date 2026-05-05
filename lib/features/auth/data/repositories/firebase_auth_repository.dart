@@ -3,7 +3,9 @@ import 'package:app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:app/features/auth/domain/entities/app_user.dart';
 import 'package:app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: AuthRepository)
 class FirebaseAuthRepository implements AuthRepository {
   FirebaseAuthRepository({
     required AuthRemoteDataSource remoteDataSource,

@@ -1,7 +1,9 @@
 import 'package:app/core/result/result.dart';
 import 'package:app/features/home/domain/entities/category.dart';
 import 'package:app/features/home/domain/repositories/home_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class GetCategoriesUseCase {
   const GetCategoriesUseCase(this._repository);
 

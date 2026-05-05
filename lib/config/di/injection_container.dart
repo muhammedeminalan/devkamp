@@ -8,6 +8,10 @@ import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dar
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/home/data/repositories/fake_home_repository.dart';
+import 'package:app/features/home/domain/repositories/home_repository.dart';
+import 'package:app/features/home/domain/usecases/get_categories_usecase.dart';
+import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt sl = GetIt.instance;
@@ -61,5 +65,21 @@ Future<void> setupDependencies() async {
 
   if (!sl.isRegistered<AppRouter>()) {
     sl.registerLazySingleton<AppRouter>(() => AppRouter(authBloc: sl()));
+  }
+
+  if (!sl.isRegistered<HomeRepository>()) {
+    sl.registerLazySingleton<HomeRepository>(FakeHomeRepository.new);
+  }
+
+  if (!sl.isRegistered<GetCategoriesUseCase>()) {
+    sl.registerLazySingleton<GetCategoriesUseCase>(
+      () => GetCategoriesUseCase(sl()),
+    );
+  }
+
+  if (!sl.isRegistered<GetProgressUseCase>()) {
+    sl.registerLazySingleton<GetProgressUseCase>(
+      () => GetProgressUseCase(sl()),
+    );
   }
 }

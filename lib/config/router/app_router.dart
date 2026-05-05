@@ -1,12 +1,12 @@
 import 'package:app/config/router/auth_guard.dart';
 import 'package:app/config/router/router_refresh_notifier.dart';
-import 'package:app/sub_features/main_shell/main_shell_scaffold.dart';
-import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
-import 'package:app/features/Auth/presentation/view/auth_view.dart';
-import 'package:app/features/Home/presentation/view/home_view.dart';
-import 'package:app/features/Profile/presentation/view/profile_view.dart';
-import 'package:app/features/Saved/presentation/view/saved_view.dart';
-import 'package:app/features/Splash/presentation/view/splash_view.dart';
+import 'package:app/app/navigation/presentation/widgets/main_shell_scaffold.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/auth/presentation/view/auth_view.dart';
+import 'package:app/features/home/presentation/view/home_view.dart';
+import 'package:app/features/profile/presentation/view/profile_view.dart';
+import 'package:app/features/saved/presentation/view/saved_view.dart';
+import 'package:app/features/splash/presentation/view/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

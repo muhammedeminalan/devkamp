@@ -1,5 +1,5 @@
 import 'package:app/config/router/auth_guard.dart';
-import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,4 +1,4 @@
-import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 
 final class AuthGuard {
   const AuthGuard._();

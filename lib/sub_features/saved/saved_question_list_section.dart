@@ -3,7 +3,7 @@ import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
-import 'package:app/features/Saved/presentation/model/saved_question_ui_model.dart';
+import 'package:app/features/saved/presentation/model/saved_question_ui_model.dart';
 import 'package:flutter/material.dart';
 
 class SavedQuestionListSection extends StatelessWidget {

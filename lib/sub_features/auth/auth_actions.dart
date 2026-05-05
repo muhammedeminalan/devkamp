@@ -7,7 +7,7 @@ import 'package:app/core/widgets/loaders/small_button_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthActions extends StatelessWidget {
   const AuthActions({super.key});

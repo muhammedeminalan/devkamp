@@ -3,7 +3,7 @@ import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/core/widgets/cards/app_category_card.dart';
-import 'package:app/features/Home/presentation/model/home_category_ui_model.dart';
+import 'package:app/features/home/presentation/model/home_category_ui_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategoriesSection extends StatelessWidget {

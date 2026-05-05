@@ -1,13 +1,13 @@
 import 'package:app/config/router/app_router.dart';
-import 'package:app/features/Auth/data/datasources/auth_remote_datasource.dart';
-import 'package:app/features/Auth/data/repositories/firebase_auth_repository.dart';
-import 'package:app/features/Auth/domain/entities/app_user.dart';
-import 'package:app/features/Auth/domain/repositories/auth_repository.dart';
-import 'package:app/features/Auth/domain/usecases/check_session_usecase.dart';
-import 'package:app/features/Auth/domain/usecases/sign_in_with_email_usecase.dart';
-import 'package:app/features/Auth/domain/usecases/sign_in_with_google_usecase.dart';
-import 'package:app/features/Auth/domain/usecases/sign_out_usecase.dart';
-import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:app/features/auth/data/repositories/firebase_auth_repository.dart';
+import 'package:app/features/auth/domain/entities/app_user.dart';
+import 'package:app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
+import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
+import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt sl = GetIt.instance;

@@ -1,6 +1,6 @@
-import 'package:app/features/Home/presentation/view/home_view.dart';
-import 'package:app/features/Profile/presentation/view/profile_view.dart';
-import 'package:app/features/Saved/presentation/view/saved_view.dart';
+import 'package:app/features/home/presentation/view/home_view.dart';
+import 'package:app/features/profile/presentation/view/profile_view.dart';
+import 'package:app/features/saved/presentation/view/saved_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,7 +1,9 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
-import 'package:app/core/widgets/small_button_loader.dart';
+import 'package:app/core/widgets/sections/app_section_header.dart';
+import 'package:app/core/widgets/surfaces/app_surface_card.dart';
+import 'package:app/core/widgets/loaders/small_button_loader.dart';
 import 'package:flutter/material.dart';
 
 class ProfileSettingsSection extends StatelessWidget {
@@ -19,20 +21,10 @@ class ProfileSettingsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          AppStrings.profileSettingsTitle,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: NeutralColor.neutral900,
-                fontWeight: FontWeight.w800,
-              ),
-        ),
+        const AppSectionHeader(title: AppStrings.profileSettingsTitle),
         const SizedBox(height: 10),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: NeutralColor.neutral100),
-          ),
+        AppSurfaceCard(
+          padding: EdgeInsets.zero,
           child: Column(
             children: <Widget>[
               const _NotificationRow(),

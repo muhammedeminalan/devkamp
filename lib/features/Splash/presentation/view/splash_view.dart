@@ -1,8 +1,8 @@
 import 'package:app/core/extensions/project_extensions.dart';
-import 'package:app/features/Splash/presentation/widgets/splash_background.dart';
-import 'package:app/features/Splash/presentation/widgets/splash_dot_loader.dart';
-import 'package:app/features/Splash/presentation/widgets/splash_logo_card.dart';
-import 'package:app/features/Splash/presentation/widgets/splash_title.dart';
+import 'package:app/sub_features/splash/splash_background.dart';
+import 'package:app/sub_features/splash/splash_dot_loader.dart';
+import 'package:app/sub_features/splash/splash_logo_card.dart';
+import 'package:app/sub_features/splash/splash_title.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatelessWidget {

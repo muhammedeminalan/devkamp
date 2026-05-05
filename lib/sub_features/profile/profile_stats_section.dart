@@ -1,6 +1,7 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/warning_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:flutter/material.dart';
 
 class ProfileStatsSection extends StatelessWidget {
@@ -54,13 +55,9 @@ class _ProfileStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppSurfaceCard(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: NeutralColor.neutral100),
-      ),
+      boxShadow: const <BoxShadow>[],
       child: Column(
         children: <Widget>[
           Text(

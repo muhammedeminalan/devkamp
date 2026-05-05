@@ -2,6 +2,7 @@ import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/features/Saved/presentation/model/saved_question_ui_model.dart';
 import 'package:flutter/material.dart';
 
@@ -53,20 +54,8 @@ class _SavedQuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppSurfaceCard(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: BasicColor.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: NeutralColor.neutral100),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Color.fromRGBO(17, 24, 39, 0.06),
-            blurRadius: 10,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

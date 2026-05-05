@@ -1,5 +1,7 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/widgets/sections/app_section_header.dart';
+import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePerformanceSection extends StatelessWidget {
@@ -19,21 +21,9 @@ class ProfilePerformanceSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          AppStrings.profilePerformanceTitle,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: NeutralColor.neutral900,
-                fontWeight: FontWeight.w800,
-              ),
-        ),
+        const AppSectionHeader(title: AppStrings.profilePerformanceTitle),
         const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: NeutralColor.neutral100),
-          ),
+        AppSurfaceCard(
           child: Column(
             children: items.map((item) {
               final int pct = ((item.done / item.total) * 100).round();
@@ -61,18 +51,16 @@ class ProfilePerformanceSection extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 item.name,
-                                style:
-                                    Theme.of(context).textTheme.labelLarge?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                               Text(
                                 '$pct%',
-                                style:
-                                    Theme.of(context).textTheme.labelSmall?.copyWith(
-                                          color: item.color,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                      color: item.color,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                               ),
                             ],
                           ),

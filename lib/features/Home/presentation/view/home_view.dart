@@ -1,10 +1,10 @@
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/Auth/presentation/bloc/auth_bloc.dart';
-import 'package:app/features/Home/presentation/sections/home_categories_section.dart';
-import 'package:app/features/Home/presentation/sections/home_continue_section.dart';
-import 'package:app/features/Home/presentation/sections/home_header_section.dart';
-import 'package:app/features/Home/presentation/sections/home_progress_section.dart';
+import 'package:app/sub_features/home/home_categories_section.dart';
+import 'package:app/sub_features/home/home_continue_section.dart';
+import 'package:app/sub_features/home/home_header_section.dart';
+import 'package:app/sub_features/home/home_progress_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

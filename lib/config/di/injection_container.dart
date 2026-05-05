@@ -1,4 +1,5 @@
 import 'package:app/config/router/app_router.dart';
+import 'package:app/features/Auth/data/datasources/auth_remote_datasource.dart';
 import 'package:app/features/Auth/data/repositories/firebase_auth_repository.dart';
 import 'package:app/features/Auth/domain/entities/app_user.dart';
 import 'package:app/features/Auth/domain/repositories/auth_repository.dart';
@@ -12,8 +13,16 @@ import 'package:get_it/get_it.dart';
 final GetIt sl = GetIt.instance;
 
 Future<void> setupDependencies() async {
+  if (!sl.isRegistered<AuthRemoteDataSource>()) {
+    sl.registerLazySingleton<AuthRemoteDataSource>(
+      FirebaseAuthRemoteDataSource.new,
+    );
+  }
+
   if (!sl.isRegistered<AuthRepository>()) {
-    sl.registerLazySingleton<AuthRepository>(FirebaseAuthRepository.new);
+    sl.registerLazySingleton<AuthRepository>(
+      () => FirebaseAuthRepository(remoteDataSource: sl()),
+    );
   }
 
   if (!sl.isRegistered<CheckSessionUseCase>()) {

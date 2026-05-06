@@ -5,8 +5,8 @@ import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 abstract interface class QuizRepository {
   Future<Result<List<QuizQuestion>>> getQuestions({
     required String categoryId,
-    String? topicId,
     required bool isRandom,
+    String? topicId,
   });
 
   Future<Result<String>> getAiAnswer({required String questionId});

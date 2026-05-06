@@ -5,8 +5,10 @@ import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/auth/presentation/view/auth_view.dart';
 import 'package:app/features/home/presentation/view/home_view.dart';
 import 'package:app/features/profile/presentation/view/profile_view.dart';
+import 'package:app/features/quiz/presentation/view/quiz_view.dart';
 import 'package:app/features/saved/presentation/view/saved_view.dart';
 import 'package:app/features/splash/presentation/view/splash_view.dart';
+import 'package:app/features/topic/presentation/view/topic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,6 +22,8 @@ class AppRouter {
   static const String homePath = '/home';
   static const String savedPath = '/saved';
   static const String profilePath = '/profile';
+  static const String topicPath = '/topic';
+  static const String quizPath = '/quiz';
 
   final AuthBloc _authBloc;
   late final RouterRefreshNotifier _refreshNotifier;
@@ -41,6 +45,43 @@ class AppRouter {
         path: authPath,
         builder: (BuildContext context, GoRouterState state) {
           return const AuthView();
+        },
+      ),
+      GoRoute(
+        path: topicPath,
+        builder: (BuildContext context, GoRouterState state) {
+          final Map<String, dynamic> extra =
+              state.extra as Map<String, dynamic>? ?? <String, dynamic>{};
+          final String? categoryId = extra['categoryId'] as String?;
+          final String? categoryTitle = extra['categoryTitle'] as String?;
+          if (categoryId == null || categoryTitle == null) {
+            return const HomeView();
+          }
+          return TopicView(
+            categoryId: categoryId,
+            categoryTitle: categoryTitle,
+          );
+        },
+      ),
+      GoRoute(
+        path: quizPath,
+        builder: (BuildContext context, GoRouterState state) {
+          final Map<String, dynamic> extra =
+              state.extra as Map<String, dynamic>? ?? <String, dynamic>{};
+          final String? categoryId = extra['categoryId'] as String?;
+          final String? topicId = extra['topicId'] as String?;
+          final String topicName =
+              extra['topicName'] as String? ?? 'Rastgele Quiz';
+          final bool isRandom = extra['isRandom'] as bool? ?? false;
+          if (categoryId == null) {
+            return const HomeView();
+          }
+          return QuizView(
+            categoryId: categoryId,
+            topicId: topicId,
+            topicName: topicName,
+            isRandom: isRandom,
+          );
         },
       ),
       StatefulShellRoute.indexedStack(

@@ -11,12 +11,12 @@ class GetQuizQuestionsUseCase {
 
   Future<Result<List<QuizQuestion>>> call({
     required String categoryId,
-    String? topicId,
     required bool isRandom,
+    String? topicId,
   }) =>
       _repository.getQuestions(
         categoryId: categoryId,
-        topicId: topicId,
         isRandom: isRandom,
+        topicId: topicId,
       );
 }

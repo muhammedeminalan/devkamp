@@ -6,12 +6,12 @@ sealed class QuizEvent {
 class QuizStarted extends QuizEvent {
   const QuizStarted({
     required this.categoryId,
-    this.topicId,
     required this.isRandom,
+    this.topicId,
   });
   final String categoryId;
-  final String? topicId;
   final bool isRandom;
+  final String? topicId;
 }
 
 // Kullanıcı "Cevabı Gör" butonuna bastığında AI cevabını yükler.

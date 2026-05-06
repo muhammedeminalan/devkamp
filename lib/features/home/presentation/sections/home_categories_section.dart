@@ -4,6 +4,7 @@ import 'package:app/core/widgets/cards/app_category_card.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/features/home/domain/entities/category.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeCategoriesSection extends StatelessWidget {
   const HomeCategoriesSection({
@@ -55,7 +56,16 @@ class HomeCategoriesSection extends StatelessWidget {
       isScrollControlled: true,
       useSafeArea: true,
       backgroundColor: Colors.transparent,
-      builder: (BuildContext context) => _AllCategoriesSheet(categories: data),
+      builder: (BuildContext context) => _AllCategoriesSheet(
+        categories: data,
+        onCategoryTap: (Category category) => context.push(
+          '/topic',
+          extra: <String, dynamic>{
+            'categoryId': category.id,
+            'categoryTitle': category.title,
+          },
+        ),
+      ),
     );
   }
 
@@ -91,6 +101,13 @@ class HomeCategoriesSection extends StatelessWidget {
               icon: Icon(_resolveIcon(item.id)),
               iconColor: iconColor,
               iconBackgroundColor: _resolveBackgroundColor(iconColor),
+              onTap: () => context.push(
+                '/topic',
+                extra: <String, dynamic>{
+                  'categoryId': item.id,
+                  'categoryTitle': item.title,
+                },
+              ),
             );
           },
         ),
@@ -100,9 +117,13 @@ class HomeCategoriesSection extends StatelessWidget {
 }
 
 class _AllCategoriesSheet extends StatelessWidget {
-  const _AllCategoriesSheet({required this.categories});
+  const _AllCategoriesSheet({
+    required this.categories,
+    required this.onCategoryTap,
+  });
 
   final List<Category> categories;
+  final ValueChanged<Category> onCategoryTap;
 
   Color _resolveBackgroundColor(Color color) {
     return Color.alphaBlend(
@@ -197,7 +218,10 @@ class _AllCategoriesSheet extends StatelessWidget {
                         icon: Icon(_resolveIcon(item.id)),
                         iconColor: iconColor,
                         iconBackgroundColor: _resolveBackgroundColor(iconColor),
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          onCategoryTap(item);
+                        },
                       );
                     },
                   ),

@@ -37,6 +37,11 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
+import '../../features/quiz/domain/repositories/quiz_repository.dart' as _i613;
+import '../../features/quiz/domain/usecases/get_ai_answer_usecase.dart'
+    as _i892;
+import '../../features/quiz/domain/usecases/get_quiz_questions_usecase.dart'
+    as _i650;
 import '../../features/saved/data/repositories/fake_saved_repository.dart'
     as _i671;
 import '../../features/saved/domain/repositories/saved_repository.dart'
@@ -70,6 +75,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());
     gh.lazySingleton<_i1062.TopicRepository>(
         () => _i1012.FakeTopicRepository());
+    gh.lazySingleton<_i892.GetAiAnswerUseCase>(
+        () => _i892.GetAiAnswerUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i650.GetQuizQuestionsUseCase>(
+        () => _i650.GetQuizQuestionsUseCase(gh<_i613.QuizRepository>()));
     gh.lazySingleton<_i161.AuthRemoteDataSource>(
         () => _i161.FirebaseAuthRemoteDataSource());
     gh.lazySingleton<_i787.AuthRepository>(() => _i900.FirebaseAuthRepository(

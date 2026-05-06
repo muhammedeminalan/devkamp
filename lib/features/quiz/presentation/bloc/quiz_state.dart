@@ -41,6 +41,9 @@ class QuizState extends Equatable {
   List<String> get missedTopics =>
       missedIndices.map((int i) => questions[i].topic).toList();
 
+  // Nullable alanları null'a sıfırlamak için sentinel pattern — ?? operatörü null'ı yok sayar.
+  static const Object _sentinel = Object();
+
   QuizState copyWith({
     QuizStatus? status,
     List<QuizQuestion>? questions,
@@ -50,8 +53,8 @@ class QuizState extends Equatable {
     bool? isBookmarked,
     Set<int>? knewIndices,
     Set<int>? missedIndices,
-    String? answerText,
-    String? errorMessage,
+    Object? answerText = _sentinel,
+    Object? errorMessage = _sentinel,
   }) {
     return QuizState(
       status: status ?? this.status,
@@ -62,8 +65,8 @@ class QuizState extends Equatable {
       isBookmarked: isBookmarked ?? this.isBookmarked,
       knewIndices: knewIndices ?? this.knewIndices,
       missedIndices: missedIndices ?? this.missedIndices,
-      answerText: answerText ?? this.answerText,
-      errorMessage: errorMessage ?? this.errorMessage,
+      answerText: identical(answerText, _sentinel) ? this.answerText : answerText as String?,
+      errorMessage: identical(errorMessage, _sentinel) ? this.errorMessage : errorMessage as String?,
     );
   }
 

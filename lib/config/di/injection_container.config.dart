@@ -45,6 +45,8 @@ import '../../features/saved/domain/usecases/get_saved_questions_usecase.dart'
     as _i599;
 import '../../features/saved/domain/usecases/remove_saved_question_usecase.dart'
     as _i575;
+import '../../features/topic/data/repositories/fake_topic_repository.dart'
+    as _i1012;
 import '../../features/topic/domain/repositories/topic_repository.dart'
     as _i1062;
 import '../../features/topic/domain/usecases/get_topics_usecase.dart' as _i652;
@@ -66,6 +68,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i894.ProfileRepository>(
         () => _i850.FakeProfileRepository());
     gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());
+    gh.lazySingleton<_i1062.TopicRepository>(
+        () => _i1012.FakeTopicRepository());
     gh.lazySingleton<_i161.AuthRemoteDataSource>(
         () => _i161.FirebaseAuthRemoteDataSource());
     gh.lazySingleton<_i787.AuthRepository>(() => _i900.FirebaseAuthRepository(

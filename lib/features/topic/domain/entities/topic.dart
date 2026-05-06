@@ -4,6 +4,7 @@ part 'topic.freezed.dart';
 
 enum TopicDifficulty { easy, medium, hard }
 
+// Bir öğrenim konusunu zorluk seviyesi ve tamamlanma durumuyla birlikte taşımak için kullanılır.
 @freezed
 abstract class Topic with _$Topic {
   const factory Topic({

@@ -37,6 +37,13 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
+import '../../features/quiz/data/repositories/fake_quiz_repository.dart'
+    as _i196;
+import '../../features/quiz/domain/repositories/quiz_repository.dart' as _i613;
+import '../../features/quiz/domain/usecases/get_ai_answer_usecase.dart'
+    as _i892;
+import '../../features/quiz/domain/usecases/get_quiz_questions_usecase.dart'
+    as _i650;
 import '../../features/saved/data/repositories/fake_saved_repository.dart'
     as _i671;
 import '../../features/saved/domain/repositories/saved_repository.dart'
@@ -45,6 +52,11 @@ import '../../features/saved/domain/usecases/get_saved_questions_usecase.dart'
     as _i599;
 import '../../features/saved/domain/usecases/remove_saved_question_usecase.dart'
     as _i575;
+import '../../features/topic/data/repositories/fake_topic_repository.dart'
+    as _i1012;
+import '../../features/topic/domain/repositories/topic_repository.dart'
+    as _i1062;
+import '../../features/topic/domain/usecases/get_topics_usecase.dart' as _i652;
 import '../router/app_router.dart' as _i81;
 import 'app_module.dart' as _i460;
 
@@ -60,13 +72,22 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final appModule = _$AppModule();
+    gh.lazySingleton<_i613.QuizRepository>(() => _i196.FakeQuizRepository());
     gh.lazySingleton<_i894.ProfileRepository>(
         () => _i850.FakeProfileRepository());
     gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());
+    gh.lazySingleton<_i1062.TopicRepository>(
+        () => _i1012.FakeTopicRepository());
+    gh.lazySingleton<_i892.GetAiAnswerUseCase>(
+        () => _i892.GetAiAnswerUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i650.GetQuizQuestionsUseCase>(
+        () => _i650.GetQuizQuestionsUseCase(gh<_i613.QuizRepository>()));
     gh.lazySingleton<_i161.AuthRemoteDataSource>(
         () => _i161.FirebaseAuthRemoteDataSource());
     gh.lazySingleton<_i787.AuthRepository>(() => _i900.FirebaseAuthRepository(
         remoteDataSource: gh<_i161.AuthRemoteDataSource>()));
+    gh.lazySingleton<_i652.GetTopicsUseCase>(
+        () => _i652.GetTopicsUseCase(gh<_i1062.TopicRepository>()));
     gh.lazySingleton<_i0.HomeRepository>(() => _i568.FakeHomeRepository());
     gh.lazySingleton<_i1011.CheckSessionUseCase>(
         () => _i1011.CheckSessionUseCase(gh<_i787.AuthRepository>()));

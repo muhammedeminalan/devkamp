@@ -37,6 +37,8 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
+import '../../features/quiz/data/repositories/fake_quiz_repository.dart'
+    as _i196;
 import '../../features/quiz/domain/repositories/quiz_repository.dart' as _i613;
 import '../../features/quiz/domain/usecases/get_ai_answer_usecase.dart'
     as _i892;
@@ -70,6 +72,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final appModule = _$AppModule();
+    gh.lazySingleton<_i613.QuizRepository>(() => _i196.FakeQuizRepository());
     gh.lazySingleton<_i894.ProfileRepository>(
         () => _i850.FakeProfileRepository());
     gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());

@@ -81,5 +81,9 @@
   "profileSettingNotifications": "Notifications",
   "profileSettingReminder": "Daily reminder",
   "profileReminderTime": "09:00",
-  "profileSignOut": "Sign Out"
+  "profileSignOut": "Sign Out",
+  "profileSettingLanguage": "Language",
+  "profileLanguageSystem": "System",
+  "profileLanguageTurkish": "Turkish",
+  "profileLanguageEnglish": "English"
 }

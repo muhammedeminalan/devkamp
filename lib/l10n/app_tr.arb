@@ -104,5 +104,9 @@
   "profileSettingNotifications": "Bildirimler",
   "profileSettingReminder": "Günlük hatırlatıcı",
   "profileReminderTime": "09:00",
-  "profileSignOut": "Çıkış Yap"
+  "profileSignOut": "Çıkış Yap",
+  "profileSettingLanguage": "Dil",
+  "profileLanguageSystem": "Sistem",
+  "profileLanguageTurkish": "Türkçe",
+  "profileLanguageEnglish": "İngilizce"
 }

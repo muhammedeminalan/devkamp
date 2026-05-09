@@ -547,6 +547,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Çıkış Yap'**
   String get profileSignOut;
+
+  /// No description provided for @profileSettingLanguage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil'**
+  String get profileSettingLanguage;
+
+  /// No description provided for @profileLanguageSystem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem'**
+  String get profileLanguageSystem;
+
+  /// No description provided for @profileLanguageTurkish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türkçe'**
+  String get profileLanguageTurkish;
+
+  /// No description provided for @profileLanguageEnglish.
+  ///
+  /// In tr, this message translates to:
+  /// **'İngilizce'**
+  String get profileLanguageEnglish;
 }
 
 class _AppLocalizationsDelegate

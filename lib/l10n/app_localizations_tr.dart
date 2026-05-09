@@ -246,4 +246,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileSignOut => 'Çıkış Yap';
+
+  @override
+  String get profileSettingLanguage => 'Dil';
+
+  @override
+  String get profileLanguageSystem => 'Sistem';
+
+  @override
+  String get profileLanguageTurkish => 'Türkçe';
+
+  @override
+  String get profileLanguageEnglish => 'İngilizce';
 }

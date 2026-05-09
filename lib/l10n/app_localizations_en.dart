@@ -247,4 +247,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSignOut => 'Sign Out';
+
+  @override
+  String get profileSettingLanguage => 'Language';
+
+  @override
+  String get profileLanguageSystem => 'System';
+
+  @override
+  String get profileLanguageTurkish => 'Turkish';
+
+  @override
+  String get profileLanguageEnglish => 'English';
 }

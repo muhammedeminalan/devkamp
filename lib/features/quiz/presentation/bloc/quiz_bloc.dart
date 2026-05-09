@@ -269,15 +269,23 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     final String? uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
+    final String catId = state.categoryId;
+    final String catName = state.categoryName;
+
     FirebaseFirestore.instance.collection('userStats').doc(uid).set(
       <String, dynamic>{
+        // Genel istatistikler
         'totalSolved': FieldValue.increment(1),
         'correctAnswers': FieldValue.increment(knew ? 1 : 0),
         'lastActiveDate': FieldValue.serverTimestamp(),
+        // Kategori bazlı istatistikler (dot notation ile nested map)
+        'categories.$catId.totalSolved': FieldValue.increment(1),
+        'categories.$catId.correctAnswers': FieldValue.increment(knew ? 1 : 0),
+        'categories.$catId.title': catName,
       },
       SetOptions(merge: true),
     ).then((_) {
-      dev.log('📊 userStats güncellendi | knew: $knew', name: 'QuizBloc');
+      dev.log('📊 userStats güncellendi | knew: $knew | category: $catId', name: 'QuizBloc');
     }).catchError((Object e) {
       dev.log('❌ userStats güncelleme hatası: $e', name: 'QuizBloc');
     });

@@ -1,5 +1,6 @@
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/profile/domain/usecases/get_category_performance_usecase.dart';
 import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart';
 import 'package:app/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:app/features/profile/presentation/bloc/profile_event.dart';
@@ -22,6 +23,7 @@ class ProfileView extends StatelessWidget {
       create: (BuildContext context) => ProfileBloc(
         getUserStatsUseCase: GetIt.instance<GetUserStatsUseCase>(),
         getAchievementsUseCase: GetIt.instance<GetAchievementsUseCase>(),
+        getCategoryPerformanceUseCase: GetIt.instance<GetCategoryPerformanceUseCase>(),
       )..add(const ProfileDataLoaded()),
       child: const _ProfileBody(),
     );
@@ -78,7 +80,9 @@ class _ProfileBody extends StatelessWidget {
                     24.h,
                     ProfileStatsSection(stats: profileState.stats!),
                     24.h,
-                    const ProfilePerformanceSection(),
+                    ProfilePerformanceSection(
+                      performances: profileState.categoryPerformance,
+                    ),
                     24.h,
                     ProfileAchievementsSection(
                       achievements: profileState.achievements,

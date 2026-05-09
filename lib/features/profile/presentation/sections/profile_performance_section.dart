@@ -2,21 +2,54 @@ import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
+import 'package:app/features/profile/domain/entities/category_performance.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePerformanceSection extends StatelessWidget {
-  const ProfilePerformanceSection({super.key});
+  const ProfilePerformanceSection({
+    required this.performances,
+    super.key,
+  });
+
+  final List<CategoryPerformance> performances;
+
+  // categoryId'ye göre ikon döndürür.
+  IconData _iconFor(String id) => switch (id) {
+        'flutter'  => Icons.flutter_dash_rounded,
+        'dart'     => Icons.code_rounded,
+        'python'   => Icons.terminal_rounded,
+        'ios'      => Icons.phone_iphone_rounded,
+        'android'  => Icons.android_rounded,
+        'sql'      => Icons.storage_rounded,
+        _          => Icons.book_rounded,
+      };
+
+  // categoryId'ye göre renk döndürür.
+  Color _colorFor(String id) => switch (id) {
+        'flutter'  => const Color(0xFF2563EB),
+        'dart'     => const Color(0xFF4F46E5),
+        'python'   => const Color(0xFF059669),
+        'ios'      => const Color(0xFF374151),
+        'android'  => const Color(0xFF16A34A),
+        'sql'      => const Color(0xFF0EA5E9),
+        _          => const Color(0xFF9333EA),
+      };
+
+  Color _bgFor(String id) => switch (id) {
+        'flutter'  => const Color(0xFFDBEAFE),
+        'dart'     => const Color(0xFFEEF2FF),
+        'python'   => const Color(0xFFD1FAE5),
+        'ios'      => const Color(0xFFF3F4F6),
+        'android'  => const Color(0xFFDCFCE7),
+        'sql'      => const Color(0xFFE0F2FE),
+        _          => const Color(0xFFF3E8FF),
+      };
 
   @override
   Widget build(BuildContext context) {
-    final List<({String name, int done, int total, IconData icon, Color color, Color bg})>
-        items = <({String name, int done, int total, IconData icon, Color color, Color bg})>[
-      (name: 'Flutter', done: 38, total: 124, icon: Icons.flutter_dash_rounded, color: const Color(0xFF2563EB), bg: const Color(0xFFDBEAFE)),
-      (name: 'Dart', done: 22, total: 78, icon: Icons.code_rounded, color: const Color(0xFF4F46E5), bg: const Color(0xFFEEF2FF)),
-      (name: 'iOS', done: 17, total: 62, icon: Icons.phone_iphone_rounded, color: const Color(0xFF0284C7), bg: const Color(0xFFE0F2FE)),
-      (name: 'SQL', done: 19, total: 70, icon: Icons.storage_rounded, color: const Color(0xFF0EA5E9), bg: const Color(0xFFE0F2FE)),
-      (name: 'System Design', done: 9, total: 40, icon: Icons.account_tree_rounded, color: const Color(0xFF9333EA), bg: const Color(0xFFF3E8FF)),
-    ];
+    if (performances.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,8 +58,10 @@ class ProfilePerformanceSection extends StatelessWidget {
         const SizedBox(height: 10),
         AppSurfaceCard(
           child: Column(
-            children: items.map((item) {
-              final int pct = ((item.done / item.total) * 100).round();
+            children: performances.map((CategoryPerformance perf) {
+              final int pct = (perf.accuracy * 100).round();
+              final Color color = _colorFor(perf.categoryId);
+
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Row(
@@ -35,11 +70,11 @@ class ProfilePerformanceSection extends StatelessWidget {
                       width: 28,
                       height: 28,
                       decoration: BoxDecoration(
-                        color: item.bg,
+                        color: _bgFor(perf.categoryId),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       alignment: Alignment.center,
-                      child: Icon(item.icon, size: 16, color: item.color),
+                      child: Icon(_iconFor(perf.categoryId), size: 16, color: color),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -50,15 +85,15 @@ class ProfilePerformanceSection extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                item.name,
+                                perf.categoryTitle,
                                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
                               Text(
-                                '$pct%',
+                                '$pct% · ${perf.totalSolved} soru',
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: item.color,
+                                      color: color,
                                       fontWeight: FontWeight.w700,
                                     ),
                               ),
@@ -68,10 +103,10 @@ class ProfilePerformanceSection extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(999),
                             child: LinearProgressIndicator(
-                              value: pct / 100,
+                              value: perf.accuracy,
                               minHeight: 6,
                               backgroundColor: NeutralColor.neutral100,
-                              valueColor: AlwaysStoppedAnimation<Color>(item.color),
+                              valueColor: AlwaysStoppedAnimation<Color>(color),
                             ),
                           ),
                         ],

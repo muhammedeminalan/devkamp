@@ -4,6 +4,7 @@ import 'package:app/core/constants/assets/app_svg_paths.dart';
 import 'package:app/core/errors/app_exception.dart';
 import 'package:app/core/result/result.dart';
 import 'package:app/features/profile/domain/entities/achievement.dart';
+import 'package:app/features/profile/domain/entities/category_performance.dart';
 import 'package:app/features/profile/domain/entities/user_stats.dart';
 import 'package:app/features/profile/domain/repositories/profile_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,6 +75,51 @@ class FirestoreProfileRepository implements ProfileRepository {
     } on Exception catch (e) {
       dev.log('❌ getUserStats hatası: $e', name: 'FirestoreProfileRepository');
       return Failure(DataException('İstatistikler yüklenemedi: $e'));
+    }
+  }
+
+  @override
+  Future<Result<List<CategoryPerformance>>> getCategoryPerformance() async {
+    final String? uid = _userId;
+    if (uid == null) {
+      return const Success(<CategoryPerformance>[]);
+    }
+
+    try {
+      dev.log('📊 Kategori performansı çekiliyor | userId: $uid', name: 'FirestoreProfileRepository');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('userStats').doc(uid).get();
+
+      if (!doc.exists || doc.data() == null) {
+        return const Success(<CategoryPerformance>[]);
+      }
+
+      final Map<String, dynamic>? categoriesMap =
+          doc.data()!['categories'] as Map<String, dynamic>?;
+
+      if (categoriesMap == null || categoriesMap.isEmpty) {
+        return const Success(<CategoryPerformance>[]);
+      }
+
+      final List<CategoryPerformance> result = categoriesMap.entries.map((entry) {
+        final Map<String, dynamic> cat =
+            Map<String, dynamic>.from(entry.value as Map);
+        return CategoryPerformance(
+          categoryId: entry.key,
+          categoryTitle: cat['title'] as String? ?? entry.key,
+          totalSolved: cat['totalSolved'] as int? ?? 0,
+          correctAnswers: cat['correctAnswers'] as int? ?? 0,
+        );
+      }).toList()
+        // En çok çözülenden en aza sırala
+        ..sort((a, b) => b.totalSolved.compareTo(a.totalSolved));
+
+      dev.log('✅ Kategori performansı hazır | count: ${result.length}', name: 'FirestoreProfileRepository');
+      return Success(result);
+    } on Exception catch (e) {
+      dev.log('❌ getCategoryPerformance hatası: $e', name: 'FirestoreProfileRepository');
+      return Failure(DataException('Kategori performansı yüklenemedi: $e'));
     }
   }
 

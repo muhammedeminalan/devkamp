@@ -55,6 +55,8 @@ import '../../features/profile/data/repositories/firestore_profile_repository.da
     as _i973;
 import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
+import '../../features/profile/domain/usecases/get_category_performance_usecase.dart'
+    as _i834;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
 import '../../features/profile/domain/usecases/update_streak_usecase.dart'
@@ -128,6 +130,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i973.FirestoreProfileRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i0.HomeRepository>(
         () => _i884.FirestoreHomeRepository(gh<_i974.FirebaseFirestore>()));
+    gh.lazySingleton<_i834.GetCategoryPerformanceUseCase>(() =>
+        _i834.GetCategoryPerformanceUseCase(gh<_i894.ProfileRepository>()));
     gh.lazySingleton<_i349.GetUserStatsUseCase>(
         () => _i349.GetUserStatsUseCase(gh<_i894.ProfileRepository>()));
     gh.lazySingleton<_i349.GetAchievementsUseCase>(

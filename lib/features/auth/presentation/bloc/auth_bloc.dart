@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/features/auth/domain/entities/app_user.dart';
 import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
@@ -43,10 +45,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthCheckRequested event,
     Emitter<AuthState> emit,
   ) async {
+    dev.log('🔍 Oturum kontrol ediliyor...', name: 'AuthBloc');
     emit(state.copyWith(isLoading: true, clearError: true));
     try {
       final AppUser? user = await _checkSessionUseCase();
       if (user == null) {
+        dev.log('👤 Aktif oturum yok → unauthenticated', name: 'AuthBloc');
         emit(
           state.copyWith(
             status: AuthStatus.unauthenticated,
@@ -58,6 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
+      dev.log('✅ Oturum aktif | userId: ${user.id}', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -67,6 +72,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } on Exception catch (error) {
+      dev.log('❌ Oturum kontrol hatası: $error', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.unauthenticated,
@@ -82,9 +88,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthSignInWithGoogleRequested event,
     Emitter<AuthState> emit,
   ) async {
+    dev.log('🔑 Google ile giriş başlatıldı', name: 'AuthBloc');
     emit(state.copyWith(isLoading: true, clearError: true));
     try {
       final AppUser user = await _signInWithGoogleUseCase();
+      dev.log('✅ Google girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -94,6 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } on Exception catch (error) {
+      dev.log('❌ Google giriş hatası: $error', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.unauthenticated,
@@ -109,9 +118,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthSignInWithEmailRequested event,
     Emitter<AuthState> emit,
   ) async {
+    dev.log('🔑 E-posta ile giriş başlatıldı', name: 'AuthBloc');
     emit(state.copyWith(isLoading: true, clearError: true));
     try {
       final AppUser user = await _signInWithEmailUseCase();
+      dev.log('✅ E-posta girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -121,6 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } on Exception catch (error) {
+      dev.log('❌ E-posta giriş hatası: $error', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.unauthenticated,
@@ -136,9 +148,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthSignOutRequested event,
     Emitter<AuthState> emit,
   ) async {
+    dev.log('🚪 Çıkış yapılıyor...', name: 'AuthBloc');
     emit(state.copyWith(isLoading: true, clearError: true));
     try {
       await _signOutUseCase();
+      dev.log('✅ Çıkış başarılı', name: 'AuthBloc');
       emit(
         state.copyWith(
           status: AuthStatus.unauthenticated,
@@ -148,6 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } on Exception catch (error) {
+      dev.log('❌ Çıkış hatası: $error', name: 'AuthBloc');
       emit(
         state.copyWith(
           isLoading: false,

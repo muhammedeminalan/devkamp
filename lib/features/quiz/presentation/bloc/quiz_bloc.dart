@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/core/result/result.dart';
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:app/features/quiz/domain/usecases/generate_questions_usecase.dart';
@@ -34,6 +36,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     QuizStarted event,
     Emitter<QuizState> emit,
   ) async {
+    dev.log(
+      '🎯 Quiz başlatıldı | categoryId: ${event.categoryId} | topicId: ${event.topicId}',
+      name: 'QuizBloc',
+    );
     emit(state.copyWith(
       status: QuizStatus.loading,
       categoryId: event.categoryId,
@@ -49,6 +55,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
     switch (result) {
       case Failure<List<QuizQuestion>>():
+        dev.log(
+          '❌ Sorular yüklenemedi: ${result.exception.message}',
+          name: 'QuizBloc',
+        );
         emit(state.copyWith(
           status: QuizStatus.failure,
           errorMessage: result.exception.message,
@@ -57,6 +67,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
       case Success<List<QuizQuestion>>() when result.data.isEmpty:
         // Firestore'da soru yok; AI ile üret.
+        dev.log(
+          '🤖 Soru yok, AI ile üretim başlatılıyor | categoryId: ${event.categoryId}',
+          name: 'QuizBloc',
+        );
         emit(state.copyWith(status: QuizStatus.generating));
 
         final Result<void> genResult = await _generateQuestions(
@@ -67,12 +81,18 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         );
 
         if (genResult is Failure) {
+          dev.log(
+            '❌ Soru üretimi başarısız: ${genResult.exception.message}',
+            name: 'QuizBloc',
+          );
           emit(state.copyWith(
             status: QuizStatus.failure,
-            errorMessage: (genResult as Failure<void>).exception.message,
+            errorMessage: genResult.exception.message,
           ));
           return;
         }
+
+        dev.log('✅ Soru üretimi tamamlandı, tekrar çekiliyor...', name: 'QuizBloc');
 
         // Üretim tamamlandı; soruları tekrar çek.
         final Result<List<QuizQuestion>> generated = await _getQuestions(
@@ -83,6 +103,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
         switch (generated) {
           case Success<List<QuizQuestion>>():
+            dev.log(
+              '✅ Sorular hazır | count: ${generated.data.length}',
+              name: 'QuizBloc',
+            );
             emit(state.copyWith(
               status: QuizStatus.question,
               questions: generated.data,
@@ -94,6 +118,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
               missedIndices: <int>{},
             ));
           case Failure<List<QuizQuestion>>():
+            dev.log(
+              '❌ Üretim sonrası çekim başarısız: ${generated.exception.message}',
+              name: 'QuizBloc',
+            );
             emit(state.copyWith(
               status: QuizStatus.failure,
               errorMessage: generated.exception.message,
@@ -101,6 +129,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         }
 
       case Success<List<QuizQuestion>>():
+        dev.log(
+          '✅ Sorular mevcut | count: ${result.data.length}',
+          name: 'QuizBloc',
+        );
         emit(state.copyWith(
           status: QuizStatus.question,
           questions: result.data,
@@ -118,10 +150,17 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     QuizAnswerRequested event,
     Emitter<QuizState> emit,
   ) async {
-    emit(state.copyWith(answerStage: AnswerStage.loading));
-
     final QuizQuestion? q = state.currentQuestion;
-    if (q == null) return;
+    if (q == null) {
+      dev.log('⚠️ Mevcut soru null, cevap isteği iptal edildi', name: 'QuizBloc');
+      return;
+    }
+
+    dev.log(
+      '💬 Cevap isteniyor | questionId: ${q.id} | topic: ${q.topic}',
+      name: 'QuizBloc',
+    );
+    emit(state.copyWith(answerStage: AnswerStage.loading));
 
     // questionId ile Firestore cache kontrolü yapılır; yoksa Gemini üretir.
     final Result<String> result = await _getAiAnswer(
@@ -133,11 +172,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
     switch (result) {
       case Success<String>():
+        dev.log('✅ Cevap alındı | questionId: ${q.id}', name: 'QuizBloc');
         emit(state.copyWith(
           answerStage: AnswerStage.streaming,
           answerText: result.data,
         ));
       case Failure<String>():
+        dev.log(
+          '❌ Cevap alınamadı: ${result.exception.message}',
+          name: 'QuizBloc',
+        );
         emit(state.copyWith(
           answerStage: AnswerStage.error,
           errorMessage: result.exception.message,

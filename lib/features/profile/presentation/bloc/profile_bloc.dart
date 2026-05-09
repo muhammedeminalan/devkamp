@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/core/result/result.dart';
 import 'package:app/features/profile/domain/entities/achievement.dart';
 import 'package:app/features/profile/domain/entities/user_stats.dart';
@@ -23,6 +25,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileDataLoaded event,
     Emitter<ProfileState> emit,
   ) async {
+    dev.log('👤 Profil verileri yükleniyor...', name: 'ProfileBloc');
     emit(state.copyWith(status: ProfileStatus.loading));
 
     final List<Result<dynamic>> results = await Future.wait(<Future<Result<dynamic>>>[
@@ -40,10 +43,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         error = (achievementsResult as Failure).exception.message;
       }
+      dev.log('❌ Profil yükleme hatası: $error', name: 'ProfileBloc');
       emit(state.copyWith(status: ProfileStatus.failure, errorMessage: error));
       return;
     }
 
+    dev.log('✅ Profil verileri hazır', name: 'ProfileBloc');
     emit(
       state.copyWith(
         status: ProfileStatus.success,

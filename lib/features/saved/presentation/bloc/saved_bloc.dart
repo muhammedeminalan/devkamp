@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/core/result/result.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
 import 'package:app/features/saved/domain/usecases/get_saved_questions_usecase.dart';
@@ -24,10 +26,12 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     SavedQuestionsLoaded event,
     Emitter<SavedState> emit,
   ) async {
+    dev.log('🔖 Kaydedilen sorular yükleniyor...', name: 'SavedBloc');
     emit(state.copyWith(status: SavedStatus.loading));
 
     final Result<List<SavedQuestion>> result = await _getSavedQuestionsUseCase();
     if (result is Failure<List<SavedQuestion>>) {
+      dev.log('❌ Kaydedilen sorular yüklenemedi: ${result.exception.message}', name: 'SavedBloc');
       emit(
         state.copyWith(
           status: SavedStatus.failure,
@@ -37,10 +41,12 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
       return;
     }
 
+    final List<SavedQuestion> questions = (result as Success<List<SavedQuestion>>).data;
+    dev.log('✅ Kaydedilen sorular hazır | count: ${questions.length}', name: 'SavedBloc');
     emit(
       state.copyWith(
         status: SavedStatus.success,
-        questions: (result as Success<List<SavedQuestion>>).data,
+        questions: questions,
       ),
     );
   }
@@ -49,6 +55,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     SavedQuestionRemoved event,
     Emitter<SavedState> emit,
   ) async {
+    dev.log('🗑️ Soru siliniyor | questionId: ${event.questionId}', name: 'SavedBloc');
     final List<SavedQuestion> previousQuestions = state.questions;
     final List<SavedQuestion> updatedQuestions = previousQuestions
         .where((SavedQuestion question) => question.id != event.questionId)
@@ -66,6 +73,10 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     );
 
     if (removeResult is Failure<void>) {
+      dev.log(
+        '❌ Soru silinemedi, geri alınıyor | error: ${removeResult.exception.message}',
+        name: 'SavedBloc',
+      );
       emit(
         state.copyWith(
           status: SavedStatus.failure,
@@ -73,6 +84,8 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
           errorMessage: removeResult.exception.message,
         ),
       );
+    } else {
+      dev.log('✅ Soru silindi | questionId: ${event.questionId}', name: 'SavedBloc');
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/core/result/result.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:app/features/category/domain/usecases/generate_categories_usecase.dart';
@@ -23,6 +25,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     CategoriesLoadRequested event,
     Emitter<CategoryState> emit,
   ) async {
+    dev.log(
+      '📂 Kategoriler yükleniyor | topicId: ${event.topicId}',
+      name: 'CategoryBloc',
+    );
     emit(state.copyWith(status: CategoryBlocStatus.loading));
 
     // Firestore'dan mevcut kategorileri getir.
@@ -31,6 +37,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     switch (result) {
       case Failure<List<StudyCategory>>():
+        dev.log(
+          '❌ Kategoriler yüklenemedi: ${result.exception.message}',
+          name: 'CategoryBloc',
+        );
         emit(state.copyWith(
           status: CategoryBlocStatus.error,
           errorMessage: result.exception.message,
@@ -39,6 +49,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       case Success<List<StudyCategory>>() when result.data.isNotEmpty:
         // Kategoriler Firestore'da mevcut, direkt göster.
+        dev.log(
+          '✅ Kategoriler mevcut | count: ${result.data.length}',
+          name: 'CategoryBloc',
+        );
         emit(state.copyWith(
           status: CategoryBlocStatus.ready,
           categories: result.data,
@@ -47,6 +61,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       case Success<List<StudyCategory>>():
         // Hiç kategori yok; AI ile üretim başlat.
+        dev.log(
+          '🤖 Kategori yok, AI ile üretim başlatılıyor | topicId: ${event.topicId}',
+          name: 'CategoryBloc',
+        );
         emit(state.copyWith(status: CategoryBlocStatus.generating));
     }
 
@@ -57,12 +75,18 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     );
 
     if (genResult is Failure) {
+      dev.log(
+        '❌ Kategori üretimi başarısız: ${genResult.exception.message}',
+        name: 'CategoryBloc',
+      );
       emit(state.copyWith(
         status: CategoryBlocStatus.error,
-        errorMessage: (genResult as Failure<void>).exception.message,
+        errorMessage: genResult.exception.message,
       ));
       return;
     }
+
+    dev.log('✅ Kategori üretimi tamamlandı, tekrar çekiliyor...', name: 'CategoryBloc');
 
     // Üretim tamamlandı; kategorileri tekrar çek.
     final Result<List<StudyCategory>> finalResult =
@@ -70,11 +94,19 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     switch (finalResult) {
       case Success<List<StudyCategory>>():
+        dev.log(
+          '✅ Kategoriler hazır | count: ${finalResult.data.length}',
+          name: 'CategoryBloc',
+        );
         emit(state.copyWith(
           status: CategoryBlocStatus.ready,
           categories: finalResult.data,
         ));
       case Failure<List<StudyCategory>>():
+        dev.log(
+          '❌ Son çekim başarısız: ${finalResult.exception.message}',
+          name: 'CategoryBloc',
+        );
         emit(state.copyWith(
           status: CategoryBlocStatus.error,
           errorMessage: finalResult.exception.message,

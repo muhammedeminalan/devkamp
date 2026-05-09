@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:app/core/result/result.dart';
 import 'package:app/features/home/domain/entities/category.dart';
 import 'package:app/features/home/domain/entities/learning_progress.dart';
@@ -24,6 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeDataLoaded event,
     Emitter<HomeState> emit,
   ) async {
+    dev.log('🏠 Home verileri yükleniyor...', name: 'HomeBloc');
     emit(state.copyWith(status: HomeStatus.loading));
 
     final List<Result<dynamic>> results = await Future.wait(<Future<Result<dynamic>>>[
@@ -42,6 +45,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         errorMessage = (progressResult as Failure).exception.message;
       }
 
+      dev.log('❌ Home yükleme hatası: $errorMessage', name: 'HomeBloc');
       emit(
         state.copyWith(
           status: HomeStatus.failure,
@@ -51,10 +55,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       return;
     }
 
+    final List<Category> cats = (categoriesResult as Success<List<Category>>).data;
+    dev.log('✅ Home verileri hazır | kategori sayısı: ${cats.length}', name: 'HomeBloc');
     emit(
       state.copyWith(
         status: HomeStatus.success,
-        categories: (categoriesResult as Success<List<Category>>).data,
+        categories: cats,
         progress: (progressResult as Success<LearningProgress>).data,
       ),
     );

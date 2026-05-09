@@ -1,6 +1,7 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/result/result.dart';
+import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
 import 'package:app/features/saved/domain/usecases/get_saved_questions_usecase.dart';
@@ -298,13 +299,7 @@ class _SavedAnswerSheetState extends State<_SavedAnswerSheet> {
                           ),
                     )
                   else
-                    Text(
-                      _answer ?? '',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            height: 1.6,
-                            color: NeutralColor.neutral700,
-                          ),
-                    ),
+                    AppMarkdownBody(text: _answer ?? ''),
                 ],
               ),
             ),

@@ -37,8 +37,8 @@ import '../../features/category/domain/usecases/get_categories_usecase.dart'
     as _i125;
 import '../../features/category/domain/usecases/watch_category_usecase.dart'
     as _i835;
-import '../../features/home/data/repositories/fake_home_repository.dart'
-    as _i568;
+import '../../features/home/data/repositories/firestore_home_repository.dart'
+    as _i884;
 import '../../features/home/domain/repositories/home_repository.dart' as _i0;
 import '../../features/home/domain/usecases/get_categories_usecase.dart'
     as _i967;
@@ -60,16 +60,16 @@ import '../../features/quiz/domain/usecases/get_ai_answer_usecase.dart'
     as _i892;
 import '../../features/quiz/domain/usecases/get_quiz_questions_usecase.dart'
     as _i650;
-import '../../features/saved/data/repositories/fake_saved_repository.dart'
-    as _i671;
+import '../../features/saved/data/repositories/firestore_saved_repository.dart'
+    as _i1011;
 import '../../features/saved/domain/repositories/saved_repository.dart'
     as _i105;
 import '../../features/saved/domain/usecases/get_saved_questions_usecase.dart'
     as _i599;
 import '../../features/saved/domain/usecases/remove_saved_question_usecase.dart'
     as _i575;
-import '../../features/topic/data/repositories/fake_topic_repository.dart'
-    as _i1012;
+import '../../features/topic/data/repositories/firestore_topic_repository.dart'
+    as _i34;
 import '../../features/topic/domain/repositories/topic_repository.dart'
     as _i1062;
 import '../../features/topic/domain/usecases/get_topics_usecase.dart' as _i652;
@@ -92,9 +92,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i656.GenerativeModel>(() => appModule.geminiModel());
     gh.lazySingleton<_i894.ProfileRepository>(
         () => _i850.FakeProfileRepository());
-    gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());
-    gh.lazySingleton<_i1062.TopicRepository>(
-        () => _i1012.FakeTopicRepository());
     gh.lazySingleton<_i869.CategoryRepository>(
         () => _i990.FirestoreCategoryRepository(
               gh<_i974.FirebaseFirestore>(),
@@ -109,9 +106,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i161.FirebaseAuthRemoteDataSource());
     gh.lazySingleton<_i787.AuthRepository>(() => _i900.FirebaseAuthRepository(
         remoteDataSource: gh<_i161.AuthRemoteDataSource>()));
-    gh.lazySingleton<_i652.GetTopicsUseCase>(
-        () => _i652.GetTopicsUseCase(gh<_i1062.TopicRepository>()));
-    gh.lazySingleton<_i0.HomeRepository>(() => _i568.FakeHomeRepository());
     gh.lazySingleton<_i1011.CheckSessionUseCase>(
         () => _i1011.CheckSessionUseCase(gh<_i787.AuthRepository>()));
     gh.lazySingleton<_i744.SignInWithEmailUseCase>(
@@ -120,10 +114,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i673.SignInWithGoogleUseCase(gh<_i787.AuthRepository>()));
     gh.lazySingleton<_i915.SignOutUseCase>(
         () => _i915.SignOutUseCase(gh<_i787.AuthRepository>()));
+    gh.lazySingleton<_i0.HomeRepository>(
+        () => _i884.FirestoreHomeRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i349.GetUserStatsUseCase>(
         () => _i349.GetUserStatsUseCase(gh<_i894.ProfileRepository>()));
     gh.lazySingleton<_i349.GetAchievementsUseCase>(
         () => _i349.GetAchievementsUseCase(gh<_i894.ProfileRepository>()));
+    gh.lazySingleton<_i105.SavedRepository>(
+        () => _i1011.FirestoreSavedRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i599.GetSavedQuestionsUseCase>(
         () => _i599.GetSavedQuestionsUseCase(gh<_i105.SavedRepository>()));
     gh.lazySingleton<_i575.RemoveSavedQuestionUseCase>(
@@ -148,10 +146,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i967.GetCategoriesUseCase(gh<_i0.HomeRepository>()));
     gh.lazySingleton<_i557.GetProgressUseCase>(
         () => _i557.GetProgressUseCase(gh<_i0.HomeRepository>()));
+    gh.lazySingleton<_i1062.TopicRepository>(
+        () => _i34.FirestoreTopicRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i613.QuizRepository>(() => _i1005.GeminiQuizRepository(
           gh<_i974.FirebaseFirestore>(),
           gh<_i92.FirestoreQuestionRepository>(),
         ));
+    gh.lazySingleton<_i652.GetTopicsUseCase>(
+        () => _i652.GetTopicsUseCase(gh<_i1062.TopicRepository>()));
     gh.lazySingleton<_i81.AppRouter>(
         () => appModule.appRouter(gh<_i797.AuthBloc>()));
     gh.lazySingleton<_i764.GenerateQuestionsUseCase>(

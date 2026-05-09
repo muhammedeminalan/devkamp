@@ -1,10 +1,8 @@
 import 'package:app/core/result/result.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
 import 'package:app/features/saved/domain/repositories/saved_repository.dart';
-import 'package:injectable/injectable.dart';
 
-// Backend hazır olana kadar kayıtlı soru akışını in-memory yürütmek için kullanılır.
-@LazySingleton(as: SavedRepository)
+// Artık FirestoreSavedRepository kullanılıyor. Bu sınıf yalnızca referans olarak tutulur.
 class FakeSavedRepository implements SavedRepository {
   final List<SavedQuestion> _questions = <SavedQuestion>[
     SavedQuestion(

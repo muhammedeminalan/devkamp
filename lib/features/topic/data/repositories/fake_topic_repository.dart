@@ -1,10 +1,8 @@
 import 'package:app/core/result/result.dart';
 import 'package:app/features/topic/domain/entities/topic.dart';
 import 'package:app/features/topic/domain/repositories/topic_repository.dart';
-import 'package:injectable/injectable.dart';
 
-// Gerçek API hazır olana kadar konu listesini stabil fake veriyle besler.
-@LazySingleton(as: TopicRepository)
+// Artık FirestoreTopicRepository kullanılıyor. Bu sınıf yalnızca referans olarak tutulur.
 class FakeTopicRepository implements TopicRepository {
   static const List<Topic> _flutterTopics = <Topic>[
     Topic(id: 'widgets', name: 'Widget Temelleri', difficulty: TopicDifficulty.easy, questionCount: 8, isDone: true),

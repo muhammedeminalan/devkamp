@@ -4,10 +4,8 @@ import 'package:app/features/home/domain/entities/category.dart';
 import 'package:app/features/home/domain/entities/learning_progress.dart';
 import 'package:app/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 
-// Gerçek API hazır olana kadar Home ekranını stabil veriyle beslemek için kullanılır.
-@LazySingleton(as: HomeRepository)
+// Artık FirestoreHomeRepository kullanılıyor. Bu sınıf yalnızca referans olarak tutulur.
 class FakeHomeRepository implements HomeRepository {
   @override
   Future<Result<List<Category>>> getCategories() async {

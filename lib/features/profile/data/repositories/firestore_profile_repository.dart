@@ -1,0 +1,167 @@
+import 'dart:developer' as dev;
+
+import 'package:app/core/constants/assets/app_svg_paths.dart';
+import 'package:app/core/errors/app_exception.dart';
+import 'package:app/core/result/result.dart';
+import 'package:app/features/profile/domain/entities/achievement.dart';
+import 'package:app/features/profile/domain/entities/user_stats.dart';
+import 'package:app/features/profile/domain/repositories/profile_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: ProfileRepository)
+class FirestoreProfileRepository implements ProfileRepository {
+  FirestoreProfileRepository(this._firestore);
+
+  final FirebaseFirestore _firestore;
+
+  String? get _userId => FirebaseAuth.instance.currentUser?.uid;
+
+  @override
+  Future<Result<UserStats>> getUserStats() async {
+    final String? uid = _userId;
+    if (uid == null) {
+      dev.log('⚠️ getUserStats: kullanıcı giriş yapmamış', name: 'FirestoreProfileRepository');
+      return const Success(UserStats(
+        totalSolved: 0,
+        correctAnswers: 0,
+        streakDays: 0,
+        accuracy: 0,
+        rank: 'Başlangıç',
+      ));
+    }
+
+    try {
+      dev.log('📊 Kullanıcı istatistikleri çekiliyor | userId: $uid', name: 'FirestoreProfileRepository');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('userStats').doc(uid).get();
+
+      if (!doc.exists || doc.data() == null) {
+        dev.log('📊 Henüz istatistik yok | userId: $uid', name: 'FirestoreProfileRepository');
+        return const Success(UserStats(
+          totalSolved: 0,
+          correctAnswers: 0,
+          streakDays: 0,
+          accuracy: 0,
+          rank: 'Başlangıç',
+        ));
+      }
+
+      final Map<String, dynamic> data = doc.data()!;
+      final int totalSolved = data['totalSolved'] as int? ?? 0;
+      final int correctAnswers = data['correctAnswers'] as int? ?? 0;
+      final int streakDays = data['streakDays'] as int? ?? 0;
+      final double accuracy =
+          totalSolved > 0 ? correctAnswers / totalSolved : 0;
+
+      // Toplam çözülen soru sayısına göre rank belirlenir.
+      final String rank = _rankFor(totalSolved);
+
+      dev.log(
+        '✅ İstatistikler hazır | totalSolved: $totalSolved | rank: $rank',
+        name: 'FirestoreProfileRepository',
+      );
+
+      return Success(UserStats(
+        totalSolved: totalSolved,
+        correctAnswers: correctAnswers,
+        streakDays: streakDays,
+        accuracy: accuracy,
+        rank: rank,
+      ));
+    } on Exception catch (e) {
+      dev.log('❌ getUserStats hatası: $e', name: 'FirestoreProfileRepository');
+      return Failure(DataException('İstatistikler yüklenemedi: $e'));
+    }
+  }
+
+  // Çözülen soru sayısına göre kullanıcı rütbesi döndürür.
+  String _rankFor(int totalSolved) {
+    if (totalSolved >= 100) return 'Uzman';
+    if (totalSolved >= 50) return 'İleri Seviye';
+    if (totalSolved >= 20) return 'Orta Seviye';
+    if (totalSolved >= 5) return 'Başlangıç+';
+    return 'Başlangıç';
+  }
+
+  @override
+  Future<Result<List<Achievement>>> getAchievements() async {
+    final String? uid = _userId;
+    if (uid == null) {
+      return Success(_defaultAchievements(totalSolved: 0, streakDays: 0));
+    }
+
+    try {
+      dev.log('🏆 Başarımlar hesaplanıyor | userId: $uid', name: 'FirestoreProfileRepository');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('userStats').doc(uid).get();
+
+      final Map<String, dynamic>? data = doc.exists ? doc.data() : null;
+      final int totalSolved = data?['totalSolved'] as int? ?? 0;
+      final int streakDays = data?['streakDays'] as int? ?? 0;
+
+      dev.log('✅ Başarımlar hazır', name: 'FirestoreProfileRepository');
+      return Success(_defaultAchievements(
+        totalSolved: totalSolved,
+        streakDays: streakDays,
+      ));
+    } on Exception catch (e) {
+      dev.log('❌ getAchievements hatası: $e', name: 'FirestoreProfileRepository');
+      return Failure(DataException('Başarımlar yüklenemedi: $e'));
+    }
+  }
+
+  // Kullanıcı istatistiklerine göre başarımların kilit durumunu belirler.
+  List<Achievement> _defaultAchievements({
+    required int totalSolved,
+    required int streakDays,
+  }) {
+    return <Achievement>[
+      Achievement(
+        id: 'first_solve',
+        title: 'İlk Çözüm',
+        description: 'İlk soruyu yanıtladın',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: totalSolved >= 1,
+      ),
+      Achievement(
+        id: 'solve_5',
+        title: '5 Soru',
+        description: '5 soru yanıtladın',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: totalSolved >= 5,
+      ),
+      Achievement(
+        id: 'solve_20',
+        title: '20 Soru',
+        description: '20 soru yanıtladın',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: totalSolved >= 20,
+      ),
+      Achievement(
+        id: 'solve_50',
+        title: '50 Soru',
+        description: '50 soru yanıtladın',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: totalSolved >= 50,
+      ),
+      Achievement(
+        id: 'streak_5',
+        title: '5 Günlük Seri',
+        description: '5 gün üst üste çalış',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: streakDays >= 5,
+      ),
+      Achievement(
+        id: 'streak_30',
+        title: '30 Günlük Seri',
+        description: '30 gün üst üste çalış',
+        iconPath: AppSvgPaths.devKampLogo,
+        isUnlocked: streakDays >= 30,
+      ),
+    ];
+  }
+}

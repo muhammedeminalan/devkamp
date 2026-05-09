@@ -62,6 +62,41 @@ class FirestoreSavedRepository implements SavedRepository {
   }
 
   @override
+  Future<Result<void>> saveQuestion({
+    required String questionId,
+    required String questionText,
+    required String categoryId,
+    required String categoryTitle,
+  }) async {
+    final String? uid = _userId;
+    if (uid == null) {
+      dev.log('⚠️ saveQuestion: kullanıcı giriş yapmamış', name: 'FirestoreSavedRepository');
+      return Failure(DataException('Kaydetmek için giriş yapmalısınız.'));
+    }
+
+    try {
+      // Doküman ID'si userId_questionId şeklinde; her kullanıcı-soru çifti benzersizdir.
+      final String docId = '${uid}_$questionId';
+      dev.log('🔖 Soru kaydediliyor | docId: $docId', name: 'FirestoreSavedRepository');
+
+      await _firestore.collection('savedQuestions').doc(docId).set(<String, dynamic>{
+        'userId': uid,
+        'questionId': questionId,
+        'questionText': questionText,
+        'categoryId': categoryId,
+        'categoryTitle': categoryTitle,
+        'savedAt': FieldValue.serverTimestamp(),
+      });
+
+      dev.log('✅ Soru kaydedildi | docId: $docId', name: 'FirestoreSavedRepository');
+      return const Success<void>(null);
+    } on Exception catch (e) {
+      dev.log('❌ saveQuestion hatası: $e', name: 'FirestoreSavedRepository');
+      return Failure(DataException('Soru kaydedilemedi: $e'));
+    }
+  }
+
+  @override
   Future<Result<void>> removeQuestion(String questionId) async {
     try {
       dev.log('🗑️ Soru siliniyor | questionId: $questionId', name: 'FirestoreSavedRepository');

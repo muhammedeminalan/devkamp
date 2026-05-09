@@ -43,8 +43,8 @@ import '../../features/home/domain/repositories/home_repository.dart' as _i0;
 import '../../features/home/domain/usecases/get_categories_usecase.dart'
     as _i967;
 import '../../features/home/domain/usecases/get_progress_usecase.dart' as _i557;
-import '../../features/profile/data/repositories/fake_profile_repository.dart'
-    as _i850;
+import '../../features/profile/data/repositories/firestore_profile_repository.dart'
+    as _i973;
 import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
@@ -68,6 +68,8 @@ import '../../features/saved/domain/usecases/get_saved_questions_usecase.dart'
     as _i599;
 import '../../features/saved/domain/usecases/remove_saved_question_usecase.dart'
     as _i575;
+import '../../features/saved/domain/usecases/save_question_usecase.dart'
+    as _i426;
 import '../../features/topic/data/repositories/firestore_topic_repository.dart'
     as _i34;
 import '../../features/topic/domain/repositories/topic_repository.dart'
@@ -90,8 +92,6 @@ extension GetItInjectableX on _i174.GetIt {
     final appModule = _$AppModule();
     gh.lazySingleton<_i974.FirebaseFirestore>(() => appModule.firestore);
     gh.lazySingleton<_i656.GenerativeModel>(() => appModule.geminiModel());
-    gh.lazySingleton<_i894.ProfileRepository>(
-        () => _i850.FakeProfileRepository());
     gh.lazySingleton<_i869.CategoryRepository>(
         () => _i990.FirestoreCategoryRepository(
               gh<_i974.FirebaseFirestore>(),
@@ -114,6 +114,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i673.SignInWithGoogleUseCase(gh<_i787.AuthRepository>()));
     gh.lazySingleton<_i915.SignOutUseCase>(
         () => _i915.SignOutUseCase(gh<_i787.AuthRepository>()));
+    gh.lazySingleton<_i894.ProfileRepository>(
+        () => _i973.FirestoreProfileRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i0.HomeRepository>(
         () => _i884.FirestoreHomeRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i349.GetUserStatsUseCase>(
@@ -126,6 +128,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i599.GetSavedQuestionsUseCase(gh<_i105.SavedRepository>()));
     gh.lazySingleton<_i575.RemoveSavedQuestionUseCase>(
         () => _i575.RemoveSavedQuestionUseCase(gh<_i105.SavedRepository>()));
+    gh.lazySingleton<_i426.SaveQuestionUseCase>(
+        () => _i426.SaveQuestionUseCase(gh<_i105.SavedRepository>()));
     gh.lazySingleton<_i487.GenerateCategoriesUseCase>(
         () => _i487.GenerateCategoriesUseCase(gh<_i869.CategoryRepository>()));
     gh.lazySingleton<_i125.GetCategoriesUseCase>(

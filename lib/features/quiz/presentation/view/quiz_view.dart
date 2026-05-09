@@ -3,6 +3,8 @@ import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_quiz_questions_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_event.dart';
+import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase.dart';
+import 'package:app/features/saved/domain/usecases/save_question_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
 import 'package:app/features/quiz/presentation/sections/question_card_section.dart';
 import 'package:app/features/quiz/presentation/sections/question_eval_section.dart';
@@ -39,6 +41,8 @@ class QuizView extends StatelessWidget {
         getQuizQuestionsUseCase: GetIt.instance<GetQuizQuestionsUseCase>(),
         getAiAnswerUseCase: GetIt.instance<GetAiAnswerUseCase>(),
         generateQuestionsUseCase: GetIt.instance<GenerateQuestionsUseCase>(),
+        saveQuestionUseCase: GetIt.instance<SaveQuestionUseCase>(),
+        removeSavedQuestionUseCase: GetIt.instance<RemoveSavedQuestionUseCase>(),
       )..add(QuizStarted(
           categoryId: categoryId,
           isRandom: isRandom,

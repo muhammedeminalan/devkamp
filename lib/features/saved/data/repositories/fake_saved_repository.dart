@@ -35,6 +35,16 @@ class FakeSavedRepository implements SavedRepository {
   }
 
   @override
+  Future<Result<void>> saveQuestion({
+    required String questionId,
+    required String questionText,
+    required String categoryId,
+    required String categoryTitle,
+  }) async {
+    return const Success<void>(null);
+  }
+
+  @override
   Future<Result<void>> removeQuestion(String questionId) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     _questions.removeWhere((SavedQuestion q) => q.id == questionId);

@@ -3,9 +3,8 @@ import 'package:app/core/result/result.dart';
 import 'package:app/features/profile/domain/entities/achievement.dart';
 import 'package:app/features/profile/domain/entities/user_stats.dart';
 import 'package:app/features/profile/domain/repositories/profile_repository.dart';
-import 'package:injectable/injectable.dart';
 
-@LazySingleton(as: ProfileRepository)
+// Artık FirestoreProfileRepository kullanılıyor. Bu sınıf yalnızca referans olarak tutulur.
 class FakeProfileRepository implements ProfileRepository {
   @override
   Future<Result<UserStats>> getUserStats() async {

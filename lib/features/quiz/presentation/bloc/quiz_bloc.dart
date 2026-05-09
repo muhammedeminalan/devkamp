@@ -7,6 +7,10 @@ import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_quiz_questions_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_event.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
+import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase.dart';
+import 'package:app/features/saved/domain/usecases/save_question_usecase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
@@ -14,9 +18,13 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     required GetQuizQuestionsUseCase getQuizQuestionsUseCase,
     required GetAiAnswerUseCase getAiAnswerUseCase,
     required GenerateQuestionsUseCase generateQuestionsUseCase,
+    required SaveQuestionUseCase saveQuestionUseCase,
+    required RemoveSavedQuestionUseCase removeSavedQuestionUseCase,
   })  : _getQuestions = getQuizQuestionsUseCase,
         _getAiAnswer = getAiAnswerUseCase,
         _generateQuestions = generateQuestionsUseCase,
+        _saveQuestion = saveQuestionUseCase,
+        _removeQuestion = removeSavedQuestionUseCase,
         super(const QuizState()) {
     on<QuizStarted>(_onQuizStarted);
     on<QuizAnswerRequested>(_onAnswerRequested);
@@ -31,6 +39,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final GetQuizQuestionsUseCase _getQuestions;
   final GetAiAnswerUseCase _getAiAnswer;
   final GenerateQuestionsUseCase _generateQuestions;
+  final SaveQuestionUseCase _saveQuestion;
+  final RemoveSavedQuestionUseCase _removeQuestion;
 
   Future<void> _onQuizStarted(
     QuizStarted event,
@@ -196,12 +206,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     emit(state.copyWith(answerStage: AnswerStage.answered));
   }
 
-  void _onEvaluated(
+  Future<void> _onEvaluated(
     QuizEvaluated event,
     Emitter<QuizState> emit,
-  ) {
+  ) async {
     final Set<int> knewIndices = Set<int>.from(state.knewIndices);
     final Set<int> missedIndices = Set<int>.from(state.missedIndices);
+
+    // Daha önce değerlendirilmişse çift sayımı önle.
+    final bool alreadyAnswered = knewIndices.contains(state.currentIndex) ||
+        missedIndices.contains(state.currentIndex);
 
     knewIndices.remove(state.currentIndex);
     missedIndices.remove(state.currentIndex);
@@ -217,6 +231,31 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       knewIndices: knewIndices,
       missedIndices: missedIndices,
     ));
+
+    // Daha önce değerlendirilmemişse Firestore'da kullanıcı istatistiklerini artır.
+    if (!alreadyAnswered) {
+      _incrementUserStats(knew: event.knew);
+    }
+  }
+
+  // Firestore'daki userStats dokümanını FieldValue.increment ile günceller.
+  // fire-and-forget: UI'ı bloklamaz, hata olursa log'a düşer.
+  void _incrementUserStats({required bool knew}) {
+    final String? uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    FirebaseFirestore.instance.collection('userStats').doc(uid).set(
+      <String, dynamic>{
+        'totalSolved': FieldValue.increment(1),
+        'correctAnswers': FieldValue.increment(knew ? 1 : 0),
+        'lastActiveDate': FieldValue.serverTimestamp(),
+      },
+      SetOptions(merge: true),
+    ).then((_) {
+      dev.log('📊 userStats güncellendi | knew: $knew', name: 'QuizBloc');
+    }).catchError((Object e) {
+      dev.log('❌ userStats güncelleme hatası: $e', name: 'QuizBloc');
+    });
   }
 
   void _onNextQuestion(
@@ -261,11 +300,47 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     ));
   }
 
-  void _onBookmarked(
+  Future<void> _onBookmarked(
     QuizQuestionBookmarked event,
     Emitter<QuizState> emit,
-  ) {
-    emit(state.copyWith(isBookmarked: !state.isBookmarked));
+  ) async {
+    final QuizQuestion? q = state.currentQuestion;
+    if (q == null) return;
+
+    final bool willBookmark = !state.isBookmarked;
+    // UI'ı hemen güncelle; Firestore işlemi arka planda yapılır.
+    emit(state.copyWith(isBookmarked: willBookmark));
+
+    if (willBookmark) {
+      dev.log('🔖 Soru kaydediliyor | questionId: ${q.id}', name: 'QuizBloc');
+      final Result<void> result = await _saveQuestion(
+        questionId: q.id,
+        questionText: q.text,
+        categoryId: state.categoryId,
+        categoryTitle: state.categoryName,
+      );
+      if (result is Failure) {
+        dev.log('❌ Soru kaydedilemedi: ${result.exception.message}', name: 'QuizBloc');
+        // Hata durumunda bookmark'ı geri al.
+        emit(state.copyWith(isBookmarked: false));
+      } else {
+        dev.log('✅ Soru kaydedildi | questionId: ${q.id}', name: 'QuizBloc');
+      }
+    } else {
+      // Kayıtlı soruyu silmek için docId formatı: {userId}_{questionId}.
+      // FirebaseAuth.instance üzerinden uid alınır.
+      final String? uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
+      if (uid == null) return;
+      final String docId = '${uid}_${q.id}';
+      dev.log('🗑️ Bookmark kaldırılıyor | docId: $docId', name: 'QuizBloc');
+      final Result<void> result = await _removeQuestion(docId);
+      if (result is Failure) {
+        dev.log('❌ Bookmark kaldırılamadı: ${result.exception.message}', name: 'QuizBloc');
+        emit(state.copyWith(isBookmarked: true));
+      } else {
+        dev.log('✅ Bookmark kaldırıldı | docId: $docId', name: 'QuizBloc');
+      }
+    }
   }
 
   Future<void> _onAnswerRetried(

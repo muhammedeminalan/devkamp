@@ -24,7 +24,8 @@ class FirestoreCategoryRepository implements CategoryRepository {
       topicId: data['topicId'] as String? ?? '',
       name: data['name'] as String? ?? '',
       status: _parseStatus(data['status'] as String?),
-      questionsStatus: _parseQuestionsStatus(data['questionsStatus'] as String?),
+      questionsStatus:
+          _parseQuestionsStatus(data['questionsStatus'] as String?),
       questionCount: data['questionCount'] as int? ?? 0,
       createdBy: data['createdBy'] as String? ?? '',
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
@@ -55,8 +56,7 @@ class FirestoreCategoryRepository implements CategoryRepository {
           .orderBy('createdAt')
           .get();
 
-      final List<StudyCategory> categories =
-          snap.docs.map(_mapDoc).toList();
+      final List<StudyCategory> categories = snap.docs.map(_mapDoc).toList();
       dev.log(
         '📂 getCategories | topicId: $topicId | count: ${categories.length}',
         name: 'FirestoreCategoryRepository',
@@ -84,9 +84,8 @@ class FirestoreCategoryRepository implements CategoryRepository {
       await _firestore.runTransaction((Transaction tx) async {
         final DocumentSnapshot<Map<String, dynamic>> snap =
             await tx.get(lockRef);
-        final String? currentStatus = snap.exists
-            ? (snap.data()?['status'] as String?)
-            : null;
+        final String? currentStatus =
+            snap.exists ? (snap.data()?['status'] as String?) : null;
 
         // Eğer 'generating' veya 'ready' ise lock alma; hata durumunda yeniden dene.
         if (currentStatus == 'generating' || currentStatus == 'ready') {

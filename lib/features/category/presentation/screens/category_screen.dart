@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:app/features/category/domain/usecases/generate_categories_usecase.dart';
@@ -64,7 +64,7 @@ class _CategoryBody extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => context.pop(),
+          onPressed: () => GoRouter.of(context).pop(),
         ),
         title: Text(
           topicName,
@@ -90,7 +90,7 @@ class _CategoryBody extends StatelessWidget {
           if (state.status == CategoryBlocStatus.error) {
             return AppErrorState(
               message: state.errorMessage ?? 'Kategoriler yüklenemedi.',
-              actionLabel: AppStrings.categoryRetry,
+              actionLabel: context.l10n.categoryRetry,
               onAction: () {
                 final String userId =
                     context.read<AuthBloc>().state.user?.id ?? '';
@@ -104,8 +104,8 @@ class _CategoryBody extends StatelessWidget {
           }
 
           if (state.categories.isEmpty) {
-            return const Center(
-              child: Text(AppStrings.categoryNotFound),
+            return Center(
+              child: Text(context.l10n.categoryNotFound),
             );
           }
 
@@ -146,16 +146,16 @@ class _CategoryBody extends StatelessWidget {
           extra: <String, dynamic>{
             'categoryId': topicId,
             'topicId': topicId,
-            'topicName': AppStrings.categoryRandomQuiz,
+            'topicName': context.l10n.categoryRandomQuiz,
             'categoryName': topicName,
             'isRandom': true,
           },
         ),
         backgroundColor: PrimaryColor.primary600,
         icon: const Icon(Icons.bolt_rounded, color: Colors.white),
-        label: const Text(
-          AppStrings.categoryRandomQuiz,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        label: Text(
+          context.l10n.categoryRandomQuiz,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),
     );

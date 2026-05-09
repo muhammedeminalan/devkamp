@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/result/result.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
@@ -285,7 +285,7 @@ class _SavedAnswerSheetState extends State<_SavedAnswerSheet> {
                           size: 16, color: PrimaryColor.primary600),
                       const SizedBox(width: 6),
                       Text(
-                        AppStrings.savedAiAnswer,
+                        context.l10n.savedAiAnswer,
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                               color: PrimaryColor.primary600,
                               fontWeight: FontWeight.w700,

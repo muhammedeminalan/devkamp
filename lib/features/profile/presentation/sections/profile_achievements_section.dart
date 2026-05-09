@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/features/profile/domain/entities/achievement.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class ProfileAchievementsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const AppSectionHeader(title: AppStrings.profileAchievementsTitle),
+        AppSectionHeader(title: context.l10n.profileAchievementsTitle),
         const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

@@ -1,7 +1,7 @@
 import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/features/saved/presentation/model/saved_question_ui_model.dart';
 import 'package:flutter/material.dart';
@@ -140,15 +140,15 @@ class _DifficultyBadge extends StatelessWidget {
 
     switch (level) {
       case SavedDifficulty.easy:
-        label = AppStrings.savedDifficultyEasy;
+        label = context.l10n.savedDifficultyEasy;
         background = const Color(0xFFD1FAE5);
         foreground = const Color(0xFF047857);
       case SavedDifficulty.medium:
-        label = AppStrings.savedDifficultyMedium;
+        label = context.l10n.savedDifficultyMedium;
         background = const Color(0xFFFEF3C7);
         foreground = const Color(0xFFB45309);
       case SavedDifficulty.hard:
-        label = AppStrings.savedDifficultyHard;
+        label = context.l10n.savedDifficultyHard;
         background = const Color(0xFFFEE2E2);
         foreground = const Color(0xFFB91C1C);
     }

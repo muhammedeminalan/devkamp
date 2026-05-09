@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +101,7 @@ class AppCategoryCard extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            '$solvedCount/$totalCount ${AppStrings.profileStatsQuestionSuffix}',
+            '$solvedCount/$totalCount ${context.l10n.profileStatsQuestionSuffix}',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: NeutralColor.neutral500,
                   fontSize: 11.5,

@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:flutter/material.dart';
 
@@ -40,12 +40,13 @@ class _CategoryCard extends StatelessWidget {
   final StudyCategory category;
   final VoidCallback onTap;
 
-  String get _questionsLabel {
+  // context gerektiği için build içinde hesaplanır.
+  String _questionsLabel(BuildContext context) {
     if (category.questionsStatus == QuestionsStatus.generating) {
-      return AppStrings.categoryListLoading;
+      return context.l10n.categoryListLoading;
     }
     if (category.questionCount == 0) {
-      return AppStrings.categoryListLoadingHint;
+      return context.l10n.categoryListLoadingHint;
     }
     return '${category.questionCount} soru';
   }
@@ -97,7 +98,7 @@ class _CategoryCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    _questionsLabel,
+                    _questionsLabel(context),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: NeutralColor.neutral500,
                         ),

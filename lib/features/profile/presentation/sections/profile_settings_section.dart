@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/core/widgets/loaders/small_button_loader.dart';
@@ -21,7 +21,7 @@ class ProfileSettingsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const AppSectionHeader(title: AppStrings.profileSettingsTitle),
+        AppSectionHeader(title: context.l10n.profileSettingsTitle),
         const SizedBox(height: 10),
         AppSurfaceCard(
           padding: EdgeInsets.zero,
@@ -44,7 +44,7 @@ class ProfileSettingsSection extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            AppStrings.profileSignOut,
+                            context.l10n.profileSignOut,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: const Color(0xFFEF4444),
                                   fontWeight: FontWeight.w600,
@@ -94,7 +94,7 @@ class _NotificationRowState extends State<_NotificationRow> {
           children: <Widget>[
             Expanded(
               child: Text(
-                AppStrings.profileSettingNotifications,
+                context.l10n.profileSettingNotifications,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -125,14 +125,14 @@ class _ReminderRow extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Text(
-                AppStrings.profileSettingReminder,
+                context.l10n.profileSettingReminder,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
               ),
             ),
             Text(
-              AppStrings.profileReminderTime,
+              context.l10n.profileReminderTime,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: NeutralColor.neutral500,
                   ),

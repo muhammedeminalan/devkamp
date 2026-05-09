@@ -1,4 +1,4 @@
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:flutter/material.dart';
 
 class QuizResultActionsSection extends StatelessWidget {
@@ -19,7 +19,7 @@ class QuizResultActionsSection extends StatelessWidget {
           width: double.infinity,
           child: FilledButton(
             onPressed: onRetry,
-            child: const Text(AppStrings.quizResultRetry),
+            child: Text(context.l10n.quizResultRetry),
           ),
         ),
         const SizedBox(height: 8),
@@ -27,7 +27,7 @@ class QuizResultActionsSection extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton(
             onPressed: onBack,
-            child: const Text(AppStrings.quizResultBack),
+            child: Text(context.l10n.quizResultBack),
           ),
         ),
       ],

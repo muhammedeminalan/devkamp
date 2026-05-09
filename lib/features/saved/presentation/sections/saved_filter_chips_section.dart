@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,8 @@ class SavedFilterChipsSection extends StatelessWidget {
   final ValueChanged<String> onFilterSelected;
 
   // Kayıtlı sorulardan benzersiz kategorileri çıkar; her zaman "Tümü" başta gelir.
-  List<(String, String)> _buildFilters() {
+  // context gerektiği için parametre olarak alınır (l10n erişimi).
+  List<(String, String)> _buildFilters(BuildContext context) {
     final Map<String, String> seen = <String, String>{};
     for (final SavedQuestion q in questions) {
       if (q.categoryId.isNotEmpty) {
@@ -24,14 +25,14 @@ class SavedFilterChipsSection extends StatelessWidget {
       }
     }
     return <(String, String)>[
-      ('all', AppStrings.savedFilterAll),
+      ('all', context.l10n.savedFilterAll),
       ...seen.entries.map((MapEntry<String, String> e) => (e.key, e.value)),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<(String, String)> filters = _buildFilters();
+    final List<(String, String)> filters = _buildFilters(context);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

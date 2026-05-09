@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
@@ -24,10 +24,11 @@ class QuestionCardSection extends StatelessWidget {
   final VoidCallback onRetry;
   final VoidCallback onStreamingDone;
 
-  String get _diffLabel => switch (question.difficulty) {
-        QuestionDifficulty.easy   => AppStrings.quizDifficultyEasy,
-        QuestionDifficulty.medium => AppStrings.quizDifficultyMedium,
-        QuestionDifficulty.hard   => AppStrings.quizDifficultyHard,
+  // context gerektiği için build içinde hesaplanır.
+  String _diffLabel(BuildContext context) => switch (question.difficulty) {
+        QuestionDifficulty.easy   => context.l10n.quizDifficultyEasy,
+        QuestionDifficulty.medium => context.l10n.quizDifficultyMedium,
+        QuestionDifficulty.hard   => context.l10n.quizDifficultyHard,
       };
 
   @override
@@ -55,7 +56,7 @@ class QuestionCardSection extends StatelessWidget {
               _Badge(label: question.topic, color: PrimaryColor.primary600, bg: PrimaryColor.primary50),
               const SizedBox(width: 8),
               _Badge(
-                label: _diffLabel,
+                label: _diffLabel(context),
                 color: const Color(0xFFB45309),
                 bg: const Color(0xFFFEF3C7),
               ),
@@ -77,7 +78,7 @@ class QuestionCardSection extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: onShowAnswer,
-                child: const Text(AppStrings.quizSeeAnswer),
+                child: Text(context.l10n.quizSeeAnswer),
               ),
             ),
           ],
@@ -159,7 +160,7 @@ class _AiHeader extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          AppStrings.quizAiAnswer,
+          context.l10n.quizAiAnswer,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: NeutralColor.neutral700,
@@ -340,7 +341,7 @@ class _ErrorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            AppStrings.quizAnswerError,
+            context.l10n.quizAnswerError,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: const Color(0xFFB91C1C),
                   fontWeight: FontWeight.w700,
@@ -348,7 +349,7 @@ class _ErrorCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            AppStrings.quizAnswerErrorHint,
+            context.l10n.quizAnswerErrorHint,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF7F1D1D),
                 ),
@@ -361,9 +362,9 @@ class _ErrorCard extends StatelessWidget {
               side: const BorderSide(color: Color(0xFFFECACA)),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             ),
-            child: const Text(
-              AppStrings.quizAnswerRetry,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+            child: Text(
+              context.l10n.quizAnswerRetry,
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
             ),
           ),
         ],

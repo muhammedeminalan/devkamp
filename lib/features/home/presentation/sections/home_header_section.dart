@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,19 +17,20 @@ class HomeHeaderSection extends StatelessWidget {
   final String? avatarUrl;
 
   // Streak sayısına ve günün saatine göre dinamik motivasyon mesajı üretir.
-  String _motivationText() {
+  // context gerektiği için parametre olarak alınır.
+  String _motivationText(BuildContext context) {
     final int hour = DateTime.now().hour;
 
     if (streakDays == 0) {
-      if (hour < 12) return AppStrings.homeMorningMotivation;
-      if (hour < 18) return AppStrings.homeAfternoonMotivation;
-      return AppStrings.homeEveningMotivation;
+      if (hour < 12) return context.l10n.homeMorningMotivation;
+      if (hour < 18) return context.l10n.homeAfternoonMotivation;
+      return context.l10n.homeEveningMotivation;
     }
 
-    if (streakDays == 1) return AppStrings.homeStreakFirst;
-    if (streakDays < 5) return '$streakDays günlük serini koru 🔥';
-    if (streakDays < 15) return '$streakDays gündür aralıksız çalışıyorsun 🚀';
-    return '$streakDays günlük efsane seri! 👑';
+    if (streakDays == 1) return context.l10n.homeStreakFirst;
+    if (streakDays < 5) return context.l10n.homeStreakKeep(streakDays);
+    if (streakDays < 15) return context.l10n.homeStreakMid(streakDays);
+    return context.l10n.homeStreakLegend(streakDays);
   }
 
   // İsmin baş harfini avatar olarak gösterir.
@@ -57,7 +58,7 @@ class HomeHeaderSection extends StatelessWidget {
               ),
               const SizedBox(height: 3),
               Text(
-                _motivationText(),
+                _motivationText(context),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w800,
                       color: NeutralColor.neutral900,

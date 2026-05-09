@@ -1,6 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -20,17 +19,17 @@ class SplashTitle extends StatelessWidget {
               letterSpacing: -1.6,
               color: NeutralColor.neutral900,
             ),
-            children: const <InlineSpan>[
-              TextSpan(text: AppStrings.splashBrandPrefix),
+            children: <InlineSpan>[
+              TextSpan(text: context.l10n.splashBrandPrefix),
               TextSpan(
-                text: AppStrings.splashBrandSuffix,
-                style: TextStyle(color: PrimaryColor.primary600),
+                text: context.l10n.splashBrandSuffix,
+                style: const TextStyle(color: PrimaryColor.primary600),
               ),
             ],
           ),
         ),
         10.h,
-        AppStrings.splashSubtitle
+        context.l10n.splashSubtitle
             .text
             .bodyLarge(context)
             .medium

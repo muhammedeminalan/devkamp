@@ -1,6 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -19,18 +18,18 @@ class AuthTitleSection extends StatelessWidget {
               fontWeight: FontWeight.w800,
               color: NeutralColor.neutral900,
             ),
-            children: const <InlineSpan>[
-              TextSpan(text: AppStrings.authBrandPrefix),
+            children: <InlineSpan>[
+              TextSpan(text: context.l10n.authBrandPrefix),
               TextSpan(
-                text: AppStrings.authBrandSuffix,
-                style: TextStyle(color: PrimaryColor.primary600),
+                text: context.l10n.authBrandSuffix,
+                style: const TextStyle(color: PrimaryColor.primary600),
               ),
             ],
           ),
         ),
         28.h,
         Text(
-          '${AppStrings.authHeadlineLine1}\n${AppStrings.authHeadlineLine2}',
+          '${context.l10n.authHeadlineLine1}\n${context.l10n.authHeadlineLine2}',
           textAlign: TextAlign.center,
           style: context.headlineSmall.copyWith(
             fontSize: 30,
@@ -44,7 +43,7 @@ class AuthTitleSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            AppStrings.authDescription,
+            context.l10n.authDescription,
             textAlign: TextAlign.center,
             style: context.bodyMedium.copyWith(
               fontSize: 15,

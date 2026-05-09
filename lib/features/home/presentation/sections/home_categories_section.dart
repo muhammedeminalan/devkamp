@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/cards/app_category_card.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/features/home/domain/entities/category.dart';
@@ -75,8 +75,8 @@ class HomeCategoriesSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         AppSectionHeader(
-          title: AppStrings.homeCategoriesTitle,
-          actionLabel: AppStrings.homeSeeAll,
+          title: context.l10n.homeCategoriesTitle,
+          actionLabel: context.l10n.homeSeeAll,
           onActionTap: () => _showAllCategoriesSheet(context, categories),
         ),
         const SizedBox(height: 10),
@@ -183,7 +183,7 @@ class _AllCategoriesSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  AppStrings.homeAllCategoriesTitle,
+                  context.l10n.homeAllCategoriesTitle,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: NeutralColor.neutral900,
@@ -191,7 +191,7 @@ class _AllCategoriesSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  AppStrings.homeAllCategoriesSubtitle,
+                  context.l10n.homeAllCategoriesSubtitle,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: NeutralColor.neutral500,
                       ),

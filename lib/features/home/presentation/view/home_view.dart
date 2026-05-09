@@ -1,4 +1,3 @@
-import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/home/domain/entities/last_session.dart';
@@ -40,7 +39,7 @@ class _HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthState authState = context.watch<AuthBloc>().state;
     final String userName =
-        authState.user?.name ?? AppStrings.homeFallbackUserName;
+        authState.user?.name ?? context.l10n.homeFallbackUserName;
     final String? avatarUrl = authState.user?.avatarUrl;
 
     return Scaffold(

@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/features/profile/domain/entities/category_performance.dart';
@@ -54,7 +54,7 @@ class ProfilePerformanceSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const AppSectionHeader(title: AppStrings.profilePerformanceTitle),
+        AppSectionHeader(title: context.l10n.profilePerformanceTitle),
         const SizedBox(height: 10),
         AppSurfaceCard(
           child: Column(

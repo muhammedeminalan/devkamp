@@ -1,7 +1,6 @@
 import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/loaders/small_button_loader.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class AuthActions extends StatelessWidget {
                   },
             icon: state.isLoading ? const SmallButtonLoader() : const _GoogleMark(),
             label: Text(
-              AppStrings.authGoogleContinue,
+              context.l10n.authGoogleContinue,
               style: context.labelLarge.copyWith(
                 fontWeight: FontWeight.w700,
                 color: NeutralColor.neutral900,
@@ -48,7 +47,7 @@ class AuthActions extends StatelessWidget {
         ),
         10.h,
         Text(
-          AppStrings.authFreeNote,
+          context.l10n.authFreeNote,
           textAlign: TextAlign.center,
           style: context.bodySmall.copyWith(color: NeutralColor.neutral400),
         ),

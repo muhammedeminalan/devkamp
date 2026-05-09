@@ -1,4 +1,4 @@
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/states/app_empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +9,7 @@ class SavedEmptyStateSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppEmptyState(
-      actionLabel: AppStrings.savedEmptyAction,
+      actionLabel: context.l10n.savedEmptyAction,
       onAction: () => context.go('/home'),
     );
   }

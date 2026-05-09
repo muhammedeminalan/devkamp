@@ -1,7 +1,7 @@
 import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/features/home/domain/entities/learning_progress.dart';
 import 'package:flutter/material.dart';
@@ -91,10 +91,10 @@ class _ProgressContent extends StatelessWidget {
                     Text(
                       // Streak sayısına göre dinamik motivasyon metni
                       progress.streakDays == 0
-                          ? AppStrings.homeProgressStart
+                          ? context.l10n.homeProgressStart
                           : progress.streakDays == 1
-                              ? AppStrings.homeProgressFirstDay
-                              : '${progress.streakDays} Günlük Seri 🔥',
+                              ? context.l10n.homeProgressFirstDay
+                              : context.l10n.homeProgressStreak(progress.streakDays),
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: NeutralColor.neutral900,

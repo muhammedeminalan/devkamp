@@ -1,0 +1,108 @@
+{
+  "@@locale": "tr",
+
+  "appName": "DevKamp",
+  "@appName": { "description": "Uygulama adı" },
+
+  "splashBrandPrefix": "Dev",
+  "splashBrandSuffix": "Kamp",
+  "splashSubtitle": "Bir profesyonel gibi mülakata gir.",
+
+  "authBrandPrefix": "Dev",
+  "authBrandSuffix": "Kamp",
+  "authHeadlineLine1": "Yazılım kariyerinde",
+  "authHeadlineLine2": "bir adım öne geç.",
+  "authDescription": "Gerçek mülakat sorularını çalış. Anında AI geri bildirimi al.",
+  "authGoogleContinue": "Google ile Devam Et",
+  "authFreeNote": "Sonsuza dek ücretsiz. Kredi kartı gerekmez.",
+
+  "homeFallbackUserName": "Geliştirici",
+  "homeContinueSectionTitle": "Kaldığın yerden devam et",
+  "homeContinueButton": "Devam Et",
+  "homeCategoriesTitle": "Kategoriler",
+  "homeSeeAll": "Tümünü gör",
+  "homeAllCategoriesTitle": "Tüm Kategoriler",
+  "homeAllCategoriesSubtitle": "Çalışmak istediğin alanı seç",
+  "homeMorningMotivation": "Güne iyi bir başlangıç yap 🎯",
+  "homeAfternoonMotivation": "Bugün ilk soruyu çöz 💡",
+  "homeEveningMotivation": "Geceyi verimli geçir 🌙",
+  "homeStreakFirst": "İyi başladın, devam et! 💪",
+  "homeStreakKeep": "{count} günlük serini koru 🔥",
+  "@homeStreakKeep": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "homeStreakMid": "{count} gündür aralıksız çalışıyorsun 🚀",
+  "@homeStreakMid": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "homeStreakLegend": "{count} günlük efsane seri! 👑",
+  "@homeStreakLegend": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "homeProgressStart": "Çalışmaya Başla",
+  "homeProgressFirstDay": "İlk Gün! 🎯",
+  "homeProgressStreak": "{count} Günlük Seri 🔥",
+  "@homeProgressStreak": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "homeQuestionsSuffix": "soru",
+
+  "savedTitle": "Kaydedilen Sorular",
+  "savedReviewCountSuffix": "tekrar edilecek soru",
+  "savedFilterAll": "Tümü",
+  "savedDifficultyEasy": "Kolay",
+  "savedDifficultyMedium": "Orta",
+  "savedDifficultyHard": "Zor",
+  "savedEmptyTitle": "Henüz kaydedilen soru yok",
+  "savedEmptySubtitle": "Tekrar etmek için soru kaydet — burada görünürler.",
+  "savedEmptyAction": "Keşfetmeye başla",
+  "savedAiAnswer": "AI Cevabı",
+
+  "categoryRetry": "Tekrar Dene",
+  "categoryNotFound": "Kategori bulunamadı.",
+  "categoryRandomQuiz": "Rastgele Quiz",
+  "categoryListLoading": "Sorular hazırlanıyor...",
+  "categoryListLoadingHint": "İlk açılışta sorular oluşturulur",
+  "categoryGenerating": "AI kategoriler hazırlanıyor...",
+
+  "quizDifficultyEasy": "Kolay",
+  "quizDifficultyMedium": "Orta",
+  "quizDifficultyHard": "Zor",
+  "quizSeeAnswer": "Cevabı Gör",
+  "quizAiAnswer": "AI Cevabı",
+  "quizAnswerError": "AI cevabı yüklenemedi.",
+  "quizAnswerErrorHint": "Bağlantını kontrol et ve tekrar dene.",
+  "quizAnswerRetry": "Tekrar Dene",
+  "quizEvalKnew": "Biliyordum",
+  "quizEvalMissed": "Bilmiyordum",
+  "quizNextQuestion": "Sonraki Soru",
+  "quizResultRetry": "Tekrar Çöz",
+  "quizResultBack": "Geri Dön",
+  "quizResultKnew": "Bildim",
+  "quizResultMissed": "Bilmedim",
+  "quizProgressLabel": "Soru {current} / {total}",
+  "@quizProgressLabel": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "quizTopicCount": "{count} soru",
+  "@quizTopicCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "profileStatsTotal": "Toplam",
+  "profileStatsStreak": "Seri",
+  "profileStatsBest": "En İyi",
+  "profileStatsQuestionSuffix": "soru",
+  "profileStatsDaySuffix": "gün",
+  "profilePerformanceTitle": "Kategori Performansı",
+  "profileAchievementsTitle": "Başarımlar",
+  "profileSettingsTitle": "Ayarlar",
+  "profileSettingDifficulty": "Tercih edilen zorluk",
+  "profileSettingNotifications": "Bildirimler",
+  "profileSettingReminder": "Günlük hatırlatıcı",
+  "profileReminderTime": "09:00",
+  "profileSignOut": "Çıkış Yap"
+}

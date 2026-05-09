@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/warning_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/surfaces/app_surface_card.dart';
 import 'package:app/features/profile/domain/entities/user_stats.dart';
 import 'package:flutter/material.dart';
@@ -21,26 +21,26 @@ class ProfileStatsSection extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: _ProfileStatCard(
-            label: AppStrings.profileStatsTotal,
+            label: context.l10n.profileStatsTotal,
             value: '${stats.totalSolved}',
-            suffix: AppStrings.profileStatsQuestionSuffix,
+            suffix: context.l10n.profileStatsQuestionSuffix,
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: _ProfileStatCard(
-            label: AppStrings.profileStatsStreak,
+            label: context.l10n.profileStatsStreak,
             value: '${stats.streakDays}',
-            suffix: AppStrings.profileStatsDaySuffix,
+            suffix: context.l10n.profileStatsDaySuffix,
             hot: true,
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: _ProfileStatCard(
-            label: AppStrings.profileStatsBest,
+            label: context.l10n.profileStatsBest,
             value: '$bestStreak',
-            suffix: AppStrings.profileStatsDaySuffix,
+            suffix: context.l10n.profileStatsDaySuffix,
           ),
         ),
       ],

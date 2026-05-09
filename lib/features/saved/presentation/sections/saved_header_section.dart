@@ -1,5 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:flutter/material.dart';
 
 class SavedHeaderSection extends StatelessWidget {
@@ -13,7 +13,7 @@ class SavedHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          AppStrings.savedTitle,
+          context.l10n.savedTitle,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w800,
                 letterSpacing: -0.6,
@@ -22,7 +22,7 @@ class SavedHeaderSection extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          '$totalCount ${AppStrings.savedReviewCountSuffix}',
+          '$totalCount ${context.l10n.savedReviewCountSuffix}',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: NeutralColor.neutral500,
               ),

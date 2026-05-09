@@ -1,6 +1,6 @@
 import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class HomeContinueSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const AppSectionHeader(title: AppStrings.homeContinueSectionTitle),
+        AppSectionHeader(title: context.l10n.homeContinueSectionTitle),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: onTap,
@@ -121,7 +121,7 @@ class HomeContinueSection extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          AppStrings.homeContinueButton,
+                          context.l10n.homeContinueButton,
                           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 color: BasicColor.white,
                                 fontWeight: FontWeight.w700,

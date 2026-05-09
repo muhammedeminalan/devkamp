@@ -1,4 +1,4 @@
-import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class QuestionEvalSection extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: _EvalButton(
-                  label: AppStrings.quizEvalKnew,
+                  label: context.l10n.quizEvalKnew,
                   icon: Icons.check_rounded,
                   isSelected: evalResult == EvalResult.knew,
                   selectedColor: const Color(0xFF10B981),
@@ -38,7 +38,7 @@ class QuestionEvalSection extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _EvalButton(
-                  label: AppStrings.quizEvalMissed,
+                  label: context.l10n.quizEvalMissed,
                   icon: Icons.close_rounded,
                   isSelected: evalResult == EvalResult.missed,
                   selectedColor: const Color(0xFFEF4444),
@@ -56,7 +56,7 @@ class QuestionEvalSection extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: onNext,
                 icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                label: const Text(AppStrings.quizNextQuestion),
+                label: Text(context.l10n.quizNextQuestion),
               ),
             ),
           ],

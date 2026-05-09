@@ -85,8 +85,16 @@ class _SavedViewState extends State<SavedView> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _SavedAnswerSheet(item: item),
+      builder: (_) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.4,
+        maxChildSize: 0.92,
+        expand: false,
+        builder: (_, ScrollController scrollController) =>
+            _SavedAnswerSheet(item: item, scrollController: scrollController),
+      ),
     );
   }
 
@@ -164,9 +172,13 @@ class _SavedViewState extends State<SavedView> {
 
 // Kaydedilen sorunun AI cevabını bottom sheet içinde gösterir.
 class _SavedAnswerSheet extends StatefulWidget {
-  const _SavedAnswerSheet({required this.item});
+  const _SavedAnswerSheet({
+    required this.item,
+    required this.scrollController,
+  });
 
   final SavedQuestionUiModel item;
+  final ScrollController scrollController;
 
   @override
   State<_SavedAnswerSheet> createState() => _SavedAnswerSheetState();
@@ -211,18 +223,14 @@ class _SavedAnswerSheetState extends State<_SavedAnswerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = MediaQuery.of(context).size.height * 0.85;
-
     return Container(
-      constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          // Tutma çubuğu
+          // Tutma çubuğu — aşağı sürükleyerek kapatılır
           Padding(
             padding: const EdgeInsets.only(top: 12),
             child: Container(
@@ -234,8 +242,9 @@ class _SavedAnswerSheetState extends State<_SavedAnswerSheet> {
               ),
             ),
           ),
-          Flexible(
+          Expanded(
             child: SingleChildScrollView(
+              controller: widget.scrollController,
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

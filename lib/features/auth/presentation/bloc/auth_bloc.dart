@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as dev;
 
 import 'package:app/features/auth/domain/entities/app_user.dart';
@@ -5,6 +6,8 @@ import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:app/features/topic/data/datasources/topic_seeder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,6 +66,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       dev.log('✅ Oturum aktif | userId: ${user.id}', name: 'AuthBloc');
+      // Kullanıcı doğrulandı; topic seeder'ı auth sonrası çalıştır.
+      unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -93,6 +98,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final AppUser user = await _signInWithGoogleUseCase();
       dev.log('✅ Google girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
+      // Kullanıcı giriş yaptı; topic seeder'ı auth sonrası çalıştır.
+      unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,

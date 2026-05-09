@@ -67,7 +67,10 @@ class _HomeBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HomeHeaderSection(userName: userName),
+                    HomeHeaderSection(
+                      userName: userName,
+                      streakDays: state.progress?.streakDays ?? 0,
+                    ),
                     16.h,
                     HomeProgressSection(progress: state.progress!),
                     // Son oturum varsa "Devam Et" kartını göster

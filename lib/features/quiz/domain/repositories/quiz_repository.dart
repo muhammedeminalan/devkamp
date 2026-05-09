@@ -9,5 +9,9 @@ abstract interface class QuizRepository {
     String? topicId,
   });
 
-  Future<Result<String>> getAiAnswer({required String questionId});
+  Future<Result<String>> getAiAnswer({
+    required String questionText,
+    required String topic,
+    required String categoryId,
+  });
 }

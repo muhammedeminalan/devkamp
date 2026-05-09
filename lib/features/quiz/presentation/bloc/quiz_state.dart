@@ -8,6 +8,7 @@ enum EvalResult { none, knew, missed }
 class QuizState extends Equatable {
   const QuizState({
     this.status = QuizStatus.initial,
+    this.categoryId = '',
     this.questions = const <QuizQuestion>[],
     this.currentIndex = 0,
     this.answerStage = AnswerStage.hidden,
@@ -20,6 +21,8 @@ class QuizState extends Equatable {
   });
 
   final QuizStatus status;
+  // Quiz'in hangi kategori için başlatıldığını tutar; AI prompt'una bağlam sağlar.
+  final String categoryId;
   final List<QuizQuestion> questions;
   final int currentIndex;
   final AnswerStage answerStage;
@@ -46,6 +49,7 @@ class QuizState extends Equatable {
 
   QuizState copyWith({
     QuizStatus? status,
+    String? categoryId,
     List<QuizQuestion>? questions,
     int? currentIndex,
     AnswerStage? answerStage,
@@ -58,6 +62,7 @@ class QuizState extends Equatable {
   }) {
     return QuizState(
       status: status ?? this.status,
+      categoryId: categoryId ?? this.categoryId,
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
       answerStage: answerStage ?? this.answerStage,
@@ -73,6 +78,7 @@ class QuizState extends Equatable {
   @override
   List<Object?> get props => <Object?>[
         status,
+        categoryId,
         questions,
         currentIndex,
         answerStage,

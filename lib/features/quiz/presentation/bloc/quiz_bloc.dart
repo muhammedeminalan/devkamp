@@ -42,6 +42,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       case Success<List<QuizQuestion>>():
         emit(state.copyWith(
           status: QuizStatus.question,
+          categoryId: event.categoryId,
           questions: result.data,
           currentIndex: 0,
           answerStage: AnswerStage.hidden,
@@ -67,7 +68,12 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     final QuizQuestion? q = state.currentQuestion;
     if (q == null) return;
 
-    final Result<String> result = await _getAiAnswer(questionId: q.id);
+    // Gemini'ye soruyu tam bağlamıyla gönderiyoruz; böylece daha odaklı cevap üretir.
+    final Result<String> result = await _getAiAnswer(
+      questionText: q.text,
+      topic: q.topic,
+      categoryId: state.categoryId,
+    );
 
     switch (result) {
       case Success<String>():

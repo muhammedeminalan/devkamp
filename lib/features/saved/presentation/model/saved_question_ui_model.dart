@@ -5,6 +5,7 @@ enum SavedDifficulty { easy, medium, hard }
 class SavedQuestionUiModel {
   const SavedQuestionUiModel({
     required this.id,
+    required this.questionId,
     required this.question,
     required this.categoryId,
     required this.categoryLabel,
@@ -14,7 +15,10 @@ class SavedQuestionUiModel {
     required this.iconBackgroundColor,
   });
 
+  // Firestore doküman ID'si (silme işlemi için)
   final String id;
+  // Orijinal soru ID'si (AI cevabı çekmek için)
+  final String questionId;
   final String question;
   final String categoryId;
   final String categoryLabel;

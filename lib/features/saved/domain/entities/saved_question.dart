@@ -7,6 +7,8 @@ part 'saved_question.freezed.dart';
 abstract class SavedQuestion with _$SavedQuestion {
   const factory SavedQuestion({
     required String id,
+    // Firestore'daki orijinal soru ID'si; AI cevabı çekmek için gerekli.
+    required String questionId,
     required String questionText,
     required String categoryId,
     required String categoryTitle,

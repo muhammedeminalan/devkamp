@@ -19,6 +19,7 @@ class MockRemoveSavedQuestionUseCase extends Mock
 final List<SavedQuestion> _testQuestions = <SavedQuestion>[
   SavedQuestion(
     id: 'q1',
+    questionId: 'question_1',
     questionText: 'Soru 1',
     categoryId: 'flutter',
     categoryTitle: 'Flutter',

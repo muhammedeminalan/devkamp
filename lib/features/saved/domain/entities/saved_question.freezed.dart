@@ -14,7 +14,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$SavedQuestion {
-  String get id;
+  String
+      get id; // Firestore'daki orijinal soru ID'si; AI cevabı çekmek için gerekli.
+  String get questionId;
   String get questionText;
   String get categoryId;
   String get categoryTitle;
@@ -34,6 +36,8 @@ mixin _$SavedQuestion {
         (other.runtimeType == runtimeType &&
             other is SavedQuestion &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.questionId, questionId) ||
+                other.questionId == questionId) &&
             (identical(other.questionText, questionText) ||
                 other.questionText == questionText) &&
             (identical(other.categoryId, categoryId) ||
@@ -44,12 +48,12 @@ mixin _$SavedQuestion {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, questionText, categoryId, categoryTitle, savedAt);
+  int get hashCode => Object.hash(runtimeType, id, questionId, questionText,
+      categoryId, categoryTitle, savedAt);
 
   @override
   String toString() {
-    return 'SavedQuestion(id: $id, questionText: $questionText, categoryId: $categoryId, categoryTitle: $categoryTitle, savedAt: $savedAt)';
+    return 'SavedQuestion(id: $id, questionId: $questionId, questionText: $questionText, categoryId: $categoryId, categoryTitle: $categoryTitle, savedAt: $savedAt)';
   }
 }
 
@@ -61,6 +65,7 @@ abstract mixin class $SavedQuestionCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String questionId,
       String questionText,
       String categoryId,
       String categoryTitle,
@@ -81,6 +86,7 @@ class _$SavedQuestionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? questionId = null,
     Object? questionText = null,
     Object? categoryId = null,
     Object? categoryTitle = null,
@@ -90,6 +96,10 @@ class _$SavedQuestionCopyWithImpl<$Res>
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      questionId: null == questionId
+          ? _self.questionId
+          : questionId // ignore: cast_nullable_to_non_nullable
               as String,
       questionText: null == questionText
           ? _self.questionText
@@ -204,16 +214,16 @@ extension SavedQuestionPatterns on SavedQuestion {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String questionText, String categoryId,
-            String categoryTitle, DateTime savedAt)?
+    TResult Function(String id, String questionId, String questionText,
+            String categoryId, String categoryTitle, DateTime savedAt)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _SavedQuestion() when $default != null:
-        return $default(_that.id, _that.questionText, _that.categoryId,
-            _that.categoryTitle, _that.savedAt);
+        return $default(_that.id, _that.questionId, _that.questionText,
+            _that.categoryId, _that.categoryTitle, _that.savedAt);
       case _:
         return orElse();
     }
@@ -234,15 +244,15 @@ extension SavedQuestionPatterns on SavedQuestion {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String questionText, String categoryId,
-            String categoryTitle, DateTime savedAt)
+    TResult Function(String id, String questionId, String questionText,
+            String categoryId, String categoryTitle, DateTime savedAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _SavedQuestion():
-        return $default(_that.id, _that.questionText, _that.categoryId,
-            _that.categoryTitle, _that.savedAt);
+        return $default(_that.id, _that.questionId, _that.questionText,
+            _that.categoryId, _that.categoryTitle, _that.savedAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -262,15 +272,15 @@ extension SavedQuestionPatterns on SavedQuestion {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String questionText, String categoryId,
-            String categoryTitle, DateTime savedAt)?
+    TResult? Function(String id, String questionId, String questionText,
+            String categoryId, String categoryTitle, DateTime savedAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _SavedQuestion() when $default != null:
-        return $default(_that.id, _that.questionText, _that.categoryId,
-            _that.categoryTitle, _that.savedAt);
+        return $default(_that.id, _that.questionId, _that.questionText,
+            _that.categoryId, _that.categoryTitle, _that.savedAt);
       case _:
         return null;
     }
@@ -282,6 +292,7 @@ extension SavedQuestionPatterns on SavedQuestion {
 class _SavedQuestion implements SavedQuestion {
   const _SavedQuestion(
       {required this.id,
+      required this.questionId,
       required this.questionText,
       required this.categoryId,
       required this.categoryTitle,
@@ -289,6 +300,9 @@ class _SavedQuestion implements SavedQuestion {
 
   @override
   final String id;
+// Firestore'daki orijinal soru ID'si; AI cevabı çekmek için gerekli.
+  @override
+  final String questionId;
   @override
   final String questionText;
   @override
@@ -312,6 +326,8 @@ class _SavedQuestion implements SavedQuestion {
         (other.runtimeType == runtimeType &&
             other is _SavedQuestion &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.questionId, questionId) ||
+                other.questionId == questionId) &&
             (identical(other.questionText, questionText) ||
                 other.questionText == questionText) &&
             (identical(other.categoryId, categoryId) ||
@@ -322,12 +338,12 @@ class _SavedQuestion implements SavedQuestion {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, questionText, categoryId, categoryTitle, savedAt);
+  int get hashCode => Object.hash(runtimeType, id, questionId, questionText,
+      categoryId, categoryTitle, savedAt);
 
   @override
   String toString() {
-    return 'SavedQuestion(id: $id, questionText: $questionText, categoryId: $categoryId, categoryTitle: $categoryTitle, savedAt: $savedAt)';
+    return 'SavedQuestion(id: $id, questionId: $questionId, questionText: $questionText, categoryId: $categoryId, categoryTitle: $categoryTitle, savedAt: $savedAt)';
   }
 }
 
@@ -341,6 +357,7 @@ abstract mixin class _$SavedQuestionCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String questionId,
       String questionText,
       String categoryId,
       String categoryTitle,
@@ -361,6 +378,7 @@ class __$SavedQuestionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
+    Object? questionId = null,
     Object? questionText = null,
     Object? categoryId = null,
     Object? categoryTitle = null,
@@ -370,6 +388,10 @@ class __$SavedQuestionCopyWithImpl<$Res>
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      questionId: null == questionId
+          ? _self.questionId
+          : questionId // ignore: cast_nullable_to_non_nullable
               as String,
       questionText: null == questionText
           ? _self.questionText

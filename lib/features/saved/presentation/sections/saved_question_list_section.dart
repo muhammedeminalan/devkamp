@@ -10,11 +10,13 @@ class SavedQuestionListSection extends StatelessWidget {
   const SavedQuestionListSection({
     required this.questions,
     required this.onRemove,
+    required this.onTap,
     super.key,
   });
 
   final List<SavedQuestionUiModel> questions;
   final ValueChanged<String> onRemove;
+  final ValueChanged<SavedQuestionUiModel> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,10 @@ class SavedQuestionListSection extends StatelessWidget {
                 size: 22,
               ),
             ),
-            child: _SavedQuestionCard(item: item),
+            child: GestureDetector(
+              onTap: () => onTap(item),
+              child: _SavedQuestionCard(item: item),
+            ),
           ),
         );
       }).toList(),

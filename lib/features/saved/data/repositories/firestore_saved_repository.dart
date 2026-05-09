@@ -23,6 +23,7 @@ class FirestoreSavedRepository implements SavedRepository {
     final Map<String, dynamic> data = doc.data()!;
     return SavedQuestion(
       id: doc.id,
+      questionId: data['questionId'] as String? ?? '',
       questionText: data['questionText'] as String? ?? '',
       categoryId: data['categoryId'] as String? ?? '',
       categoryTitle: data['categoryTitle'] as String? ?? '',

@@ -1,27 +1,37 @@
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/constants/text/app_strings.dart';
+import 'package:app/features/saved/domain/entities/saved_question.dart';
 import 'package:flutter/material.dart';
 
 class SavedFilterChipsSection extends StatelessWidget {
   const SavedFilterChipsSection({
+    required this.questions,
     required this.selectedFilterId,
     required this.onFilterSelected,
     super.key,
   });
 
+  final List<SavedQuestion> questions;
   final String selectedFilterId;
   final ValueChanged<String> onFilterSelected;
 
+  // Kayıtlı sorulardan benzersiz kategorileri çıkar; her zaman "Tümü" başta gelir.
+  List<(String, String)> _buildFilters() {
+    final Map<String, String> seen = <String, String>{};
+    for (final SavedQuestion q in questions) {
+      if (q.categoryId.isNotEmpty) {
+        seen[q.categoryId] = q.categoryTitle;
+      }
+    }
+    return <(String, String)>[
+      ('all', AppStrings.savedFilterAll),
+      ...seen.entries.map((MapEntry<String, String> e) => (e.key, e.value)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<(String, String)> filters = <(String, String)>[
-      ('all', AppStrings.savedFilterAll),
-      ('flutter', AppStrings.savedFilterFlutter),
-      ('python', AppStrings.savedFilterPython),
-      ('ios', AppStrings.savedFilterIos),
-      ('sql', AppStrings.savedFilterSql),
-      ('sysd', AppStrings.savedFilterSystemDesign),
-    ];
+    final List<(String, String)> filters = _buildFilters();
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

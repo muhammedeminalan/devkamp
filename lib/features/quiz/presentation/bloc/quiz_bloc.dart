@@ -263,32 +263,51 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     }
   }
 
-  // Firestore'daki userStats dokümanını FieldValue.increment ile günceller.
+  // Firestore'daki userStats dokümanını günceller.
   // fire-and-forget: UI'ı bloklamaz, hata olursa log'a düşer.
+  //
+  // Neden iki ayrı yazma?
+  // Flutter Firestore SDK'da set()+merge:true dot notation'ı nested map olarak
+  // işlemez — literal key gibi yazar. update() ise dot notation'ı destekler.
+  // Bu yüzden:
+  //   1. set(merge:true) → genel istatistikler (doc yoksa oluşturur)
+  //   2. update()        → kategori nested map (doc var olduğu garantiyle)
   void _incrementUserStats({required bool knew}) {
     final String? uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
     final String catId = state.categoryId;
     final String catName = state.categoryName;
+    final DocumentReference<Map<String, dynamic>> docRef =
+        FirebaseFirestore.instance.collection('userStats').doc(uid);
 
-    FirebaseFirestore.instance.collection('userStats').doc(uid).set(
-      <String, dynamic>{
-        // Genel istatistikler
-        'totalSolved': FieldValue.increment(1),
-        'correctAnswers': FieldValue.increment(knew ? 1 : 0),
-        'lastActiveDate': FieldValue.serverTimestamp(),
-        // Kategori bazlı istatistikler (dot notation ile nested map)
-        'categories.$catId.totalSolved': FieldValue.increment(1),
-        'categories.$catId.correctAnswers': FieldValue.increment(knew ? 1 : 0),
-        'categories.$catId.title': catName,
-      },
-      SetOptions(merge: true),
-    ).then((_) {
-      dev.log('📊 userStats güncellendi | knew: $knew | category: $catId', name: 'QuizBloc');
-    }).catchError((Object e) {
-      dev.log('❌ userStats güncelleme hatası: $e', name: 'QuizBloc');
-    });
+    dev.log('📊 userStats yazılıyor | catId: $catId | catName: $catName | knew: $knew', name: 'QuizBloc');
+
+    unawaited(
+      docRef
+          .set(
+            <String, dynamic>{
+              'totalSolved': FieldValue.increment(1),
+              'correctAnswers': FieldValue.increment(knew ? 1 : 0),
+              'lastActiveDate': FieldValue.serverTimestamp(),
+            },
+            SetOptions(merge: true),
+          )
+          // Genel istatistikler yazıldıktan sonra kategori nested map'i güncelle.
+          // update() dot notation'ı destekler ve doc'un var olduğunu garantiler.
+          .then(
+            (_) => docRef.update(<String, dynamic>{
+              'categories.$catId.totalSolved': FieldValue.increment(1),
+              'categories.$catId.correctAnswers': FieldValue.increment(knew ? 1 : 0),
+              'categories.$catId.title': catName,
+            }),
+          )
+          .then((_) {
+        dev.log('✅ userStats güncellendi | category: $catId', name: 'QuizBloc');
+      }).catchError((Object e) {
+        dev.log('❌ userStats güncelleme hatası: $e', name: 'QuizBloc');
+      }),
+    );
   }
 
   void _onNextQuestion(

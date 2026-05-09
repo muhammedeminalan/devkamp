@@ -101,7 +101,7 @@ class AppCategoryCard extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            '$solvedCount/$totalCount ${AppStrings.homeQuestionsSuffix}',
+            '$solvedCount/$totalCount ${AppStrings.profileStatsQuestionSuffix}',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: NeutralColor.neutral500,
                   fontSize: 11.5,

@@ -76,6 +76,7 @@ class _ProfileBody extends StatelessWidget {
                       name: name,
                       email: email,
                       avatarUrl: avatarUrl,
+                      rank: profileState.stats!.rank,
                     ),
                     24.h,
                     ProfileStatsSection(stats: profileState.stats!),

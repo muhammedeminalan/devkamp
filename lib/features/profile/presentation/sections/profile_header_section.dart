@@ -1,7 +1,6 @@
 import 'package:app/config/theme/constants/color/basic_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/text/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
@@ -9,12 +8,24 @@ class ProfileHeaderSection extends StatelessWidget {
     required this.name,
     required this.email,
     required this.avatarUrl,
+    required this.rank,
     super.key,
   });
 
   final String name;
   final String email;
   final String? avatarUrl;
+  // Kullanıcının rütbesi: 'Başlangıç', 'Orta Seviye', 'Uzman' vb.
+  final String rank;
+
+  // Rütbeyi 1–5 arasında seviye numarasına çevirir (rozet için).
+  int get _levelNumber => switch (rank) {
+        'Uzman'        => 5,
+        'İleri Seviye' => 4,
+        'Orta Seviye'  => 3,
+        'Başlangıç+'   => 2,
+        _              => 1,
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +95,7 @@ class ProfileHeaderSection extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '5',
+                  '$_levelNumber',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: BasicColor.white,
                         fontWeight: FontWeight.w800,
@@ -117,7 +128,7 @@ class ProfileHeaderSection extends StatelessWidget {
             color: PrimaryColor.primary100,
           ),
           child: Text(
-            '${AppStrings.profileLevelLabel} 🚀',
+            '$rank 🚀',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: PrimaryColor.primary700,
                   fontWeight: FontWeight.w700,

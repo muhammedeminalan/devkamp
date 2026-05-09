@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
@@ -24,9 +25,9 @@ class QuestionCardSection extends StatelessWidget {
   final VoidCallback onStreamingDone;
 
   String get _diffLabel => switch (question.difficulty) {
-        QuestionDifficulty.easy => 'Kolay',
-        QuestionDifficulty.medium => 'Orta',
-        QuestionDifficulty.hard => 'Zor',
+        QuestionDifficulty.easy   => AppStrings.quizDifficultyEasy,
+        QuestionDifficulty.medium => AppStrings.quizDifficultyMedium,
+        QuestionDifficulty.hard   => AppStrings.quizDifficultyHard,
       };
 
   @override
@@ -76,7 +77,7 @@ class QuestionCardSection extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: onShowAnswer,
-                child: const Text('Cevabı Gör'),
+                child: const Text(AppStrings.quizSeeAnswer),
               ),
             ),
           ],
@@ -158,7 +159,7 @@ class _AiHeader extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          'AI Cevabı',
+          AppStrings.quizAiAnswer,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: NeutralColor.neutral700,
@@ -339,7 +340,7 @@ class _ErrorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'AI cevabı yüklenemedi.',
+            AppStrings.quizAnswerError,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: const Color(0xFFB91C1C),
                   fontWeight: FontWeight.w700,
@@ -347,7 +348,7 @@ class _ErrorCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Bağlantını kontrol et ve tekrar dene.',
+            AppStrings.quizAnswerErrorHint,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF7F1D1D),
                 ),
@@ -361,7 +362,7 @@ class _ErrorCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             ),
             child: const Text(
-              'Tekrar Dene',
+              AppStrings.quizAnswerRetry,
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
             ),
           ),

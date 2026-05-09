@@ -1,11 +1,15 @@
 final class AppStrings {
   const AppStrings._();
 
+  // ── Uygulama geneli ────────────────────────────────────────────────────────
   static const String appName = 'DevKamp';
+
+  // ── Splash ─────────────────────────────────────────────────────────────────
   static const String splashBrandPrefix = 'Dev';
   static const String splashBrandSuffix = 'Kamp';
   static const String splashSubtitle = 'Bir profesyonel gibi mulakata gir.';
 
+  // ── Auth ───────────────────────────────────────────────────────────────────
   static const String authBrandPrefix = 'Dev';
   static const String authBrandSuffix = 'Kamp';
   static const String authHeadlineLine1 = 'Yazılım kariyerinde';
@@ -15,32 +19,28 @@ final class AppStrings {
   static const String authGoogleContinue = 'Google ile Devam Et';
   static const String authFreeNote = 'Sonsuza dek ücretsiz. Kredi kartı gerekmez.';
 
-  static const String homeGreetPrefix = 'Günaydın,';
+  // ── Home ───────────────────────────────────────────────────────────────────
   static const String homeFallbackUserName = 'Geliştirici';
-  static const String homeStreakLabel = '5 günlük seri';
-  static const String homeLevelTitle = 'Seviye 5 — Kıdemli Geliştirici';
-  static const String homeXpProgress = '2,140 / 3,000 XP';
-  static const String homeXpToNext = 'L6\'ya 860 XP';
   static const String homeContinueSectionTitle = 'Kaldığın yerden devam et';
-  static const String homeContinueTag = 'FLUTTER • BLoC PATTERN';
-  static const String homeContinueTitle = 'State Management Derinlemesine';
-  static const String homeContinueStats = '12 sorudan 5\'i';
-  static const String homeContinuePercent = '42%';
   static const String homeContinueButton = 'Devam Et';
   static const String homeCategoriesTitle = 'Kategoriler';
   static const String homeSeeAll = 'Tümünü gör';
   static const String homeAllCategoriesTitle = 'Tüm Kategoriler';
   static const String homeAllCategoriesSubtitle = 'Çalışmak istediğin alanı seç';
-  static const String homeQuestionsSuffix = 'soru';
+  // Motivasyon metinleri — saat bazlı (streak == 0)
+  static const String homeMorningMotivation = 'Güne iyi bir başlangıç yap 🎯';
+  static const String homeAfternoonMotivation = 'Bugün ilk soruyu çöz 💡';
+  static const String homeEveningMotivation = 'Geceyi verimli geçir 🌙';
+  // Motivasyon metinleri — streak bazlı
+  static const String homeStreakFirst = 'İyi başladın, devam et! 💪';
+  // Progress section etiketleri
+  static const String homeProgressStart = 'Çalışmaya Başla';
+  static const String homeProgressFirstDay = 'İlk Gün! 🎯';
 
+  // ── Saved ──────────────────────────────────────────────────────────────────
   static const String savedTitle = 'Kaydedilen Sorular';
   static const String savedReviewCountSuffix = 'tekrar edilecek soru';
   static const String savedFilterAll = 'Tümü';
-  static const String savedFilterFlutter = 'Flutter';
-  static const String savedFilterPython = 'Python';
-  static const String savedFilterIos = 'iOS';
-  static const String savedFilterSql = 'SQL';
-  static const String savedFilterSystemDesign = 'System Design';
   static const String savedDifficultyEasy = 'Kolay';
   static const String savedDifficultyMedium = 'Orta';
   static const String savedDifficultyHard = 'Zor';
@@ -48,8 +48,34 @@ final class AppStrings {
   static const String savedEmptySubtitle =
       'Tekrar etmek için soru kaydet — burada görünürler.';
   static const String savedEmptyAction = 'Keşfetmeye başla';
+  static const String savedAiAnswer = 'AI Cevabı';
 
-  static const String profileLevelLabel = 'Seviye 5 — Kıdemli Geliştirici';
+  // ── Category ───────────────────────────────────────────────────────────────
+  static const String categoryRetry = 'Tekrar Dene';
+  static const String categoryNotFound = 'Kategori bulunamadı.';
+  static const String categoryRandomQuiz = 'Rastgele Quiz';
+  static const String categoryListLoading = 'Sorular hazırlanıyor...';
+  static const String categoryListLoadingHint = 'İlk açılışta sorular oluşturulur';
+  static const String categoryGenerating = 'AI kategoriler hazırlanıyor...';
+
+  // ── Quiz ───────────────────────────────────────────────────────────────────
+  static const String quizDifficultyEasy = 'Kolay';
+  static const String quizDifficultyMedium = 'Orta';
+  static const String quizDifficultyHard = 'Zor';
+  static const String quizSeeAnswer = 'Cevabı Gör';
+  static const String quizAiAnswer = 'AI Cevabı';
+  static const String quizAnswerError = 'AI cevabı yüklenemedi.';
+  static const String quizAnswerErrorHint = 'Bağlantını kontrol et ve tekrar dene.';
+  static const String quizAnswerRetry = 'Tekrar Dene';
+  static const String quizEvalKnew = 'Biliyordum';
+  static const String quizEvalMissed = 'Bilmiyordum';
+  static const String quizNextQuestion = 'Sonraki Soru';
+  static const String quizResultRetry = 'Tekrar Çöz';
+  static const String quizResultBack = 'Geri Dön';
+  static const String quizResultKnew = 'Bildim';
+  static const String quizResultMissed = 'Bilmedim';
+
+  // ── Profile ────────────────────────────────────────────────────────────────
   static const String profileStatsTotal = 'Toplam';
   static const String profileStatsStreak = 'Seri';
   static const String profileStatsBest = 'En İyi';

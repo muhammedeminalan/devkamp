@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:flutter/material.dart';
 
@@ -41,10 +42,10 @@ class _CategoryCard extends StatelessWidget {
 
   String get _questionsLabel {
     if (category.questionsStatus == QuestionsStatus.generating) {
-      return 'Sorular hazırlanıyor...';
+      return AppStrings.categoryListLoading;
     }
     if (category.questionCount == 0) {
-      return 'İlk açılışta sorular oluşturulur';
+      return AppStrings.categoryListLoadingHint;
     }
     return '${category.questionCount} soru';
   }

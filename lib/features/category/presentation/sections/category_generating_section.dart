@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:flutter/material.dart';
 
 // Kategoriler AI tarafından üretilirken gösterilen yükleme ekranı.
@@ -58,7 +59,7 @@ class _CategoryGeneratingSectionState extends State<CategoryGeneratingSection>
               FadeTransition(
                 opacity: _fade,
                 child: Text(
-                  'AI kategoriler hazırlanıyor...',
+                  AppStrings.categoryGenerating,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: PrimaryColor.primary600,
                         fontWeight: FontWeight.w700,

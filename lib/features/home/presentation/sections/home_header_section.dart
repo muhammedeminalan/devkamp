@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,12 +21,12 @@ class HomeHeaderSection extends StatelessWidget {
     final int hour = DateTime.now().hour;
 
     if (streakDays == 0) {
-      if (hour < 12) return 'Güne iyi bir başlangıç yap 🎯';
-      if (hour < 18) return 'Bugün ilk soruyu çöz 💡';
-      return 'Geceyi verimli geçir 🌙';
+      if (hour < 12) return AppStrings.homeMorningMotivation;
+      if (hour < 18) return AppStrings.homeAfternoonMotivation;
+      return AppStrings.homeEveningMotivation;
     }
 
-    if (streakDays == 1) return 'İyi başladın, devam et! 💪';
+    if (streakDays == 1) return AppStrings.homeStreakFirst;
     if (streakDays < 5) return '$streakDays günlük serini koru 🔥';
     if (streakDays < 15) return '$streakDays gündür aralıksız çalışıyorsun 🚀';
     return '$streakDays günlük efsane seri! 👑';

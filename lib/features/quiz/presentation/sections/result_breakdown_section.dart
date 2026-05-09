@@ -1,4 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class ResultBreakdownSection extends StatelessWidget {
@@ -25,7 +26,7 @@ class ResultBreakdownSection extends StatelessWidget {
           _BreakdownRow(
             icon: Icons.check_rounded,
             iconBg: const Color(0xFF10B981),
-            label: 'Bildim',
+            label: AppStrings.quizResultKnew,
             topics: knewTopics,
             tappable: false,
           ),
@@ -36,7 +37,7 @@ class ResultBreakdownSection extends StatelessWidget {
           _BreakdownRow(
             icon: Icons.close_rounded,
             iconBg: const Color(0xFFEF4444),
-            label: 'Bilmedim',
+            label: AppStrings.quizResultMissed,
             topics: missedTopics,
             tappable: true,
           ),

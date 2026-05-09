@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:app/features/category/domain/usecases/generate_categories_usecase.dart';
@@ -89,7 +90,7 @@ class _CategoryBody extends StatelessWidget {
           if (state.status == CategoryBlocStatus.error) {
             return AppErrorState(
               message: state.errorMessage ?? 'Kategoriler yüklenemedi.',
-              actionLabel: 'Tekrar Dene',
+              actionLabel: AppStrings.categoryRetry,
               onAction: () {
                 final String userId =
                     context.read<AuthBloc>().state.user?.id ?? '';
@@ -104,7 +105,7 @@ class _CategoryBody extends StatelessWidget {
 
           if (state.categories.isEmpty) {
             return const Center(
-              child: Text('Kategori bulunamadı.'),
+              child: Text(AppStrings.categoryNotFound),
             );
           }
 
@@ -145,7 +146,7 @@ class _CategoryBody extends StatelessWidget {
           extra: <String, dynamic>{
             'categoryId': topicId,
             'topicId': topicId,
-            'topicName': 'Rastgele Quiz',
+            'topicName': AppStrings.categoryRandomQuiz,
             'categoryName': topicName,
             'isRandom': true,
           },
@@ -153,7 +154,7 @@ class _CategoryBody extends StatelessWidget {
         backgroundColor: PrimaryColor.primary600,
         icon: const Icon(Icons.bolt_rounded, color: Colors.white),
         label: const Text(
-          'Rastgele Quiz',
+          AppStrings.categoryRandomQuiz,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),

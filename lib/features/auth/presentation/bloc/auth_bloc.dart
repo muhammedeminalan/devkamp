@@ -37,6 +37,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignInWithGoogleRequested>(_onAuthSignInWithGoogleRequested);
     on<AuthSignInWithEmailRequested>(_onAuthSignInWithEmailRequested);
     on<AuthSignOutRequested>(_onAuthSignOutRequested);
+
+    // Uygulama başlatılırken zaten oturum açıksa seeder'ı hemen çalıştır.
+    // Event handler'lara girmeden direkt authenticated state kurulduğu için burada tetiklenir.
+    if (initialUser != null) {
+      unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
+    }
   }
 
   final CheckSessionUseCase _checkSessionUseCase;

@@ -1,112 +1,352 @@
 {
   "@@locale": "tr",
-
   "appName": "DevKamp",
-  "@appName": { "description": "Uygulama adı" },
-
+  "@appName": {
+    "description": "Uygulama adı"
+  },
   "splashBrandPrefix": "Dev",
+  "@splashBrandPrefix": {
+    "description": "Splash logo — 'Dev' kısmı"
+  },
   "splashBrandSuffix": "Kamp",
+  "@splashBrandSuffix": {
+    "description": "Splash logo — 'Kamp' kısmı"
+  },
   "splashSubtitle": "Bir profesyonel gibi mülakata gir.",
-
+  "@splashSubtitle": {
+    "description": "Splash ekranı alt başlık"
+  },
   "authBrandPrefix": "Dev",
+  "@authBrandPrefix": {
+    "description": "Auth logo — 'Dev' kısmı"
+  },
   "authBrandSuffix": "Kamp",
+  "@authBrandSuffix": {
+    "description": "Auth logo — 'Kamp' kısmı"
+  },
   "authHeadlineLine1": "Yazılım kariyerinde",
+  "@authHeadlineLine1": {
+    "description": "Auth başlık 1. satır"
+  },
   "authHeadlineLine2": "bir adım öne geç.",
+  "@authHeadlineLine2": {
+    "description": "Auth başlık 2. satır"
+  },
   "authDescription": "Gerçek mülakat sorularını çalış. Anında AI geri bildirimi al.",
+  "@authDescription": {
+    "description": "Auth açıklama metni"
+  },
   "authGoogleContinue": "Google ile Devam Et",
+  "@authGoogleContinue": {
+    "description": "Google giriş butonu"
+  },
   "authFreeNote": "Sonsuza dek ücretsiz. Kredi kartı gerekmez.",
-
+  "@authFreeNote": {
+    "description": "Ücretsiz hizmet notu"
+  },
   "homeFallbackUserName": "Geliştirici",
+  "@homeFallbackUserName": {
+    "description": "Kullanıcı adı bilinmiyorsa fallback"
+  },
   "homeContinueSectionTitle": "Kaldığın yerden devam et",
+  "@homeContinueSectionTitle": {
+    "description": "Devam et bölümü başlığı"
+  },
   "homeContinueButton": "Devam Et",
+  "@homeContinueButton": {
+    "description": "Devam et butonu"
+  },
   "homeCategoriesTitle": "Kategoriler",
+  "@homeCategoriesTitle": {
+    "description": "Kategoriler bölümü başlığı"
+  },
   "homeSeeAll": "Tümünü gör",
+  "@homeSeeAll": {
+    "description": "Tümünü gör linki"
+  },
   "homeAllCategoriesTitle": "Tüm Kategoriler",
+  "@homeAllCategoriesTitle": {
+    "description": "Tüm kategoriler sayfası başlığı"
+  },
   "homeAllCategoriesSubtitle": "Çalışmak istediğin alanı seç",
+  "@homeAllCategoriesSubtitle": {
+    "description": "Tüm kategoriler sayfası alt başlık"
+  },
   "homeMorningMotivation": "Güne iyi bir başlangıç yap 🎯",
+  "@homeMorningMotivation": {
+    "description": "Sabah motivasyon mesajı (streak=0)"
+  },
   "homeAfternoonMotivation": "Bugün ilk soruyu çöz 💡",
+  "@homeAfternoonMotivation": {
+    "description": "Öğleden sonra motivasyon mesajı (streak=0)"
+  },
   "homeEveningMotivation": "Geceyi verimli geçir 🌙",
+  "@homeEveningMotivation": {
+    "description": "Akşam motivasyon mesajı (streak=0)"
+  },
   "homeStreakFirst": "İyi başladın, devam et! 💪",
+  "@homeStreakFirst": {
+    "description": "Motivasyon — streak=1"
+  },
   "homeStreakKeep": "{count} günlük serini koru 🔥",
   "@homeStreakKeep": {
-    "placeholders": { "count": { "type": "int" } }
+    "description": "Motivasyon — streak 2-4",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "homeStreakMid": "{count} gündür aralıksız çalışıyorsun 🚀",
   "@homeStreakMid": {
-    "placeholders": { "count": { "type": "int" } }
+    "description": "Motivasyon — streak 5-14",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "homeStreakLegend": "{count} günlük efsane seri! 👑",
   "@homeStreakLegend": {
-    "placeholders": { "count": { "type": "int" } }
+    "description": "Motivasyon — streak 15+",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "homeProgressStart": "Çalışmaya Başla",
+  "@homeProgressStart": {
+    "description": "Progress — streak=0"
+  },
   "homeProgressFirstDay": "İlk Gün! 🎯",
+  "@homeProgressFirstDay": {
+    "description": "Progress — streak=1"
+  },
   "homeProgressStreak": "{count} Günlük Seri 🔥",
   "@homeProgressStreak": {
-    "placeholders": { "count": { "type": "int" } }
+    "description": "Progress — streak 2+",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "homeQuestionsSuffix": "soru",
-
+  "@homeQuestionsSuffix": {
+    "description": "Soru sayısı birimi"
+  },
   "savedTitle": "Kaydedilen Sorular",
+  "@savedTitle": {
+    "description": "Kaydedilen sorular sayfa başlığı"
+  },
   "savedReviewCountSuffix": "tekrar edilecek soru",
+  "@savedReviewCountSuffix": {
+    "description": "Tekrar edilecek soru sayısı birimi"
+  },
   "savedFilterAll": "Tümü",
+  "@savedFilterAll": {
+    "description": "Filtre — tümü"
+  },
   "savedDifficultyEasy": "Kolay",
+  "@savedDifficultyEasy": {
+    "description": "Zorluk seviyesi — kolay"
+  },
   "savedDifficultyMedium": "Orta",
+  "@savedDifficultyMedium": {
+    "description": "Zorluk seviyesi — orta"
+  },
   "savedDifficultyHard": "Zor",
+  "@savedDifficultyHard": {
+    "description": "Zorluk seviyesi — zor"
+  },
   "savedEmptyTitle": "Henüz kaydedilen soru yok",
+  "@savedEmptyTitle": {
+    "description": "Boş liste başlığı"
+  },
   "savedEmptySubtitle": "Tekrar etmek için soru kaydet — burada görünürler.",
+  "@savedEmptySubtitle": {
+    "description": "Boş liste açıklaması"
+  },
   "savedEmptyAction": "Keşfetmeye başla",
+  "@savedEmptyAction": {
+    "description": "Boş liste aksiyon butonu"
+  },
   "savedAiAnswer": "AI Cevabı",
-
+  "@savedAiAnswer": {
+    "description": "AI cevabı başlığı (saved sheet)"
+  },
   "categoryRetry": "Tekrar Dene",
+  "@categoryRetry": {
+    "description": "Hata durumunda tekrar dene butonu"
+  },
   "categoryNotFound": "Kategori bulunamadı.",
+  "@categoryNotFound": {
+    "description": "Kategori bulunamadı mesajı"
+  },
   "categoryRandomQuiz": "Rastgele Quiz",
+  "@categoryRandomQuiz": {
+    "description": "Rastgele quiz butonu etiketi"
+  },
   "categoryListLoading": "Sorular hazırlanıyor...",
+  "@categoryListLoading": {
+    "description": "Sorular üretilirken yükleme etiketi"
+  },
   "categoryListLoadingHint": "İlk açılışta sorular oluşturulur",
+  "@categoryListLoadingHint": {
+    "description": "İlk açılış ipucu"
+  },
   "categoryGenerating": "AI kategoriler hazırlanıyor...",
-
+  "@categoryGenerating": {
+    "description": "AI kategori üretim mesajı"
+  },
   "quizDifficultyEasy": "Kolay",
+  "@quizDifficultyEasy": {
+    "description": "Quiz zorluk — kolay"
+  },
   "quizDifficultyMedium": "Orta",
+  "@quizDifficultyMedium": {
+    "description": "Quiz zorluk — orta"
+  },
   "quizDifficultyHard": "Zor",
+  "@quizDifficultyHard": {
+    "description": "Quiz zorluk — zor"
+  },
   "quizSeeAnswer": "Cevabı Gör",
+  "@quizSeeAnswer": {
+    "description": "Cevabı gör butonu"
+  },
   "quizAiAnswer": "AI Cevabı",
+  "@quizAiAnswer": {
+    "description": "AI cevabı başlığı"
+  },
   "quizAnswerError": "AI cevabı yüklenemedi.",
+  "@quizAnswerError": {
+    "description": "AI cevap hata mesajı"
+  },
   "quizAnswerErrorHint": "Bağlantını kontrol et ve tekrar dene.",
+  "@quizAnswerErrorHint": {
+    "description": "AI cevap hata ipucu"
+  },
   "quizAnswerRetry": "Tekrar Dene",
+  "@quizAnswerRetry": {
+    "description": "AI cevap tekrar dene butonu"
+  },
   "quizEvalKnew": "Biliyordum",
+  "@quizEvalKnew": {
+    "description": "Değerlendirme — biliyordum"
+  },
   "quizEvalMissed": "Bilmiyordum",
+  "@quizEvalMissed": {
+    "description": "Değerlendirme — bilmiyordum"
+  },
   "quizNextQuestion": "Sonraki Soru",
+  "@quizNextQuestion": {
+    "description": "Sonraki soru butonu"
+  },
   "quizResultRetry": "Tekrar Çöz",
+  "@quizResultRetry": {
+    "description": "Quiz sonuç — tekrar çöz"
+  },
   "quizResultBack": "Geri Dön",
+  "@quizResultBack": {
+    "description": "Quiz sonuç — geri dön"
+  },
   "quizResultKnew": "Bildim",
+  "@quizResultKnew": {
+    "description": "Sonuç özeti — bildim"
+  },
   "quizResultMissed": "Bilmedim",
+  "@quizResultMissed": {
+    "description": "Sonuç özeti — bilmedim"
+  },
   "quizProgressLabel": "Soru {current} / {total}",
   "@quizProgressLabel": {
+    "description": "Quiz ilerleme etiketi",
     "placeholders": {
-      "current": { "type": "int" },
-      "total": { "type": "int" }
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "quizTopicCount": "{count} soru",
   "@quizTopicCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "description": "Konu soru sayısı",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
-
   "profileStatsTotal": "Toplam",
+  "@profileStatsTotal": {
+    "description": "Profil istatistik — toplam"
+  },
   "profileStatsStreak": "Seri",
+  "@profileStatsStreak": {
+    "description": "Profil istatistik — seri"
+  },
   "profileStatsBest": "En İyi",
+  "@profileStatsBest": {
+    "description": "Profil istatistik — en iyi"
+  },
   "profileStatsQuestionSuffix": "soru",
+  "@profileStatsQuestionSuffix": {
+    "description": "Soru birimi"
+  },
   "profileStatsDaySuffix": "gün",
+  "@profileStatsDaySuffix": {
+    "description": "Gün birimi"
+  },
   "profilePerformanceTitle": "Kategori Performansı",
+  "@profilePerformanceTitle": {
+    "description": "Kategori performansı başlığı"
+  },
   "profileAchievementsTitle": "Başarımlar",
+  "@profileAchievementsTitle": {
+    "description": "Başarımlar bölümü başlığı"
+  },
   "profileSettingsTitle": "Ayarlar",
+  "@profileSettingsTitle": {
+    "description": "Ayarlar bölümü başlığı"
+  },
   "profileSettingDifficulty": "Tercih edilen zorluk",
+  "@profileSettingDifficulty": {
+    "description": "Zorluk tercihi ayarı"
+  },
   "profileSettingNotifications": "Bildirimler",
+  "@profileSettingNotifications": {
+    "description": "Bildirimler ayarı"
+  },
   "profileSettingReminder": "Günlük hatırlatıcı",
+  "@profileSettingReminder": {
+    "description": "Günlük hatırlatıcı ayarı"
+  },
   "profileReminderTime": "09:00",
+  "@profileReminderTime": {
+    "description": "Hatırlatıcı saati"
+  },
   "profileSignOut": "Çıkış Yap",
+  "@profileSignOut": {
+    "description": "Çıkış butonu"
+  },
   "profileSettingLanguage": "Dil",
+  "@profileSettingLanguage": {
+    "description": "Dil ayarı etiketi"
+  },
   "profileLanguageSystem": "Sistem",
+  "@profileLanguageSystem": {
+    "description": "Sistem dili seçeneği"
+  },
   "profileLanguageTurkish": "Türkçe",
-  "profileLanguageEnglish": "İngilizce"
+  "@profileLanguageTurkish": {
+    "description": "Türkçe dil seçeneği"
+  },
+  "profileLanguageEnglish": "İngilizce",
+  "@profileLanguageEnglish": {
+    "description": "İngilizce dil seçeneği"
+  }
 }

@@ -1,11 +1,9 @@
 {
   "@@locale": "en",
-
   "appName": "DevKamp",
   "splashBrandPrefix": "Dev",
   "splashBrandSuffix": "Kamp",
   "splashSubtitle": "Enter interviews like a professional.",
-
   "authBrandPrefix": "Dev",
   "authBrandSuffix": "Kamp",
   "authHeadlineLine1": "Level up your",
@@ -13,7 +11,6 @@
   "authDescription": "Practice real interview questions. Get instant AI feedback.",
   "authGoogleContinue": "Continue with Google",
   "authFreeNote": "Free forever. No credit card required.",
-
   "homeFallbackUserName": "Developer",
   "homeContinueSectionTitle": "Continue where you left off",
   "homeContinueButton": "Continue",
@@ -32,7 +29,6 @@
   "homeProgressFirstDay": "Day One! 🎯",
   "homeProgressStreak": "{count}-Day Streak 🔥",
   "homeQuestionsSuffix": "questions",
-
   "savedTitle": "Saved Questions",
   "savedReviewCountSuffix": "questions to review",
   "savedFilterAll": "All",
@@ -43,14 +39,12 @@
   "savedEmptySubtitle": "Save questions to review — they'll appear here.",
   "savedEmptyAction": "Start exploring",
   "savedAiAnswer": "AI Answer",
-
   "categoryRetry": "Retry",
   "categoryNotFound": "Category not found.",
   "categoryRandomQuiz": "Random Quiz",
   "categoryListLoading": "Preparing questions...",
   "categoryListLoadingHint": "Questions are generated on first launch",
   "categoryGenerating": "AI is preparing categories...",
-
   "quizDifficultyEasy": "Easy",
   "quizDifficultyMedium": "Medium",
   "quizDifficultyHard": "Hard",
@@ -68,7 +62,6 @@
   "quizResultMissed": "Missed",
   "quizProgressLabel": "Question {current} / {total}",
   "quizTopicCount": "{count} questions",
-
   "profileStatsTotal": "Total",
   "profileStatsStreak": "Streak",
   "profileStatsBest": "Best",

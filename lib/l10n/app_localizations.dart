@@ -104,469 +104,469 @@ abstract class AppLocalizations {
   /// **'DevKamp'**
   String get appName;
 
-  /// No description provided for @splashBrandPrefix.
+  /// Splash logo — 'Dev' kısmı
   ///
   /// In tr, this message translates to:
   /// **'Dev'**
   String get splashBrandPrefix;
 
-  /// No description provided for @splashBrandSuffix.
+  /// Splash logo — 'Kamp' kısmı
   ///
   /// In tr, this message translates to:
   /// **'Kamp'**
   String get splashBrandSuffix;
 
-  /// No description provided for @splashSubtitle.
+  /// Splash ekranı alt başlık
   ///
   /// In tr, this message translates to:
   /// **'Bir profesyonel gibi mülakata gir.'**
   String get splashSubtitle;
 
-  /// No description provided for @authBrandPrefix.
+  /// Auth logo — 'Dev' kısmı
   ///
   /// In tr, this message translates to:
   /// **'Dev'**
   String get authBrandPrefix;
 
-  /// No description provided for @authBrandSuffix.
+  /// Auth logo — 'Kamp' kısmı
   ///
   /// In tr, this message translates to:
   /// **'Kamp'**
   String get authBrandSuffix;
 
-  /// No description provided for @authHeadlineLine1.
+  /// Auth başlık 1. satır
   ///
   /// In tr, this message translates to:
   /// **'Yazılım kariyerinde'**
   String get authHeadlineLine1;
 
-  /// No description provided for @authHeadlineLine2.
+  /// Auth başlık 2. satır
   ///
   /// In tr, this message translates to:
   /// **'bir adım öne geç.'**
   String get authHeadlineLine2;
 
-  /// No description provided for @authDescription.
+  /// Auth açıklama metni
   ///
   /// In tr, this message translates to:
   /// **'Gerçek mülakat sorularını çalış. Anında AI geri bildirimi al.'**
   String get authDescription;
 
-  /// No description provided for @authGoogleContinue.
+  /// Google giriş butonu
   ///
   /// In tr, this message translates to:
   /// **'Google ile Devam Et'**
   String get authGoogleContinue;
 
-  /// No description provided for @authFreeNote.
+  /// Ücretsiz hizmet notu
   ///
   /// In tr, this message translates to:
   /// **'Sonsuza dek ücretsiz. Kredi kartı gerekmez.'**
   String get authFreeNote;
 
-  /// No description provided for @homeFallbackUserName.
+  /// Kullanıcı adı bilinmiyorsa fallback
   ///
   /// In tr, this message translates to:
   /// **'Geliştirici'**
   String get homeFallbackUserName;
 
-  /// No description provided for @homeContinueSectionTitle.
+  /// Devam et bölümü başlığı
   ///
   /// In tr, this message translates to:
   /// **'Kaldığın yerden devam et'**
   String get homeContinueSectionTitle;
 
-  /// No description provided for @homeContinueButton.
+  /// Devam et butonu
   ///
   /// In tr, this message translates to:
   /// **'Devam Et'**
   String get homeContinueButton;
 
-  /// No description provided for @homeCategoriesTitle.
+  /// Kategoriler bölümü başlığı
   ///
   /// In tr, this message translates to:
   /// **'Kategoriler'**
   String get homeCategoriesTitle;
 
-  /// No description provided for @homeSeeAll.
+  /// Tümünü gör linki
   ///
   /// In tr, this message translates to:
   /// **'Tümünü gör'**
   String get homeSeeAll;
 
-  /// No description provided for @homeAllCategoriesTitle.
+  /// Tüm kategoriler sayfası başlığı
   ///
   /// In tr, this message translates to:
   /// **'Tüm Kategoriler'**
   String get homeAllCategoriesTitle;
 
-  /// No description provided for @homeAllCategoriesSubtitle.
+  /// Tüm kategoriler sayfası alt başlık
   ///
   /// In tr, this message translates to:
   /// **'Çalışmak istediğin alanı seç'**
   String get homeAllCategoriesSubtitle;
 
-  /// No description provided for @homeMorningMotivation.
+  /// Sabah motivasyon mesajı (streak=0)
   ///
   /// In tr, this message translates to:
   /// **'Güne iyi bir başlangıç yap 🎯'**
   String get homeMorningMotivation;
 
-  /// No description provided for @homeAfternoonMotivation.
+  /// Öğleden sonra motivasyon mesajı (streak=0)
   ///
   /// In tr, this message translates to:
   /// **'Bugün ilk soruyu çöz 💡'**
   String get homeAfternoonMotivation;
 
-  /// No description provided for @homeEveningMotivation.
+  /// Akşam motivasyon mesajı (streak=0)
   ///
   /// In tr, this message translates to:
   /// **'Geceyi verimli geçir 🌙'**
   String get homeEveningMotivation;
 
-  /// No description provided for @homeStreakFirst.
+  /// Motivasyon — streak=1
   ///
   /// In tr, this message translates to:
   /// **'İyi başladın, devam et! 💪'**
   String get homeStreakFirst;
 
-  /// No description provided for @homeStreakKeep.
+  /// Motivasyon — streak 2-4
   ///
   /// In tr, this message translates to:
   /// **'{count} günlük serini koru 🔥'**
   String homeStreakKeep(int count);
 
-  /// No description provided for @homeStreakMid.
+  /// Motivasyon — streak 5-14
   ///
   /// In tr, this message translates to:
   /// **'{count} gündür aralıksız çalışıyorsun 🚀'**
   String homeStreakMid(int count);
 
-  /// No description provided for @homeStreakLegend.
+  /// Motivasyon — streak 15+
   ///
   /// In tr, this message translates to:
   /// **'{count} günlük efsane seri! 👑'**
   String homeStreakLegend(int count);
 
-  /// No description provided for @homeProgressStart.
+  /// Progress — streak=0
   ///
   /// In tr, this message translates to:
   /// **'Çalışmaya Başla'**
   String get homeProgressStart;
 
-  /// No description provided for @homeProgressFirstDay.
+  /// Progress — streak=1
   ///
   /// In tr, this message translates to:
   /// **'İlk Gün! 🎯'**
   String get homeProgressFirstDay;
 
-  /// No description provided for @homeProgressStreak.
+  /// Progress — streak 2+
   ///
   /// In tr, this message translates to:
   /// **'{count} Günlük Seri 🔥'**
   String homeProgressStreak(int count);
 
-  /// No description provided for @homeQuestionsSuffix.
+  /// Soru sayısı birimi
   ///
   /// In tr, this message translates to:
   /// **'soru'**
   String get homeQuestionsSuffix;
 
-  /// No description provided for @savedTitle.
+  /// Kaydedilen sorular sayfa başlığı
   ///
   /// In tr, this message translates to:
   /// **'Kaydedilen Sorular'**
   String get savedTitle;
 
-  /// No description provided for @savedReviewCountSuffix.
+  /// Tekrar edilecek soru sayısı birimi
   ///
   /// In tr, this message translates to:
   /// **'tekrar edilecek soru'**
   String get savedReviewCountSuffix;
 
-  /// No description provided for @savedFilterAll.
+  /// Filtre — tümü
   ///
   /// In tr, this message translates to:
   /// **'Tümü'**
   String get savedFilterAll;
 
-  /// No description provided for @savedDifficultyEasy.
+  /// Zorluk seviyesi — kolay
   ///
   /// In tr, this message translates to:
   /// **'Kolay'**
   String get savedDifficultyEasy;
 
-  /// No description provided for @savedDifficultyMedium.
+  /// Zorluk seviyesi — orta
   ///
   /// In tr, this message translates to:
   /// **'Orta'**
   String get savedDifficultyMedium;
 
-  /// No description provided for @savedDifficultyHard.
+  /// Zorluk seviyesi — zor
   ///
   /// In tr, this message translates to:
   /// **'Zor'**
   String get savedDifficultyHard;
 
-  /// No description provided for @savedEmptyTitle.
+  /// Boş liste başlığı
   ///
   /// In tr, this message translates to:
   /// **'Henüz kaydedilen soru yok'**
   String get savedEmptyTitle;
 
-  /// No description provided for @savedEmptySubtitle.
+  /// Boş liste açıklaması
   ///
   /// In tr, this message translates to:
   /// **'Tekrar etmek için soru kaydet — burada görünürler.'**
   String get savedEmptySubtitle;
 
-  /// No description provided for @savedEmptyAction.
+  /// Boş liste aksiyon butonu
   ///
   /// In tr, this message translates to:
   /// **'Keşfetmeye başla'**
   String get savedEmptyAction;
 
-  /// No description provided for @savedAiAnswer.
+  /// AI cevabı başlığı (saved sheet)
   ///
   /// In tr, this message translates to:
   /// **'AI Cevabı'**
   String get savedAiAnswer;
 
-  /// No description provided for @categoryRetry.
+  /// Hata durumunda tekrar dene butonu
   ///
   /// In tr, this message translates to:
   /// **'Tekrar Dene'**
   String get categoryRetry;
 
-  /// No description provided for @categoryNotFound.
+  /// Kategori bulunamadı mesajı
   ///
   /// In tr, this message translates to:
   /// **'Kategori bulunamadı.'**
   String get categoryNotFound;
 
-  /// No description provided for @categoryRandomQuiz.
+  /// Rastgele quiz butonu etiketi
   ///
   /// In tr, this message translates to:
   /// **'Rastgele Quiz'**
   String get categoryRandomQuiz;
 
-  /// No description provided for @categoryListLoading.
+  /// Sorular üretilirken yükleme etiketi
   ///
   /// In tr, this message translates to:
   /// **'Sorular hazırlanıyor...'**
   String get categoryListLoading;
 
-  /// No description provided for @categoryListLoadingHint.
+  /// İlk açılış ipucu
   ///
   /// In tr, this message translates to:
   /// **'İlk açılışta sorular oluşturulur'**
   String get categoryListLoadingHint;
 
-  /// No description provided for @categoryGenerating.
+  /// AI kategori üretim mesajı
   ///
   /// In tr, this message translates to:
   /// **'AI kategoriler hazırlanıyor...'**
   String get categoryGenerating;
 
-  /// No description provided for @quizDifficultyEasy.
+  /// Quiz zorluk — kolay
   ///
   /// In tr, this message translates to:
   /// **'Kolay'**
   String get quizDifficultyEasy;
 
-  /// No description provided for @quizDifficultyMedium.
+  /// Quiz zorluk — orta
   ///
   /// In tr, this message translates to:
   /// **'Orta'**
   String get quizDifficultyMedium;
 
-  /// No description provided for @quizDifficultyHard.
+  /// Quiz zorluk — zor
   ///
   /// In tr, this message translates to:
   /// **'Zor'**
   String get quizDifficultyHard;
 
-  /// No description provided for @quizSeeAnswer.
+  /// Cevabı gör butonu
   ///
   /// In tr, this message translates to:
   /// **'Cevabı Gör'**
   String get quizSeeAnswer;
 
-  /// No description provided for @quizAiAnswer.
+  /// AI cevabı başlığı
   ///
   /// In tr, this message translates to:
   /// **'AI Cevabı'**
   String get quizAiAnswer;
 
-  /// No description provided for @quizAnswerError.
+  /// AI cevap hata mesajı
   ///
   /// In tr, this message translates to:
   /// **'AI cevabı yüklenemedi.'**
   String get quizAnswerError;
 
-  /// No description provided for @quizAnswerErrorHint.
+  /// AI cevap hata ipucu
   ///
   /// In tr, this message translates to:
   /// **'Bağlantını kontrol et ve tekrar dene.'**
   String get quizAnswerErrorHint;
 
-  /// No description provided for @quizAnswerRetry.
+  /// AI cevap tekrar dene butonu
   ///
   /// In tr, this message translates to:
   /// **'Tekrar Dene'**
   String get quizAnswerRetry;
 
-  /// No description provided for @quizEvalKnew.
+  /// Değerlendirme — biliyordum
   ///
   /// In tr, this message translates to:
   /// **'Biliyordum'**
   String get quizEvalKnew;
 
-  /// No description provided for @quizEvalMissed.
+  /// Değerlendirme — bilmiyordum
   ///
   /// In tr, this message translates to:
   /// **'Bilmiyordum'**
   String get quizEvalMissed;
 
-  /// No description provided for @quizNextQuestion.
+  /// Sonraki soru butonu
   ///
   /// In tr, this message translates to:
   /// **'Sonraki Soru'**
   String get quizNextQuestion;
 
-  /// No description provided for @quizResultRetry.
+  /// Quiz sonuç — tekrar çöz
   ///
   /// In tr, this message translates to:
   /// **'Tekrar Çöz'**
   String get quizResultRetry;
 
-  /// No description provided for @quizResultBack.
+  /// Quiz sonuç — geri dön
   ///
   /// In tr, this message translates to:
   /// **'Geri Dön'**
   String get quizResultBack;
 
-  /// No description provided for @quizResultKnew.
+  /// Sonuç özeti — bildim
   ///
   /// In tr, this message translates to:
   /// **'Bildim'**
   String get quizResultKnew;
 
-  /// No description provided for @quizResultMissed.
+  /// Sonuç özeti — bilmedim
   ///
   /// In tr, this message translates to:
   /// **'Bilmedim'**
   String get quizResultMissed;
 
-  /// No description provided for @quizProgressLabel.
+  /// Quiz ilerleme etiketi
   ///
   /// In tr, this message translates to:
   /// **'Soru {current} / {total}'**
   String quizProgressLabel(int current, int total);
 
-  /// No description provided for @quizTopicCount.
+  /// Konu soru sayısı
   ///
   /// In tr, this message translates to:
   /// **'{count} soru'**
   String quizTopicCount(int count);
 
-  /// No description provided for @profileStatsTotal.
+  /// Profil istatistik — toplam
   ///
   /// In tr, this message translates to:
   /// **'Toplam'**
   String get profileStatsTotal;
 
-  /// No description provided for @profileStatsStreak.
+  /// Profil istatistik — seri
   ///
   /// In tr, this message translates to:
   /// **'Seri'**
   String get profileStatsStreak;
 
-  /// No description provided for @profileStatsBest.
+  /// Profil istatistik — en iyi
   ///
   /// In tr, this message translates to:
   /// **'En İyi'**
   String get profileStatsBest;
 
-  /// No description provided for @profileStatsQuestionSuffix.
+  /// Soru birimi
   ///
   /// In tr, this message translates to:
   /// **'soru'**
   String get profileStatsQuestionSuffix;
 
-  /// No description provided for @profileStatsDaySuffix.
+  /// Gün birimi
   ///
   /// In tr, this message translates to:
   /// **'gün'**
   String get profileStatsDaySuffix;
 
-  /// No description provided for @profilePerformanceTitle.
+  /// Kategori performansı başlığı
   ///
   /// In tr, this message translates to:
   /// **'Kategori Performansı'**
   String get profilePerformanceTitle;
 
-  /// No description provided for @profileAchievementsTitle.
+  /// Başarımlar bölümü başlığı
   ///
   /// In tr, this message translates to:
   /// **'Başarımlar'**
   String get profileAchievementsTitle;
 
-  /// No description provided for @profileSettingsTitle.
+  /// Ayarlar bölümü başlığı
   ///
   /// In tr, this message translates to:
   /// **'Ayarlar'**
   String get profileSettingsTitle;
 
-  /// No description provided for @profileSettingDifficulty.
+  /// Zorluk tercihi ayarı
   ///
   /// In tr, this message translates to:
   /// **'Tercih edilen zorluk'**
   String get profileSettingDifficulty;
 
-  /// No description provided for @profileSettingNotifications.
+  /// Bildirimler ayarı
   ///
   /// In tr, this message translates to:
   /// **'Bildirimler'**
   String get profileSettingNotifications;
 
-  /// No description provided for @profileSettingReminder.
+  /// Günlük hatırlatıcı ayarı
   ///
   /// In tr, this message translates to:
   /// **'Günlük hatırlatıcı'**
   String get profileSettingReminder;
 
-  /// No description provided for @profileReminderTime.
+  /// Hatırlatıcı saati
   ///
   /// In tr, this message translates to:
   /// **'09:00'**
   String get profileReminderTime;
 
-  /// No description provided for @profileSignOut.
+  /// Çıkış butonu
   ///
   /// In tr, this message translates to:
   /// **'Çıkış Yap'**
   String get profileSignOut;
 
-  /// No description provided for @profileSettingLanguage.
+  /// Dil ayarı etiketi
   ///
   /// In tr, this message translates to:
   /// **'Dil'**
   String get profileSettingLanguage;
 
-  /// No description provided for @profileLanguageSystem.
+  /// Sistem dili seçeneği
   ///
   /// In tr, this message translates to:
   /// **'Sistem'**
   String get profileLanguageSystem;
 
-  /// No description provided for @profileLanguageTurkish.
+  /// Türkçe dil seçeneği
   ///
   /// In tr, this message translates to:
   /// **'Türkçe'**
   String get profileLanguageTurkish;
 
-  /// No description provided for @profileLanguageEnglish.
+  /// İngilizce dil seçeneği
   ///
   /// In tr, this message translates to:
   /// **'İngilizce'**

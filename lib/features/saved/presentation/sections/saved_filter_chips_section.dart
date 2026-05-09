@@ -20,9 +20,7 @@ class SavedFilterChipsSection extends StatelessWidget {
     final Map<String, String> seen = <String, String>{};
     for (final SavedQuestion q in questions) {
       if (q.categoryId.isNotEmpty) {
-        // categoryId'yi görünen isim olarak kullan (flutter → Flutter)
-        final String label = q.categoryId[0].toUpperCase() + q.categoryId.substring(1);
-        seen[q.categoryId] = label;
+        seen[q.categoryId] = q.categoryTitle;
       }
     }
     return <(String, String)>[

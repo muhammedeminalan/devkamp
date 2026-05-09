@@ -66,8 +66,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       dev.log('✅ Oturum aktif | userId: ${user.id}', name: 'AuthBloc');
-      // Kullanıcı doğrulandı; topic seeder'ı auth sonrası çalıştır.
-      unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
+      // Home yüklenmeden önce topics'in Firestore'da hazır olmasını garantile.
+      await TopicSeeder.seed(FirebaseFirestore.instance);
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -98,8 +98,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final AppUser user = await _signInWithGoogleUseCase();
       dev.log('✅ Google girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
-      // Kullanıcı giriş yaptı; topic seeder'ı auth sonrası çalıştır.
-      unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
+      // Home yüklenmeden önce topics'in Firestore'da hazır olmasını garantile.
+      await TopicSeeder.seed(FirebaseFirestore.instance);
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,

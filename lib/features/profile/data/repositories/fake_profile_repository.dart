@@ -21,6 +21,9 @@ class FakeProfileRepository implements ProfileRepository {
   }
 
   @override
+  Future<Result<void>> updateStreak() async => const Success(null);
+
+  @override
   Future<Result<List<Achievement>>> getAchievements() async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
     return const Success<List<Achievement>>(<Achievement>[

@@ -77,6 +77,69 @@ class FirestoreProfileRepository implements ProfileRepository {
     }
   }
 
+  @override
+  Future<Result<void>> updateStreak() async {
+    final String? uid = _userId;
+    if (uid == null) {
+      dev.log('⚠️ updateStreak: kullanıcı giriş yapmamış', name: 'FirestoreProfileRepository');
+      return const Success(null);
+    }
+
+    try {
+      dev.log('🔥 Streak kontrol ediliyor | userId: $uid', name: 'FirestoreProfileRepository');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('userStats').doc(uid).get();
+
+      final Map<String, dynamic>? data = doc.exists ? doc.data() : null;
+
+      final Timestamp? lastActiveTimestamp = data?['lastActiveDate'] as Timestamp?;
+      final DateTime? lastActive = lastActiveTimestamp?.toDate();
+      final int currentStreak = data?['streakDays'] as int? ?? 0;
+
+      final DateTime now = DateTime.now();
+      // Saati sıfırla, sadece gün karşılaştır.
+      final DateTime today = DateTime(now.year, now.month, now.day);
+
+      int newStreak;
+
+      if (lastActive == null) {
+        // İlk giriş — serisi 1'den başlar.
+        newStreak = 1;
+      } else {
+        final DateTime lastDay =
+            DateTime(lastActive.year, lastActive.month, lastActive.day);
+        final int diff = today.difference(lastDay).inDays;
+
+        if (diff == 0) {
+          // Bugün zaten aktif → streak değişmez.
+          dev.log('🔥 Bugün zaten aktif, streak değişmedi | streak: $currentStreak', name: 'FirestoreProfileRepository');
+          return const Success(null);
+        } else if (diff == 1) {
+          // Dün aktifti → seri devam ediyor.
+          newStreak = currentStreak + 1;
+        } else {
+          // 2+ gün ara → seri sıfırlandı.
+          newStreak = 1;
+        }
+      }
+
+      await _firestore.collection('userStats').doc(uid).set(
+        <String, dynamic>{
+          'streakDays': newStreak,
+          'lastActiveDate': FieldValue.serverTimestamp(),
+        },
+        SetOptions(merge: true),
+      );
+
+      dev.log('✅ Streak güncellendi | newStreak: $newStreak', name: 'FirestoreProfileRepository');
+      return const Success(null);
+    } on Exception catch (e) {
+      dev.log('❌ updateStreak hatası: $e', name: 'FirestoreProfileRepository');
+      return Failure(DataException('Streak güncellenemedi: $e'));
+    }
+  }
+
   // Çözülen soru sayısına göre kullanıcı rütbesi döndürür.
   String _rankFor(int totalSolved) {
     if (totalSolved >= 100) return 'Uzman';

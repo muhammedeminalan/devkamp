@@ -6,6 +6,7 @@ import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dar
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/profile/domain/usecases/update_streak_usecase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -33,6 +34,7 @@ abstract class AppModule {
     SignInWithEmailUseCase signInWithEmailUseCase,
     SignOutUseCase signOutUseCase,
     AuthRepository authRepository,
+    UpdateStreakUseCase updateStreakUseCase,
   ) async {
     final AppUser? initialUser = await authRepository.getCurrentUser();
     return AuthBloc(
@@ -40,6 +42,7 @@ abstract class AppModule {
       signInWithGoogleUseCase: signInWithGoogleUseCase,
       signInWithEmailUseCase: signInWithEmailUseCase,
       signOutUseCase: signOutUseCase,
+      updateStreakUseCase: updateStreakUseCase,
       initialUser: initialUser,
     );
   }

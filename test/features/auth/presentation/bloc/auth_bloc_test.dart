@@ -1,10 +1,12 @@
 import 'package:app/core/errors/app_exception.dart';
+import 'package:app/core/result/result.dart';
 import 'package:app/features/auth/domain/entities/app_user.dart';
 import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/profile/domain/usecases/update_streak_usecase.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -19,6 +21,8 @@ class MockSignInWithEmailUseCase extends Mock
 
 class MockSignOutUseCase extends Mock implements SignOutUseCase {}
 
+class MockUpdateStreakUseCase extends Mock implements UpdateStreakUseCase {}
+
 const AppUser _testUser = AppUser(
   id: 'test-uid-123',
   name: 'Test Kullanıcı',
@@ -30,12 +34,15 @@ void main() {
   late MockSignInWithGoogleUseCase mockSignInGoogle;
   late MockSignInWithEmailUseCase mockSignInEmail;
   late MockSignOutUseCase mockSignOut;
+  late MockUpdateStreakUseCase mockUpdateStreak;
 
   setUp(() {
     mockCheckSession = MockCheckSessionUseCase();
     mockSignInGoogle = MockSignInWithGoogleUseCase();
     mockSignInEmail = MockSignInWithEmailUseCase();
     mockSignOut = MockSignOutUseCase();
+    mockUpdateStreak = MockUpdateStreakUseCase();
+    when(() => mockUpdateStreak()).thenAnswer((_) async => const Success(null));
   });
 
   AuthBloc buildBloc({AppUser? initialUser}) => AuthBloc(
@@ -43,6 +50,7 @@ void main() {
         signInWithGoogleUseCase: mockSignInGoogle,
         signInWithEmailUseCase: mockSignInEmail,
         signOutUseCase: mockSignOut,
+        updateStreakUseCase: mockUpdateStreak,
         initialUser: initialUser,
       );
 

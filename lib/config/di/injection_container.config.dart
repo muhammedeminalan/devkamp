@@ -57,6 +57,8 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
+import '../../features/profile/domain/usecases/update_streak_usecase.dart'
+    as _i2;
 import '../../features/quiz/data/repositories/firebase_quiz_repository.dart'
     as _i1005;
 import '../../features/quiz/data/repositories/firestore_question_repository.dart'
@@ -130,6 +132,19 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i349.GetUserStatsUseCase(gh<_i894.ProfileRepository>()));
     gh.lazySingleton<_i349.GetAchievementsUseCase>(
         () => _i349.GetAchievementsUseCase(gh<_i894.ProfileRepository>()));
+    gh.lazySingleton<_i2.UpdateStreakUseCase>(
+        () => _i2.UpdateStreakUseCase(gh<_i894.ProfileRepository>()));
+    await gh.factoryAsync<_i797.AuthBloc>(
+      () => appModule.authBloc(
+        gh<_i1011.CheckSessionUseCase>(),
+        gh<_i673.SignInWithGoogleUseCase>(),
+        gh<_i744.SignInWithEmailUseCase>(),
+        gh<_i915.SignOutUseCase>(),
+        gh<_i787.AuthRepository>(),
+        gh<_i2.UpdateStreakUseCase>(),
+      ),
+      preResolve: true,
+    );
     gh.lazySingleton<_i105.SavedRepository>(
         () => _i1011.FirestoreSavedRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i599.GetSavedQuestionsUseCase>(
@@ -146,16 +161,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i835.WatchCategoryUseCase(gh<_i869.CategoryRepository>()));
     gh.lazySingleton<_i939.LastSessionRepository>(() =>
         _i167.FirestoreLastSessionRepository(gh<_i974.FirebaseFirestore>()));
-    await gh.factoryAsync<_i797.AuthBloc>(
-      () => appModule.authBloc(
-        gh<_i1011.CheckSessionUseCase>(),
-        gh<_i673.SignInWithGoogleUseCase>(),
-        gh<_i744.SignInWithEmailUseCase>(),
-        gh<_i915.SignOutUseCase>(),
-        gh<_i787.AuthRepository>(),
-      ),
-      preResolve: true,
-    );
     gh.lazySingleton<_i967.GetCategoriesUseCase>(
         () => _i967.GetCategoriesUseCase(gh<_i0.HomeRepository>()));
     gh.lazySingleton<_i557.GetProgressUseCase>(

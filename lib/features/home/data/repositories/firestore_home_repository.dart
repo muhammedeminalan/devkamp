@@ -6,6 +6,7 @@ import 'package:app/features/home/domain/entities/category.dart';
 import 'package:app/features/home/domain/entities/learning_progress.dart';
 import 'package:app/features/home/domain/repositories/home_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -78,16 +79,61 @@ class FirestoreHomeRepository implements HomeRepository {
 
   @override
   Future<Result<LearningProgress>> getProgress() async {
-    // İlerleme takibi ilerleyen aşamada Firestore'a bağlanacak.
-    // Şimdilik sabit veri döndürülür.
-    dev.log('📊 İlerleme verisi alınıyor (sabit)', name: 'FirestoreHomeRepository');
-    return const Success(
-      LearningProgress(
-        completedQuestions: 0,
-        totalQuestions: 0,
-        streakDays: 0,
-        lastStudiedCategory: '',
-      ),
-    );
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      dev.log('⚠️ getProgress: kullanıcı giriş yapmamış', name: 'FirestoreHomeRepository');
+      return const Success(
+        LearningProgress(
+          completedQuestions: 0,
+          totalQuestions: 0,
+          streakDays: 0,
+          lastStudiedCategory: '',
+        ),
+      );
+    }
+
+    try {
+      dev.log('📊 İlerleme verisi Firestore\'dan çekiliyor | userId: $uid', name: 'FirestoreHomeRepository');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('userStats').doc(uid).get();
+
+      if (!doc.exists || doc.data() == null) {
+        dev.log('📊 Henüz istatistik yok, sıfır döndürülüyor', name: 'FirestoreHomeRepository');
+        return const Success(
+          LearningProgress(
+            completedQuestions: 0,
+            totalQuestions: 0,
+            streakDays: 0,
+            lastStudiedCategory: '',
+          ),
+        );
+      }
+
+      final Map<String, dynamic> data = doc.data()!;
+      final int totalSolved = data['totalSolved'] as int? ?? 0;
+      final int correctAnswers = data['correctAnswers'] as int? ?? 0;
+      final int streakDays = data['streakDays'] as int? ?? 0;
+
+      dev.log(
+        '✅ İlerleme hazır | totalSolved: $totalSolved | streak: $streakDays',
+        name: 'FirestoreHomeRepository',
+      );
+
+      return Success(
+        LearningProgress(
+          // Toplam çözülen doğru cevap sayısı
+          completedQuestions: correctAnswers,
+          // Toplam çözülen soru (progress bar için)
+          totalQuestions: totalSolved,
+          streakDays: streakDays,
+          lastStudiedCategory: '',
+        ),
+      );
+    } on Exception catch (e) {
+      dev.log('❌ getProgress hatası: $e', name: 'FirestoreHomeRepository');
+      return Failure(DataException('İlerleme yüklenemedi: $e'));
+    }
   }
 }

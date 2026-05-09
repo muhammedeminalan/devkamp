@@ -6,6 +6,7 @@ import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:app/features/profile/domain/usecases/update_streak_usecase.dart';
 import 'package:app/features/topic/data/datasources/topic_seeder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -20,11 +21,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
     required SignInWithEmailUseCase signInWithEmailUseCase,
     required SignOutUseCase signOutUseCase,
+    required UpdateStreakUseCase updateStreakUseCase,
     AppUser? initialUser,
   })  : _checkSessionUseCase = checkSessionUseCase,
         _signInWithGoogleUseCase = signInWithGoogleUseCase,
         _signInWithEmailUseCase = signInWithEmailUseCase,
         _signOutUseCase = signOutUseCase,
+        _updateStreak = updateStreakUseCase,
         super(
           initialUser == null
               ? const AuthState(status: AuthStatus.unauthenticated)
@@ -38,10 +41,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignInWithEmailRequested>(_onAuthSignInWithEmailRequested);
     on<AuthSignOutRequested>(_onAuthSignOutRequested);
 
-    // Uygulama başlatılırken zaten oturum açıksa seeder'ı hemen çalıştır.
-    // Event handler'lara girmeden direkt authenticated state kurulduğu için burada tetiklenir.
+    // Uygulama başlatılırken zaten oturum açıksa seeder ve streak'i çalıştır.
     if (initialUser != null) {
       unawaited(TopicSeeder.seed(FirebaseFirestore.instance));
+      unawaited(_updateStreak());
     }
   }
 
@@ -49,6 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
   final SignInWithEmailUseCase _signInWithEmailUseCase;
   final SignOutUseCase _signOutUseCase;
+  final UpdateStreakUseCase _updateStreak;
 
   Future<void> _onAuthCheckRequested(
     AuthCheckRequested event,
@@ -72,8 +76,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       dev.log('✅ Oturum aktif | userId: ${user.id}', name: 'AuthBloc');
-      // Home yüklenmeden önce topics'in Firestore'da hazır olmasını garantile.
       await TopicSeeder.seed(FirebaseFirestore.instance);
+      unawaited(_updateStreak());
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
@@ -104,8 +108,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final AppUser user = await _signInWithGoogleUseCase();
       dev.log('✅ Google girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
-      // Home yüklenmeden önce topics'in Firestore'da hazır olmasını garantile.
       await TopicSeeder.seed(FirebaseFirestore.instance);
+      unawaited(_updateStreak());
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,

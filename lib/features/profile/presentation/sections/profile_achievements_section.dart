@@ -12,20 +12,30 @@ class ProfileAchievementsSection extends StatelessWidget {
 
   final List<Achievement> achievements;
 
-  Color _resolveColor(int index) {
-    const List<Color> palette = <Color>[
-      Color(0xFFF59E0B),
-      Color(0xFF10B981),
-      Color(0xFF4F46E5),
-      Color(0xFF8B5CF6),
-      Color(0xFFEC4899),
-    ];
-    return palette[index % palette.length];
+  // Achievement ID'sine göre renk döndürür — her rozet için sabit renk.
+  Color _resolveColor(String id) {
+    return switch (id) {
+      'first_solve' => const Color(0xFFF59E0B),
+      'solve_5'     => const Color(0xFF10B981),
+      'solve_20'    => const Color(0xFF4F46E5),
+      'solve_50'    => const Color(0xFF8B5CF6),
+      'streak_5'    => const Color(0xFFEF4444),
+      'streak_30'   => const Color(0xFFEC4899),
+      _             => const Color(0xFF6B7280),
+    };
   }
 
-  String _resolveEmoji(int index) {
-    const List<String> emojis = <String>['🔥', '✅', '⚡', '🧠', '🏆'];
-    return emojis[index % emojis.length];
+  // Achievement ID'sine göre emoji döndürür — anlam taşıyan ikonlar.
+  String _resolveEmoji(String id) {
+    return switch (id) {
+      'first_solve' => '🎯',
+      'solve_5'     => '✅',
+      'solve_20'    => '⚡',
+      'solve_50'    => '🧠',
+      'streak_5'    => '🔥',
+      'streak_30'   => '👑',
+      _             => '⭐',
+    };
   }
 
   @override
@@ -38,17 +48,14 @@ class ProfileAchievementsSection extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: achievements.asMap().entries.map((entry) {
-              final int index = entry.key;
-              final Achievement badge = entry.value;
-
+            children: achievements.map((Achievement badge) {
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: _AchievementBadge(
-                  emoji: _resolveEmoji(index),
+                  emoji: _resolveEmoji(badge.id),
                   label: badge.title,
                   sub: badge.description,
-                  color: _resolveColor(index),
+                  color: _resolveColor(badge.id),
                   locked: !badge.isUnlocked,
                 ),
               );

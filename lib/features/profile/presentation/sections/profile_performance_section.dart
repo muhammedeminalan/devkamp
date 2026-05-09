@@ -84,12 +84,18 @@ class ProfilePerformanceSection extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
-                                perf.categoryTitle,
-                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                              // Uzun kategori isimleri için Expanded + ellipsis
+                              Expanded(
+                                child: Text(
+                                  perf.categoryTitle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
                               ),
+                              const SizedBox(width: 8),
                               Text(
                                 '$pct% · ${perf.totalSolved} soru',
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(

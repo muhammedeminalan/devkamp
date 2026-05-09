@@ -1,3 +1,4 @@
+import 'package:app/features/home/domain/usecases/save_last_session_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/generate_questions_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_quiz_questions_usecase.dart';
@@ -43,6 +44,7 @@ class QuizView extends StatelessWidget {
         generateQuestionsUseCase: GetIt.instance<GenerateQuestionsUseCase>(),
         saveQuestionUseCase: GetIt.instance<SaveQuestionUseCase>(),
         removeSavedQuestionUseCase: GetIt.instance<RemoveSavedQuestionUseCase>(),
+        saveLastSessionUseCase: GetIt.instance<SaveLastSessionUseCase>(),
       )..add(QuizStarted(
           categoryId: categoryId,
           isRandom: isRandom,

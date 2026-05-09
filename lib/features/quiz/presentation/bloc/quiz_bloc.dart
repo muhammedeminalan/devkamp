@@ -1,6 +1,8 @@
 import 'dart:developer' as dev;
 
 import 'package:app/core/result/result.dart';
+import 'package:app/features/home/domain/entities/last_session.dart';
+import 'package:app/features/home/domain/usecases/save_last_session_usecase.dart';
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:app/features/quiz/domain/usecases/generate_questions_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
@@ -20,11 +22,13 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     required GenerateQuestionsUseCase generateQuestionsUseCase,
     required SaveQuestionUseCase saveQuestionUseCase,
     required RemoveSavedQuestionUseCase removeSavedQuestionUseCase,
+    required SaveLastSessionUseCase saveLastSessionUseCase,
   })  : _getQuestions = getQuizQuestionsUseCase,
         _getAiAnswer = getAiAnswerUseCase,
         _generateQuestions = generateQuestionsUseCase,
         _saveQuestion = saveQuestionUseCase,
         _removeQuestion = removeSavedQuestionUseCase,
+        _saveLastSession = saveLastSessionUseCase,
         super(const QuizState()) {
     on<QuizStarted>(_onQuizStarted);
     on<QuizAnswerRequested>(_onAnswerRequested);
@@ -41,6 +45,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final GenerateQuestionsUseCase _generateQuestions;
   final SaveQuestionUseCase _saveQuestion;
   final RemoveSavedQuestionUseCase _removeQuestion;
+  final SaveLastSessionUseCase _saveLastSession;
 
   Future<void> _onQuizStarted(
     QuizStarted event,
@@ -50,6 +55,23 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       '🎯 Quiz başlatıldı | categoryId: ${event.categoryId} | topicId: ${event.topicId}',
       name: 'QuizBloc',
     );
+
+    // Kullanıcının "kaldığı yer" için oturumu Firestore'a yaz (UI'ı bloklamaz).
+    _saveLastSession(
+      LastSession(
+        categoryId: event.categoryId,
+        categoryName: event.categoryName,
+        topicId: event.topicId,
+        topicName: event.topicName ?? event.categoryName,
+        isRandom: event.isRandom,
+        savedAt: DateTime.now(),
+      ),
+    ).then((_) {
+      dev.log('💾 Son oturum kaydedildi | topic: ${event.topicName}', name: 'QuizBloc');
+    }).catchError((Object e) {
+      dev.log('❌ Son oturum kaydedilemedi: $e', name: 'QuizBloc');
+    });
+
     emit(state.copyWith(
       status: QuizStatus.loading,
       categoryId: event.categoryId,

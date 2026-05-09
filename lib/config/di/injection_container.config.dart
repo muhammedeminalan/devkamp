@@ -39,10 +39,18 @@ import '../../features/category/domain/usecases/watch_category_usecase.dart'
     as _i835;
 import '../../features/home/data/repositories/firestore_home_repository.dart'
     as _i884;
+import '../../features/home/data/repositories/firestore_last_session_repository.dart'
+    as _i167;
 import '../../features/home/domain/repositories/home_repository.dart' as _i0;
+import '../../features/home/domain/repositories/last_session_repository.dart'
+    as _i939;
 import '../../features/home/domain/usecases/get_categories_usecase.dart'
     as _i967;
+import '../../features/home/domain/usecases/get_last_session_usecase.dart'
+    as _i963;
 import '../../features/home/domain/usecases/get_progress_usecase.dart' as _i557;
+import '../../features/home/domain/usecases/save_last_session_usecase.dart'
+    as _i769;
 import '../../features/profile/data/repositories/firestore_profile_repository.dart'
     as _i973;
 import '../../features/profile/domain/repositories/profile_repository.dart'
@@ -136,6 +144,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i125.GetCategoriesUseCase(gh<_i869.CategoryRepository>()));
     gh.lazySingleton<_i835.WatchCategoryUseCase>(
         () => _i835.WatchCategoryUseCase(gh<_i869.CategoryRepository>()));
+    gh.lazySingleton<_i939.LastSessionRepository>(() =>
+        _i167.FirestoreLastSessionRepository(gh<_i974.FirebaseFirestore>()));
     await gh.factoryAsync<_i797.AuthBloc>(
       () => appModule.authBloc(
         gh<_i1011.CheckSessionUseCase>(),
@@ -150,6 +160,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i967.GetCategoriesUseCase(gh<_i0.HomeRepository>()));
     gh.lazySingleton<_i557.GetProgressUseCase>(
         () => _i557.GetProgressUseCase(gh<_i0.HomeRepository>()));
+    gh.lazySingleton<_i963.GetLastSessionUseCase>(
+        () => _i963.GetLastSessionUseCase(gh<_i939.LastSessionRepository>()));
+    gh.lazySingleton<_i769.SaveLastSessionUseCase>(
+        () => _i769.SaveLastSessionUseCase(gh<_i939.LastSessionRepository>()));
     gh.lazySingleton<_i1062.TopicRepository>(
         () => _i34.FirestoreTopicRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i613.QuizRepository>(() => _i1005.GeminiQuizRepository(

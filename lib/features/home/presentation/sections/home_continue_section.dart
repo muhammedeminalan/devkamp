@@ -6,10 +6,14 @@ import 'package:flutter/material.dart';
 
 class HomeContinueSection extends StatelessWidget {
   const HomeContinueSection({
+    required this.categoryName,
+    required this.topicName,
     required this.onTap,
     super.key,
   });
 
+  final String categoryName;
+  final String topicName;
   final VoidCallback onTap;
 
   @override
@@ -44,6 +48,7 @@ class HomeContinueSection extends StatelessWidget {
             ),
             child: Stack(
               children: <Widget>[
+                // Dekoratif arka plan dairesi
                 Positioned(
                   top: -30,
                   right: -30,
@@ -75,7 +80,7 @@ class HomeContinueSection extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: const Icon(
-                            Icons.flutter_dash_rounded,
+                            Icons.play_arrow_rounded,
                             color: BasicColor.white,
                           ),
                         ),
@@ -84,16 +89,22 @@ class HomeContinueSection extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              // Kategori adı — küçük etiket
                               Text(
-                                AppStrings.homeContinueTag,
+                                categoryName.toUpperCase(),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                                       color: const Color.fromRGBO(255, 255, 255, 0.8),
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
                               const SizedBox(height: 2),
+                              // Konu adı — ana başlık
                               Text(
-                                AppStrings.homeContinueTitle,
+                                topicName,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                       color: BasicColor.white,
                                       fontWeight: FontWeight.w800,
@@ -105,36 +116,7 @@ class HomeContinueSection extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          AppStrings.homeContinueStats,
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                color: const Color.fromRGBO(255, 255, 255, 0.9),
-                              ),
-                        ),
-                        Text(
-                          AppStrings.homeContinuePercent,
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                color: BasicColor.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(999),
-                      child: const LinearProgressIndicator(
-                        value: 0.42,
-                        minHeight: 6,
-                        valueColor: AlwaysStoppedAnimation<Color>(BasicColor.white),
-                        backgroundColor: Color.fromRGBO(255, 255, 255, 0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

@@ -1,7 +1,9 @@
 import 'package:app/core/constants/text/app_strings.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/home/domain/entities/last_session.dart';
 import 'package:app/features/home/domain/usecases/get_categories_usecase.dart';
+import 'package:app/features/home/domain/usecases/get_last_session_usecase.dart';
 import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
 import 'package:app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:app/features/home/presentation/bloc/home_event.dart';
@@ -24,6 +26,7 @@ class HomeView extends StatelessWidget {
       create: (BuildContext context) => HomeBloc(
         getCategoriesUseCase: GetIt.instance<GetCategoriesUseCase>(),
         getProgressUseCase: GetIt.instance<GetProgressUseCase>(),
+        getLastSessionUseCase: GetIt.instance<GetLastSessionUseCase>(),
       )..add(const HomeDataLoaded()),
       child: const _HomeBody(),
     );
@@ -67,18 +70,15 @@ class _HomeBody extends StatelessWidget {
                     HomeHeaderSection(userName: userName),
                     16.h,
                     HomeProgressSection(progress: state.progress!),
-                    24.h,
-                    HomeContinueSection(
-                      onTap: () => context.push(
-                        '/quiz',
-                        extra: <String, dynamic>{
-                          'categoryId': 'flutter',
-                          'topicId': null,
-                          'topicName': 'Flutter',
-                          'isRandom': true,
-                        },
+                    // Son oturum varsa "Devam Et" kartını göster
+                    if (state.lastSession != null) ...<Widget>[
+                      24.h,
+                      HomeContinueSection(
+                        categoryName: state.lastSession!.categoryName,
+                        topicName: state.lastSession!.topicName,
+                        onTap: () => _navigateToLastSession(context, state.lastSession!),
                       ),
-                    ),
+                    ],
                     24.h,
                     HomeCategoriesSection(categories: state.categories),
                   ],
@@ -88,6 +88,20 @@ class _HomeBody extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  // Son oturumun parametrelerine göre quiz sayfasına yönlendirir.
+  void _navigateToLastSession(BuildContext context, LastSession session) {
+    context.push(
+      '/quiz',
+      extra: <String, dynamic>{
+        'categoryId': session.categoryId,
+        'topicId': session.topicId,
+        'topicName': session.topicName,
+        'categoryName': session.categoryName,
+        'isRandom': session.isRandom,
+      },
     );
   }
 }

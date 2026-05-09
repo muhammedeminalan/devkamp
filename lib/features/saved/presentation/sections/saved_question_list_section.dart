@@ -87,12 +87,16 @@ class _SavedQuestionCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Row(
                   children: <Widget>[
-                    Text(
-                      item.categoryLabel,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: item.iconColor,
-                            fontWeight: FontWeight.w700,
-                          ),
+                    Flexible(
+                      child: Text(
+                        item.categoryLabel,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: item.iconColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Container(

@@ -113,8 +113,12 @@ class FirestoreProfileRepository implements ProfileRepository {
 
         if (diff == 0) {
           // Bugün zaten aktif → streak değişmez.
-          dev.log('🔥 Bugün zaten aktif, streak değişmedi | streak: $currentStreak', name: 'FirestoreProfileRepository');
-          return const Success(null);
+          // Ama sıfırsa (hiç set edilmemişse) 1'e başlat.
+          if (currentStreak > 0) {
+            dev.log('🔥 Bugün zaten aktif, streak değişmedi | streak: $currentStreak', name: 'FirestoreProfileRepository');
+            return const Success(null);
+          }
+          newStreak = 1;
         } else if (diff == 1) {
           // Dün aktifti → seri devam ediyor.
           newStreak = currentStreak + 1;

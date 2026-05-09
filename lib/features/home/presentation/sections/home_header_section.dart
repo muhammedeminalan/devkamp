@@ -7,11 +7,13 @@ class HomeHeaderSection extends StatelessWidget {
   const HomeHeaderSection({
     required this.userName,
     required this.streakDays,
+    this.avatarUrl,
     super.key,
   });
 
   final String userName;
   final int streakDays;
+  final String? avatarUrl;
 
   // Streak sayısına ve günün saatine göre dinamik motivasyon mesajı üretir.
   String _motivationText() {
@@ -75,14 +77,6 @@ class HomeHeaderSection extends StatelessWidget {
             height: 42,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  PrimaryColor.primary500,
-                  PrimaryColor.primary700,
-                ],
-              ),
               boxShadow: const <BoxShadow>[
                 BoxShadow(
                   color: Color.fromRGBO(79, 70, 229, 0.28),
@@ -91,14 +85,36 @@ class HomeHeaderSection extends StatelessWidget {
                 ),
               ],
             ),
-            alignment: Alignment.center,
-            child: Text(
-              _avatarLetter,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
-              ),
+            child: CircleAvatar(
+              radius: 21,
+              // Fotoğraf varsa göster, yoksa gradient + baş harf
+              backgroundImage:
+                  avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+              backgroundColor: Colors.transparent,
+              child: avatarUrl == null
+                  ? Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            PrimaryColor.primary500,
+                            PrimaryColor.primary700,
+                          ],
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        _avatarLetter,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                  : null,
             ),
           ),
         ),

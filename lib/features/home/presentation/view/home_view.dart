@@ -41,6 +41,7 @@ class _HomeBody extends StatelessWidget {
     final AuthState authState = context.watch<AuthBloc>().state;
     final String userName =
         authState.user?.name ?? AppStrings.homeFallbackUserName;
+    final String? avatarUrl = authState.user?.avatarUrl;
 
     return Scaffold(
       body: SafeArea(
@@ -70,6 +71,7 @@ class _HomeBody extends StatelessWidget {
                     HomeHeaderSection(
                       userName: userName,
                       streakDays: state.progress?.streakDays ?? 0,
+                      avatarUrl: avatarUrl,
                     ),
                     16.h,
                     HomeProgressSection(progress: state.progress!),

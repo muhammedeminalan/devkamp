@@ -9,7 +9,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/auth/data/datasources/auth_remote_datasource.dart'
@@ -25,6 +27,16 @@ import '../../features/auth/domain/usecases/sign_in_with_google_usecase.dart'
     as _i673;
 import '../../features/auth/domain/usecases/sign_out_usecase.dart' as _i915;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
+import '../../features/category/data/repositories/firestore_category_repository.dart'
+    as _i990;
+import '../../features/category/domain/repositories/category_repository.dart'
+    as _i869;
+import '../../features/category/domain/usecases/generate_categories_usecase.dart'
+    as _i487;
+import '../../features/category/domain/usecases/get_categories_usecase.dart'
+    as _i125;
+import '../../features/category/domain/usecases/watch_category_usecase.dart'
+    as _i835;
 import '../../features/home/data/repositories/fake_home_repository.dart'
     as _i568;
 import '../../features/home/domain/repositories/home_repository.dart' as _i0;
@@ -39,7 +51,11 @@ import '../../features/profile/domain/usecases/get_user_stats_usecase.dart'
     as _i349;
 import '../../features/quiz/data/repositories/firebase_quiz_repository.dart'
     as _i1005;
+import '../../features/quiz/data/repositories/firestore_question_repository.dart'
+    as _i92;
 import '../../features/quiz/domain/repositories/quiz_repository.dart' as _i613;
+import '../../features/quiz/domain/usecases/generate_questions_usecase.dart'
+    as _i764;
 import '../../features/quiz/domain/usecases/get_ai_answer_usecase.dart'
     as _i892;
 import '../../features/quiz/domain/usecases/get_quiz_questions_usecase.dart'
@@ -72,16 +88,23 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final appModule = _$AppModule();
+    gh.lazySingleton<_i974.FirebaseFirestore>(() => appModule.firestore);
+    gh.lazySingleton<_i656.GenerativeModel>(() => appModule.geminiModel());
     gh.lazySingleton<_i894.ProfileRepository>(
         () => _i850.FakeProfileRepository());
     gh.lazySingleton<_i105.SavedRepository>(() => _i671.FakeSavedRepository());
     gh.lazySingleton<_i1062.TopicRepository>(
         () => _i1012.FakeTopicRepository());
-    gh.lazySingleton<_i613.QuizRepository>(() => _i1005.GeminiQuizRepository());
-    gh.lazySingleton<_i892.GetAiAnswerUseCase>(
-        () => _i892.GetAiAnswerUseCase(gh<_i613.QuizRepository>()));
-    gh.lazySingleton<_i650.GetQuizQuestionsUseCase>(
-        () => _i650.GetQuizQuestionsUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i869.CategoryRepository>(
+        () => _i990.FirestoreCategoryRepository(
+              gh<_i974.FirebaseFirestore>(),
+              gh<_i656.GenerativeModel>(),
+            ));
+    gh.lazySingleton<_i92.FirestoreQuestionRepository>(
+        () => _i92.FirestoreQuestionRepository(
+              gh<_i974.FirebaseFirestore>(),
+              gh<_i656.GenerativeModel>(),
+            ));
     gh.lazySingleton<_i161.AuthRemoteDataSource>(
         () => _i161.FirebaseAuthRemoteDataSource());
     gh.lazySingleton<_i787.AuthRepository>(() => _i900.FirebaseAuthRepository(
@@ -105,6 +128,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i599.GetSavedQuestionsUseCase(gh<_i105.SavedRepository>()));
     gh.lazySingleton<_i575.RemoveSavedQuestionUseCase>(
         () => _i575.RemoveSavedQuestionUseCase(gh<_i105.SavedRepository>()));
+    gh.lazySingleton<_i487.GenerateCategoriesUseCase>(
+        () => _i487.GenerateCategoriesUseCase(gh<_i869.CategoryRepository>()));
+    gh.lazySingleton<_i125.GetCategoriesUseCase>(
+        () => _i125.GetCategoriesUseCase(gh<_i869.CategoryRepository>()));
+    gh.lazySingleton<_i835.WatchCategoryUseCase>(
+        () => _i835.WatchCategoryUseCase(gh<_i869.CategoryRepository>()));
     await gh.factoryAsync<_i797.AuthBloc>(
       () => appModule.authBloc(
         gh<_i1011.CheckSessionUseCase>(),
@@ -119,8 +148,18 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i967.GetCategoriesUseCase(gh<_i0.HomeRepository>()));
     gh.lazySingleton<_i557.GetProgressUseCase>(
         () => _i557.GetProgressUseCase(gh<_i0.HomeRepository>()));
+    gh.lazySingleton<_i613.QuizRepository>(() => _i1005.GeminiQuizRepository(
+          gh<_i974.FirebaseFirestore>(),
+          gh<_i92.FirestoreQuestionRepository>(),
+        ));
     gh.lazySingleton<_i81.AppRouter>(
         () => appModule.appRouter(gh<_i797.AuthBloc>()));
+    gh.lazySingleton<_i764.GenerateQuestionsUseCase>(
+        () => _i764.GenerateQuestionsUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i892.GetAiAnswerUseCase>(
+        () => _i892.GetAiAnswerUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i650.GetQuizQuestionsUseCase>(
+        () => _i650.GetQuizQuestionsUseCase(gh<_i613.QuizRepository>()));
     return this;
   }
 }

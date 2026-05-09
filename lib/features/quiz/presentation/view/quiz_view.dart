@@ -1,3 +1,4 @@
+import 'package:app/features/quiz/domain/usecases/generate_questions_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/quiz/domain/usecases/get_quiz_questions_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_bloc.dart';
@@ -21,12 +22,14 @@ class QuizView extends StatelessWidget {
     required this.topicName,
     required this.isRandom,
     this.topicId,
+    this.categoryName = '',
     super.key,
   });
 
   final String categoryId;
   final String? topicId;
   final String topicName;
+  final String categoryName;
   final bool isRandom;
 
   @override
@@ -35,25 +38,21 @@ class QuizView extends StatelessWidget {
       create: (_) => QuizBloc(
         getQuizQuestionsUseCase: GetIt.instance<GetQuizQuestionsUseCase>(),
         getAiAnswerUseCase: GetIt.instance<GetAiAnswerUseCase>(),
-      )..add(_quizStartedEvent(categoryId, topicId, isRandom)),
+        generateQuestionsUseCase: GetIt.instance<GenerateQuestionsUseCase>(),
+      )..add(QuizStarted(
+          categoryId: categoryId,
+          isRandom: isRandom,
+          topicId: topicId,
+          topicName: topicName,
+          categoryName: categoryName,
+        )),
       child: _QuizBody(
         categoryId: categoryId,
         topicId: topicId,
         topicName: topicName,
+        categoryName: categoryName,
         isRandom: isRandom,
       ),
-    );
-  }
-
-  QuizStarted _quizStartedEvent(
-    String categoryId,
-    String? topicId,
-    bool isRandom,
-  ) {
-    return QuizStarted(
-      categoryId: categoryId,
-      isRandom: isRandom,
-      topicId: topicId,
     );
   }
 }
@@ -64,11 +63,13 @@ class _QuizBody extends StatelessWidget {
     required this.topicName,
     required this.isRandom,
     this.topicId,
+    this.categoryName = '',
   });
 
   final String categoryId;
   final String? topicId;
   final String topicName;
+  final String categoryName;
   final bool isRandom;
 
   QuizStarted _quizStartedEvent() {
@@ -76,6 +77,8 @@ class _QuizBody extends StatelessWidget {
       categoryId: categoryId,
       isRandom: isRandom,
       topicId: topicId,
+      topicName: topicName,
+      categoryName: categoryName,
     );
   }
 
@@ -89,6 +92,19 @@ class _QuizBody extends StatelessWidget {
             if (state.status == QuizStatus.loading ||
                 state.status == QuizStatus.initial) {
               return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.status == QuizStatus.generating) {
+              return const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Sorular hazırlanıyor...'),
+                  ],
+                ),
+              );
             }
 
             if (state.status == QuizStatus.failure) {

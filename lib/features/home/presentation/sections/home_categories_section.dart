@@ -59,10 +59,10 @@ class HomeCategoriesSection extends StatelessWidget {
       builder: (BuildContext context) => _AllCategoriesSheet(
         categories: data,
         onCategoryTap: (Category category) => context.push(
-          '/topic',
+          '/category',
           extra: <String, dynamic>{
-            'categoryId': category.id,
-            'categoryTitle': category.title,
+            'topicId': category.id,
+            'topicName': category.title,
           },
         ),
       ),
@@ -102,10 +102,10 @@ class HomeCategoriesSection extends StatelessWidget {
               iconColor: iconColor,
               iconBackgroundColor: _resolveBackgroundColor(iconColor),
               onTap: () => context.push(
-                '/topic',
+                '/category',
                 extra: <String, dynamic>{
-                  'categoryId': item.id,
-                  'categoryTitle': item.title,
+                  'topicId': item.id,
+                  'topicName': item.title,
                 },
               ),
             );

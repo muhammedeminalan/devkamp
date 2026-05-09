@@ -9,11 +9,13 @@ class GetAiAnswerUseCase {
   final QuizRepository _repository;
 
   Future<Result<String>> call({
+    required String questionId,
     required String questionText,
     required String topic,
     required String categoryId,
   }) =>
       _repository.getAiAnswer(
+        questionId: questionId,
         questionText: questionText,
         topic: topic,
         categoryId: categoryId,

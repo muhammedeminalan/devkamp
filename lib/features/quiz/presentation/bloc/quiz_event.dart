@@ -8,10 +8,16 @@ class QuizStarted extends QuizEvent {
     required this.categoryId,
     required this.isRandom,
     this.topicId,
+    this.topicName = '',
+    this.categoryName = '',
   });
+
   final String categoryId;
   final bool isRandom;
   final String? topicId;
+  // Firestore'da soru yoksa AI üretimi için gerekli.
+  final String topicName;
+  final String categoryName;
 }
 
 // Kullanıcı "Cevabı Gör" butonuna bastığında AI cevabını yükler.
@@ -27,6 +33,7 @@ class QuizAnswerStreamComplete extends QuizEvent {
 // Kullanıcının kendi değerlendirmesi: bildi mi, bilmedi mi.
 class QuizEvaluated extends QuizEvent {
   const QuizEvaluated({required this.knew});
+
   final bool knew;
 }
 

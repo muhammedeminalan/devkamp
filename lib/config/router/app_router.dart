@@ -3,6 +3,7 @@ import 'package:app/config/router/router_refresh_notifier.dart';
 import 'package:app/app/navigation/presentation/widgets/main_shell_scaffold.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/auth/presentation/view/auth_view.dart';
+import 'package:app/features/category/presentation/screens/category_screen.dart';
 import 'package:app/features/home/presentation/view/home_view.dart';
 import 'package:app/features/profile/presentation/view/profile_view.dart';
 import 'package:app/features/quiz/presentation/view/quiz_view.dart';
@@ -23,6 +24,7 @@ class AppRouter {
   static const String savedPath = '/saved';
   static const String profilePath = '/profile';
   static const String topicPath = '/topic';
+  static const String categoryPath = '/category';
   static const String quizPath = '/quiz';
 
   final AuthBloc _authBloc;
@@ -64,6 +66,17 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: categoryPath,
+        builder: (BuildContext context, GoRouterState state) {
+          final Map<String, dynamic> extra =
+              state.extra as Map<String, dynamic>? ?? <String, dynamic>{};
+          final String? topicId = extra['topicId'] as String?;
+          final String topicName = extra['topicName'] as String? ?? '';
+          if (topicId == null) return const HomeView();
+          return CategoryScreen(topicId: topicId, topicName: topicName);
+        },
+      ),
+      GoRoute(
         path: quizPath,
         builder: (BuildContext context, GoRouterState state) {
           final Map<String, dynamic> extra =
@@ -72,6 +85,7 @@ class AppRouter {
           final String? topicId = extra['topicId'] as String?;
           final String topicName =
               extra['topicName'] as String? ?? 'Rastgele Quiz';
+          final String categoryName = extra['categoryName'] as String? ?? '';
           final bool isRandom = extra['isRandom'] as bool? ?? false;
           if (categoryId == null) {
             return const HomeView();
@@ -80,6 +94,7 @@ class AppRouter {
             categoryId: categoryId,
             topicId: topicId,
             topicName: topicName,
+            categoryName: categoryName,
             isRandom: isRandom,
           );
         },

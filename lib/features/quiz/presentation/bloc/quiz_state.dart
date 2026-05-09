@@ -1,14 +1,18 @@
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:equatable/equatable.dart';
 
-enum QuizStatus { initial, loading, question, failure, complete }
+enum QuizStatus { initial, loading, generating, question, failure, complete }
+
 enum AnswerStage { hidden, loading, streaming, answered, error }
+
 enum EvalResult { none, knew, missed }
 
 class QuizState extends Equatable {
   const QuizState({
     this.status = QuizStatus.initial,
     this.categoryId = '',
+    this.topicId = '',
+    this.categoryName = '',
     this.questions = const <QuizQuestion>[],
     this.currentIndex = 0,
     this.answerStage = AnswerStage.hidden,
@@ -21,8 +25,10 @@ class QuizState extends Equatable {
   });
 
   final QuizStatus status;
-  // Quiz'in hangi kategori için başlatıldığını tutar; AI prompt'una bağlam sağlar.
   final String categoryId;
+  // Firestore'da soru üretimi için gerekli; AI prompt'una bağlam sağlar.
+  final String topicId;
+  final String categoryName;
   final List<QuizQuestion> questions;
   final int currentIndex;
   final AnswerStage answerStage;
@@ -44,12 +50,13 @@ class QuizState extends Equatable {
   List<String> get missedTopics =>
       missedIndices.map((int i) => questions[i].topic).toList();
 
-  // Nullable alanları null'a sıfırlamak için sentinel pattern — ?? operatörü null'ı yok sayar.
   static const Object _sentinel = Object();
 
   QuizState copyWith({
     QuizStatus? status,
     String? categoryId,
+    String? topicId,
+    String? categoryName,
     List<QuizQuestion>? questions,
     int? currentIndex,
     AnswerStage? answerStage,
@@ -63,6 +70,8 @@ class QuizState extends Equatable {
     return QuizState(
       status: status ?? this.status,
       categoryId: categoryId ?? this.categoryId,
+      topicId: topicId ?? this.topicId,
+      categoryName: categoryName ?? this.categoryName,
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
       answerStage: answerStage ?? this.answerStage,
@@ -70,8 +79,11 @@ class QuizState extends Equatable {
       isBookmarked: isBookmarked ?? this.isBookmarked,
       knewIndices: knewIndices ?? this.knewIndices,
       missedIndices: missedIndices ?? this.missedIndices,
-      answerText: identical(answerText, _sentinel) ? this.answerText : answerText as String?,
-      errorMessage: identical(errorMessage, _sentinel) ? this.errorMessage : errorMessage as String?,
+      answerText:
+          identical(answerText, _sentinel) ? this.answerText : answerText as String?,
+      errorMessage: identical(errorMessage, _sentinel)
+          ? this.errorMessage
+          : errorMessage as String?,
     );
   }
 
@@ -79,6 +91,8 @@ class QuizState extends Equatable {
   List<Object?> get props => <Object?>[
         status,
         categoryId,
+        topicId,
+        categoryName,
         questions,
         currentIndex,
         answerStage,

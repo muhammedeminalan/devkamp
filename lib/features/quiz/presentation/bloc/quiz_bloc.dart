@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as dev;
 
 import 'package:app/core/result/result.dart';
@@ -57,20 +58,22 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     );
 
     // Kullanıcının "kaldığı yer" için oturumu Firestore'a yaz (UI'ı bloklamaz).
-    _saveLastSession(
-      LastSession(
-        categoryId: event.categoryId,
-        categoryName: event.categoryName,
-        topicId: event.topicId,
-        topicName: event.topicName ?? event.categoryName,
-        isRandom: event.isRandom,
-        savedAt: DateTime.now(),
-      ),
-    ).then((_) {
-      dev.log('💾 Son oturum kaydedildi | topic: ${event.topicName}', name: 'QuizBloc');
-    }).catchError((Object e) {
-      dev.log('❌ Son oturum kaydedilemedi: $e', name: 'QuizBloc');
-    });
+    unawaited(
+      _saveLastSession(
+        LastSession(
+          categoryId: event.categoryId,
+          categoryName: event.categoryName,
+          topicId: event.topicId,
+          topicName: event.topicName.isEmpty ? event.categoryName : event.topicName,
+          isRandom: event.isRandom,
+          savedAt: DateTime.now(),
+        ),
+      ).then((_) {
+        dev.log('💾 Son oturum kaydedildi | topic: ${event.topicName}', name: 'QuizBloc');
+      }).catchError((Object e) {
+        dev.log('❌ Son oturum kaydedilemedi: $e', name: 'QuizBloc');
+      }),
+    );
 
     emit(state.copyWith(
       status: QuizStatus.loading,

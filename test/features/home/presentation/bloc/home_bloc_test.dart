@@ -1,8 +1,10 @@
 import 'package:app/core/errors/app_exception.dart';
 import 'package:app/core/result/result.dart';
 import 'package:app/features/home/domain/entities/category.dart';
+import 'package:app/features/home/domain/entities/last_session.dart';
 import 'package:app/features/home/domain/entities/learning_progress.dart';
 import 'package:app/features/home/domain/usecases/get_categories_usecase.dart';
+import 'package:app/features/home/domain/usecases/get_last_session_usecase.dart';
 import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
 import 'package:app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:app/features/home/presentation/bloc/home_event.dart';
@@ -15,6 +17,8 @@ import 'package:mocktail/mocktail.dart';
 class MockGetCategoriesUseCase extends Mock implements GetCategoriesUseCase {}
 
 class MockGetProgressUseCase extends Mock implements GetProgressUseCase {}
+
+class MockGetLastSessionUseCase extends Mock implements GetLastSessionUseCase {}
 
 final List<Category> _testCategories = <Category>[
   Category(
@@ -36,15 +40,22 @@ const LearningProgress _testProgress = LearningProgress(
 void main() {
   late MockGetCategoriesUseCase mockGetCategories;
   late MockGetProgressUseCase mockGetProgress;
+  late MockGetLastSessionUseCase mockGetLastSession;
 
   setUp(() {
     mockGetCategories = MockGetCategoriesUseCase();
     mockGetProgress = MockGetProgressUseCase();
+    mockGetLastSession = MockGetLastSessionUseCase();
+    // Test ortamında son oturum yok varsayılır.
+    when(() => mockGetLastSession()).thenAnswer(
+      (_) async => const Success<LastSession?>(null),
+    );
   });
 
   HomeBloc buildBloc() => HomeBloc(
         getCategoriesUseCase: mockGetCategories,
         getProgressUseCase: mockGetProgress,
+        getLastSessionUseCase: mockGetLastSession,
       );
 
   group('HomeBloc —', () {

@@ -39,10 +39,10 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
       return userCredential.user;
     } on AuthException {
       rethrow;
-    } on FirebaseAuthException catch (error) {
-      throw AuthException('Google ile giriş başarısız: ${error.message ?? error.code}');
+    } on FirebaseAuthException catch (_) {
+      throw const AuthException('Google ile giriş başarısız. Lütfen tekrar dene.');
     } on Exception catch (_) {
-      throw const AuthException('Google ile giriş sırasında beklenmeyen hata oluştu.');
+      throw const AuthException('Giriş sırasında bir hata oluştu. Lütfen tekrar dene.');
     }
   }
 
@@ -51,10 +51,10 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
     try {
       await _firebaseAuth.signOut();
       await _googleSignIn.signOut();
-    } on FirebaseAuthException catch (error) {
-      throw AuthException('Çıkış işlemi başarısız: ${error.message ?? error.code}');
+    } on FirebaseAuthException catch (_) {
+      throw const AuthException('Çıkış yapılırken bir hata oluştu.');
     } on Exception catch (_) {
-      throw const AuthException('Çıkış işlemi sırasında beklenmeyen hata oluştu.');
+      throw const AuthException('Çıkış yapılırken bir hata oluştu.');
     }
   }
 }

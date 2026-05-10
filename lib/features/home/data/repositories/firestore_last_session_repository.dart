@@ -53,7 +53,7 @@ class FirestoreLastSessionRepository implements LastSessionRepository {
       return Success(session);
     } on Exception catch (e) {
       dev.log('❌ getLastSession hatası: $e', name: 'FirestoreLastSessionRepository');
-      return Failure(DataException('Son oturum yüklenemedi: $e'));
+      return Failure(DataException('Son oturum yüklenemedi.'));
     }
   }
 
@@ -86,7 +86,7 @@ class FirestoreLastSessionRepository implements LastSessionRepository {
       return const Success(null);
     } on Exception catch (e) {
       dev.log('❌ saveLastSession hatası: $e', name: 'FirestoreLastSessionRepository');
-      return Failure(DataException('Son oturum kaydedilemedi: $e'));
+      return Failure(DataException('Son oturum kaydedilemedi.'));
     }
   }
 }

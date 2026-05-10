@@ -74,7 +74,7 @@ class FirestoreProfileRepository implements ProfileRepository {
       ));
     } on Exception catch (e) {
       dev.log('❌ getUserStats hatası: $e', name: 'FirestoreProfileRepository');
-      return Failure(DataException('İstatistikler yüklenemedi: $e'));
+      return Failure(DataException('Profil istatistikleri yüklenemedi.'));
     }
   }
 
@@ -119,7 +119,7 @@ class FirestoreProfileRepository implements ProfileRepository {
       return Success(result);
     } on Exception catch (e) {
       dev.log('❌ getCategoryPerformance hatası: $e', name: 'FirestoreProfileRepository');
-      return Failure(DataException('Kategori performansı yüklenemedi: $e'));
+      return Failure(DataException('Kategori performansı yüklenemedi.'));
     }
   }
 
@@ -186,7 +186,7 @@ class FirestoreProfileRepository implements ProfileRepository {
       return const Success(null);
     } on Exception catch (e) {
       dev.log('❌ updateStreak hatası: $e', name: 'FirestoreProfileRepository');
-      return Failure(DataException('Streak güncellenemedi: $e'));
+      return Failure(DataException('Streak güncellenemedi.'));
     }
   }
 
@@ -223,7 +223,7 @@ class FirestoreProfileRepository implements ProfileRepository {
       ));
     } on Exception catch (e) {
       dev.log('❌ getAchievements hatası: $e', name: 'FirestoreProfileRepository');
-      return Failure(DataException('Başarımlar yüklenemedi: $e'));
+      return Failure(DataException('Başarımlar yüklenemedi.'));
     }
   }
 

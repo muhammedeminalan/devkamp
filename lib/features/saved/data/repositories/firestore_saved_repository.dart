@@ -58,7 +58,7 @@ class FirestoreSavedRepository implements SavedRepository {
       return Success(questions);
     } on Exception catch (e) {
       dev.log('❌ getSavedQuestions hatası: $e', name: 'FirestoreSavedRepository');
-      return Failure(DataException('Kaydedilen sorular yüklenemedi: $e'));
+      return Failure(DataException('Kaydedilen sorular yüklenemedi.'));
     }
   }
 
@@ -93,7 +93,7 @@ class FirestoreSavedRepository implements SavedRepository {
       return const Success<void>(null);
     } on Exception catch (e) {
       dev.log('❌ saveQuestion hatası: $e', name: 'FirestoreSavedRepository');
-      return Failure(DataException('Soru kaydedilemedi: $e'));
+      return Failure(DataException('Soru kaydedilemedi.'));
     }
   }
 
@@ -108,7 +108,7 @@ class FirestoreSavedRepository implements SavedRepository {
       return const Success<void>(null);
     } on Exception catch (e) {
       dev.log('❌ removeQuestion hatası: $e', name: 'FirestoreSavedRepository');
-      return Failure(DataException('Soru silinemedi: $e'));
+      return Failure(DataException('Soru silinemedi.'));
     }
   }
 }

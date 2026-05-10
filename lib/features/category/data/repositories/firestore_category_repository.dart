@@ -64,7 +64,7 @@ class FirestoreCategoryRepository implements CategoryRepository {
       return Success(categories);
     } on Exception catch (e) {
       dev.log('❌ getCategories hata: $e', name: 'FirestoreCategoryRepository');
-      return Failure(DataException('Kategoriler yüklenemedi: $e'));
+      return Failure(DataException('Konular yüklenemedi.'));
     }
   }
 
@@ -127,7 +127,7 @@ class FirestoreCategoryRepository implements CategoryRepository {
         '❌ generateCategories hata: $e',
         name: 'FirestoreCategoryRepository',
       );
-      return Failure(DataException('Kategoriler üretilemedi: $e'));
+      return Failure(DataException('Konular oluşturulamadı. Lütfen tekrar dene.'));
     }
   }
 

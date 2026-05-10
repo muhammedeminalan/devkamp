@@ -52,7 +52,7 @@ class FirestoreTopicRepository implements TopicRepository {
       return Success(topics);
     } on Exception catch (e) {
       dev.log('❌ getTopics hatası: $e', name: 'FirestoreTopicRepository');
-      return Failure(DataException('Konular yüklenemedi: $e'));
+      return Failure(DataException('Konular yüklenemedi.'));
     }
   }
 }

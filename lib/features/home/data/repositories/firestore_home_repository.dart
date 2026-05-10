@@ -73,7 +73,7 @@ class FirestoreHomeRepository implements HomeRepository {
       return Success(categories);
     } on Exception catch (e) {
       dev.log('❌ getCategories hatası: $e', name: 'FirestoreHomeRepository');
-      return Failure(DataException('Ana kategoriler yüklenemedi: $e'));
+      return Failure(DataException('İçerikler yüklenemedi.'));
     }
   }
 
@@ -133,7 +133,7 @@ class FirestoreHomeRepository implements HomeRepository {
       );
     } on Exception catch (e) {
       dev.log('❌ getProgress hatası: $e', name: 'FirestoreHomeRepository');
-      return Failure(DataException('İlerleme yüklenemedi: $e'));
+      return Failure(DataException('İlerleme bilgisi yüklenemedi.'));
     }
   }
 }

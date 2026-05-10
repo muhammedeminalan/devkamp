@@ -72,7 +72,7 @@ class FirestoreQuestionRepository {
       return Success(questions);
     } on Exception catch (e) {
       dev.log('❌ getQuestions hata: $e', name: 'FirestoreQuestionRepository');
-      return Failure(DataException('Sorular yüklenemedi: $e'));
+      return Failure(DataException('Sorular yüklenemedi.'));
     }
   }
 
@@ -169,7 +169,7 @@ difficulty değerleri: easy, medium, hard
           .doc(categoryId)
           .update(<String, dynamic>{'questionsStatus': 'none'})
           .catchError((_) {});
-      return Failure(DataException('Sorular üretilemedi: $e'));
+      return Failure(DataException('Sorular oluşturulamadı. Lütfen tekrar dene.'));
     }
   }
 }

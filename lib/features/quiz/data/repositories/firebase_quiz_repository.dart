@@ -128,7 +128,7 @@ Soru: $questionText
       return Success(text);
     } on Exception catch (e) {
       dev.log('❌ Gemini hatası: $e', name: 'GeminiQuizRepository');
-      return Failure(DataException('AI servisine bağlanılamadı: $e'));
+      return Failure(DataException('Cevap şu an yüklenemiyor. İnternet bağlantını kontrol et.'));
     }
   }
 

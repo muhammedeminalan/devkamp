@@ -88,7 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           status: AuthStatus.unauthenticated,
           clearUser: true,
           isLoading: false,
-          errorMessage: 'Oturum kontrolü sırasında hata oluştu: $error',
+          errorMessage: 'Oturum bilgisi alınamadı. Lütfen tekrar giriş yap.',
         ),
       );
     }
@@ -120,7 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           status: AuthStatus.unauthenticated,
           clearUser: true,
           isLoading: false,
-          errorMessage: 'Google ile giriş başarısız: $error',
+          errorMessage: 'Google ile giriş yapılamadı. Lütfen tekrar dene.',
         ),
       );
     }
@@ -148,7 +148,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         state.copyWith(
           isLoading: false,
-          errorMessage: 'Çıkış işlemi başarısız: $error',
+          errorMessage: 'Çıkış yapılırken bir hata oluştu.',
         ),
       );
     }

@@ -154,6 +154,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
               knewIndices: <int>{},
               missedIndices: <int>{},
             ));
+            // Arka planda cevapları önceden üret.
+            _startPreCaching(generated.data, event.categoryId);
           case Failure<List<QuizQuestion>>():
             dev.log(
               '❌ Üretim sonrası çekim başarısız: ${generated.exception.message}',
@@ -180,7 +182,51 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           knewIndices: <int>{},
           missedIndices: <int>{},
         ));
+        // Arka planda cevapları önceden üret; kullanıcı "Cevabı Gör" dediğinde cache'te hazır olur.
+        _startPreCaching(result.data, event.categoryId);
     }
+  }
+
+  // Sorular yüklendikten sonra arka planda tüm cevapları önceden üretir.
+  // fire-and-forget: UI'ı bloklamaz; kullanıcı "Cevabı Gör" dediğinde cache'te hazır olur.
+  // 3 saniyelik gecikme: ücretsiz Gemini tier'ı dakikada 15 istek → ~4s gerekli.
+  void _startPreCaching(List<QuizQuestion> questions, String categoryId) {
+    unawaited(_preCacheAnswers(questions, categoryId));
+  }
+
+  Future<void> _preCacheAnswers(
+    List<QuizQuestion> questions,
+    String categoryId,
+  ) async {
+    dev.log(
+      '⚡ Pre-cache başlatıldı | soru sayısı: ${questions.length}',
+      name: 'QuizBloc',
+    );
+
+    for (int i = 0; i < questions.length; i++) {
+      // Bloc kapatıldıysa (kullanıcı ekrandan çıktı) döngüyü durdur.
+      if (isClosed) return;
+
+      final QuizQuestion q = questions[i];
+      dev.log(
+        '⚡ Pre-cache [${i + 1}/${questions.length}] | questionId: ${q.id}',
+        name: 'QuizBloc',
+      );
+
+      await _getAiAnswer(
+        questionId: q.id,
+        questionText: q.text,
+        topic: q.topic,
+        categoryId: categoryId,
+      );
+
+      // Son sorudan sonra beklemeye gerek yok.
+      if (i < questions.length - 1) {
+        await Future<void>.delayed(const Duration(seconds: 3));
+      }
+    }
+
+    dev.log('✅ Pre-cache tamamlandı', name: 'QuizBloc');
   }
 
   Future<void> _onAnswerRequested(

@@ -8,6 +8,25 @@ import 'package:app/features/home/domain/entities/category.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Kategori ID'sine göre icon belirler.
+IconData _resolveIcon(String categoryId) {
+  return switch (categoryId) {
+    CategoryIds.flutter => Icons.flutter_dash_rounded,
+    CategoryIds.dart    => Icons.code_rounded,
+    CategoryIds.android => Icons.android_rounded,
+    _                   => Icons.category_rounded,
+  };
+}
+
+// Soru sayısına göre normalize edilmiş progress değeri döndürür (min 0.05, max 1.0).
+double _resolveProgress(int questionCount) =>
+    (questionCount / 100).clamp(0.05, 1.0);
+
+// Icon rengini beyazla karıştırarak açık arka plan rengi üretir.
+Color _resolveBackgroundColor(Color color) {
+  return Color.alphaBlend(color.withValues(alpha: 0.18), Colors.white);
+}
+
 class HomeCategoriesSection extends StatelessWidget {
   const HomeCategoriesSection({
     required this.categories,
@@ -17,33 +36,6 @@ class HomeCategoriesSection extends StatelessWidget {
   final List<Category> categories;
 
   List<Category> get _previewCategories => categories.take(4).toList();
-
-  Color _resolveBackgroundColor(Color color) {
-    return Color.alphaBlend(
-      color.withValues(alpha: 0.18),
-      Colors.white,
-    );
-  }
-
-  IconData _resolveIcon(String categoryId) {
-    return switch (categoryId) {
-      CategoryIds.flutter => Icons.flutter_dash_rounded,
-      CategoryIds.dart    => Icons.code_rounded,
-      CategoryIds.android => Icons.android_rounded,
-      _                   => Icons.category_rounded,
-    };
-  }
-
-  double _resolveProgress(int questionCount) {
-    final double value = questionCount / 100;
-    if (value < 0.05) {
-      return 0.05;
-    }
-    if (value > 1) {
-      return 1;
-    }
-    return value;
-  }
 
   void _showAllCategoriesSheet(
     BuildContext context,
@@ -122,33 +114,6 @@ class _AllCategoriesSheet extends StatelessWidget {
 
   final List<Category> categories;
   final ValueChanged<Category> onCategoryTap;
-
-  Color _resolveBackgroundColor(Color color) {
-    return Color.alphaBlend(
-      color.withValues(alpha: 0.18),
-      Colors.white,
-    );
-  }
-
-  IconData _resolveIcon(String categoryId) {
-    return switch (categoryId) {
-      CategoryIds.flutter => Icons.flutter_dash_rounded,
-      CategoryIds.dart    => Icons.code_rounded,
-      CategoryIds.android => Icons.android_rounded,
-      _                   => Icons.category_rounded,
-    };
-  }
-
-  double _resolveProgress(int questionCount) {
-    final double value = questionCount / 100;
-    if (value < 0.05) {
-      return 0.05;
-    }
-    if (value > 1) {
-      return 1;
-    }
-    return value;
-  }
 
   @override
   Widget build(BuildContext context) {

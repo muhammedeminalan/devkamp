@@ -34,39 +34,42 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     dev.log('🏠 Home verileri yükleniyor...', name: 'HomeBloc');
     emit(state.copyWith(status: HomeStatus.loading));
 
-    // Kategoriler, ilerleme ve son oturumu paralel çek.
-    final List<Result<dynamic>> results = await Future.wait(<Future<Result<dynamic>>>[
+    // Kategoriler, ilerleme ve son oturumu paralel çek; her sonuç doğru tiple gelir.
+    final (
+      Result<List<Category>> categoriesResult,
+      Result<LearningProgress> progressResult,
+      Result<LastSession?> lastSessionResult,
+    ) = await (
       _getCategories(),
       _getProgress(),
       _getLastSession(),
-    ]);
+    ).wait;
 
-    final Result<dynamic> categoriesResult = results[0];
-    final Result<dynamic> progressResult = results[1];
-    final Result<dynamic> lastSessionResult = results[2];
-
-    if (categoriesResult is Failure || progressResult is Failure) {
-      final String errorMessage;
-      if (categoriesResult is Failure) {
-        errorMessage = categoriesResult.exception.message;
-      } else {
-        errorMessage = (progressResult as Failure).exception.message;
-      }
-
-      dev.log('❌ Home yükleme hatası: $errorMessage', name: 'HomeBloc');
+    if (categoriesResult is Failure<List<Category>>) {
+      dev.log('❌ Home yükleme hatası: ${categoriesResult.exception.message}', name: 'HomeBloc');
       emit(
         state.copyWith(
           status: HomeStatus.failure,
-          errorMessage: errorMessage,
+          errorMessage: categoriesResult.exception.message,
+        ),
+      );
+      return;
+    }
+
+    if (progressResult is Failure<LearningProgress>) {
+      dev.log('❌ Home yükleme hatası: ${progressResult.exception.message}', name: 'HomeBloc');
+      emit(
+        state.copyWith(
+          status: HomeStatus.failure,
+          errorMessage: progressResult.exception.message,
         ),
       );
       return;
     }
 
     // lastSession hatası kritik değil; null olarak devam edilir.
-    final LastSession? lastSession = lastSessionResult is Success
-        ? (lastSessionResult as Success<LastSession?>).data
-        : null;
+    final LastSession? lastSession =
+        lastSessionResult is Success<LastSession?> ? lastSessionResult.data : null;
 
     final List<Category> cats = (categoriesResult as Success<List<Category>>).data;
     dev.log(

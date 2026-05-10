@@ -1,3 +1,6 @@
+import 'package:app/config/theme/constants/color/error_color.dart';
+import 'package:app/config/theme/constants/color/neutral_color.dart';
+import 'package:app/config/theme/constants/color/success_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +32,9 @@ class QuestionEvalSection extends StatelessWidget {
                   label: context.l10n.quizEvalKnew,
                   icon: Icons.check_rounded,
                   isSelected: evalResult == EvalResult.knew,
-                  selectedColor: const Color(0xFF10B981),
-                  selectedBg: const Color(0xFFD1FAE5),
-                  defaultBg: const Color(0xFFF0FDF4),
+                  selectedColor: SuccessColor.success500,
+                  selectedBg: SuccessColor.success100,
+                  defaultBg: SuccessColor.success50,
                   onTap: onKnew,
                 ),
               ),
@@ -41,9 +44,9 @@ class QuestionEvalSection extends StatelessWidget {
                   label: context.l10n.quizEvalMissed,
                   icon: Icons.close_rounded,
                   isSelected: evalResult == EvalResult.missed,
-                  selectedColor: const Color(0xFFEF4444),
-                  selectedBg: const Color(0xFFFEE2E2),
-                  defaultBg: const Color(0xFFFFF5F5),
+                  selectedColor: ErrorColor.error500,
+                  selectedBg: ErrorColor.error100,
+                  defaultBg: ErrorColor.error50,
                   onTap: onMissed,
                 ),
               ),
@@ -88,7 +91,7 @@ class _EvalButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color bg = isSelected ? selectedBg : defaultBg;
-    final Color fg = isSelected ? selectedColor : const Color(0xFF6B7280);
+    final Color fg = isSelected ? selectedColor : NeutralColor.neutral500;
 
     return GestureDetector(
       onTap: onTap,

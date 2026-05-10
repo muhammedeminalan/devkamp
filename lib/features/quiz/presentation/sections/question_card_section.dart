@@ -1,5 +1,7 @@
+import 'package:app/config/theme/constants/color/error_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/config/theme/constants/color/warning_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/entities/quiz_question.dart';
@@ -57,8 +59,8 @@ class QuestionCardSection extends StatelessWidget {
               const SizedBox(width: 8),
               _Badge(
                 label: _diffLabel(context),
-                color: const Color(0xFFB45309),
-                bg: const Color(0xFFFEF3C7),
+                color: WarningColor.warning700,
+                bg: WarningColor.warning100,
               ),
             ],
           ),
@@ -333,9 +335,9 @@ class _ErrorCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFEE2E2),
+        color: ErrorColor.error100,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFFECACA)),
+        border: Border.all(color: ErrorColor.error200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,7 +345,7 @@ class _ErrorCard extends StatelessWidget {
           Text(
             context.l10n.quizAnswerError,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: const Color(0xFFB91C1C),
+                  color: ErrorColor.error700,
                   fontWeight: FontWeight.w700,
                 ),
           ),
@@ -351,15 +353,15 @@ class _ErrorCard extends StatelessWidget {
           Text(
             context.l10n.quizAnswerErrorHint,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: const Color(0xFF7F1D1D),
+                  color: ErrorColor.error900,
                 ),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
             onPressed: onRetry,
             style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xFFB91C1C),
-              side: const BorderSide(color: Color(0xFFFECACA)),
+              foregroundColor: ErrorColor.error700,
+              side: const BorderSide(color: ErrorColor.error200),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             ),
             child: Text(

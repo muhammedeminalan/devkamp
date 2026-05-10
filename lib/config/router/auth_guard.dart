@@ -9,7 +9,7 @@ final class AuthGuard {
     required String location,
   }) {
     final bool isSplash = location == AppRouter.splashPath;
-    final bool isAuth   = location == AppRouter.authPath;
+    final bool isAuth = location == AppRouter.authPath;
 
     if (status == AuthStatus.unknown) {
       return isSplash ? null : AppRouter.splashPath;

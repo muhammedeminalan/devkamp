@@ -7,7 +7,9 @@ import 'package:app/features/category/domain/usecases/get_categories_usecase.dar
 import 'package:app/features/category/presentation/bloc/category_event.dart';
 import 'package:app/features/category/presentation/bloc/category_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc({
     required GetCategoriesUseCase getCategoriesUseCase,

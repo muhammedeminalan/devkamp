@@ -6,7 +6,9 @@ import 'package:app/features/topic/domain/usecases/get_topics_usecase.dart';
 import 'package:app/features/topic/presentation/bloc/topic_event.dart';
 import 'package:app/features/topic/presentation/bloc/topic_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TopicBloc extends Bloc<TopicEvent, TopicState> {
   TopicBloc({required GetTopicsUseCase getTopicsUseCase})
       : _getTopics = getTopicsUseCase,

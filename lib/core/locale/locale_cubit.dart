@@ -2,10 +2,12 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Uygulama dilini yönetir.
 // Durum: Locale? — null olduğunda cihaz dili kullanılır.
+@lazySingleton
 class LocaleCubit extends Cubit<Locale?> {
   LocaleCubit() : super(null) {
     _loadSaved();

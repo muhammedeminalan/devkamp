@@ -7,7 +7,9 @@ import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase
 import 'package:app/features/saved/presentation/bloc/saved_event.dart';
 import 'package:app/features/saved/presentation/bloc/saved_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SavedBloc extends Bloc<SavedEvent, SavedState> {
   SavedBloc({
     required GetSavedQuestionsUseCase getSavedQuestionsUseCase,

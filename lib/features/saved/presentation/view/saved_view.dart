@@ -5,8 +5,6 @@ import 'package:app/core/result/result.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
-import 'package:app/features/saved/domain/usecases/get_saved_questions_usecase.dart';
-import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase.dart';
 import 'package:app/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:app/features/saved/presentation/bloc/saved_event.dart';
 import 'package:app/features/saved/presentation/bloc/saved_state.dart';
@@ -44,10 +42,9 @@ class SavedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SavedBloc>(
-      create: (BuildContext context) => SavedBloc(
-        getSavedQuestionsUseCase: GetIt.instance<GetSavedQuestionsUseCase>(),
-        removeSavedQuestionUseCase: GetIt.instance<RemoveSavedQuestionUseCase>(),
-      )..add(const SavedQuestionsLoaded()),
+      // DI, SavedBloc bağımlılıklarını otomatik çözer.
+      create: (BuildContext context) =>
+          GetIt.instance<SavedBloc>()..add(const SavedQuestionsLoaded()),
       child: Scaffold(
         body: SafeArea(
           bottom: false,

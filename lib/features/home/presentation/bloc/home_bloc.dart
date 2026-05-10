@@ -10,7 +10,9 @@ import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
 import 'package:app/features/home/presentation/bloc/home_event.dart';
 import 'package:app/features/home/presentation/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required GetCategoriesUseCase getCategoriesUseCase,

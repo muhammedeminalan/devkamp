@@ -1,8 +1,5 @@
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:app/features/profile/domain/usecases/get_achievements_usecase.dart';
-import 'package:app/features/profile/domain/usecases/get_category_performance_usecase.dart';
-import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart';
 import 'package:app/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:app/features/profile/presentation/bloc/profile_event.dart';
 import 'package:app/features/profile/presentation/bloc/profile_state.dart';
@@ -21,11 +18,9 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProfileBloc>(
-      create: (BuildContext context) => ProfileBloc(
-        getUserStatsUseCase: GetIt.instance<GetUserStatsUseCase>(),
-        getAchievementsUseCase: GetIt.instance<GetAchievementsUseCase>(),
-        getCategoryPerformanceUseCase: GetIt.instance<GetCategoryPerformanceUseCase>(),
-      )..add(const ProfileDataLoaded()),
+      // DI, ProfileBloc bağımlılıklarını otomatik çözer.
+      create: (BuildContext context) =>
+          GetIt.instance<ProfileBloc>()..add(const ProfileDataLoaded()),
       child: const _ProfileBody(),
     );
   }

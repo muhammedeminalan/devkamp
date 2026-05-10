@@ -1,11 +1,5 @@
-import 'package:app/features/home/domain/usecases/save_last_session_usecase.dart';
-import 'package:app/features/quiz/domain/usecases/generate_questions_usecase.dart';
-import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
-import 'package:app/features/quiz/domain/usecases/get_quiz_questions_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_event.dart';
-import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase.dart';
-import 'package:app/features/saved/domain/usecases/save_question_usecase.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
 import 'package:app/features/quiz/presentation/sections/question_card_section.dart';
 import 'package:app/features/quiz/presentation/sections/question_eval_section.dart';
@@ -38,14 +32,8 @@ class QuizView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<QuizBloc>(
-      create: (_) => QuizBloc(
-        getQuizQuestionsUseCase: GetIt.instance<GetQuizQuestionsUseCase>(),
-        getAiAnswerUseCase: GetIt.instance<GetAiAnswerUseCase>(),
-        generateQuestionsUseCase: GetIt.instance<GenerateQuestionsUseCase>(),
-        saveQuestionUseCase: GetIt.instance<SaveQuestionUseCase>(),
-        removeSavedQuestionUseCase: GetIt.instance<RemoveSavedQuestionUseCase>(),
-        saveLastSessionUseCase: GetIt.instance<SaveLastSessionUseCase>(),
-      )..add(QuizStarted(
+      // DI, QuizBloc bağımlılıklarını otomatik çözer.
+      create: (_) => GetIt.instance<QuizBloc>()..add(QuizStarted(
           categoryId: categoryId,
           isRandom: isRandom,
           topicId: topicId,

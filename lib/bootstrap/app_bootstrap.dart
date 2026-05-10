@@ -14,8 +14,8 @@ class AppBootstrap extends StatelessWidget {
     return MultiBlocProvider(
       providers: <BlocProvider<dynamic>>[
         BlocProvider<AuthBloc>.value(value: sl<AuthBloc>()),
-        // LocaleCubit uygulama seviyesinde yaşar; herhangi bir yerden erişilebilir.
-        BlocProvider<LocaleCubit>(create: (_) => LocaleCubit()),
+        // LocaleCubit uygulama seviyesinde yaşar; DI lazySingleton olarak yönetir.
+        BlocProvider<LocaleCubit>.value(value: sl<LocaleCubit>()),
       ],
       child: DevKampApp(router: sl<AppRouter>().router),
     );

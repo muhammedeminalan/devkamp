@@ -10,7 +10,9 @@ import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart
 import 'package:app/features/profile/presentation/bloc/profile_event.dart';
 import 'package:app/features/profile/presentation/bloc/profile_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required GetUserStatsUseCase getUserStatsUseCase,

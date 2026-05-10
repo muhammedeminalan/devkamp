@@ -2,9 +2,6 @@ import 'package:app/config/router/app_router.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/home/domain/entities/last_session.dart';
-import 'package:app/features/home/domain/usecases/get_categories_usecase.dart';
-import 'package:app/features/home/domain/usecases/get_last_session_usecase.dart';
-import 'package:app/features/home/domain/usecases/get_progress_usecase.dart';
 import 'package:app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:app/features/home/presentation/bloc/home_event.dart';
 import 'package:app/features/home/presentation/bloc/home_state.dart';
@@ -23,11 +20,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
-      create: (BuildContext context) => HomeBloc(
-        getCategoriesUseCase: GetIt.instance<GetCategoriesUseCase>(),
-        getProgressUseCase: GetIt.instance<GetProgressUseCase>(),
-        getLastSessionUseCase: GetIt.instance<GetLastSessionUseCase>(),
-      )..add(const HomeDataLoaded()),
+      // DI, HomeBloc bağımlılıklarını otomatik çözer.
+      create: (BuildContext context) =>
+          GetIt.instance<HomeBloc>()..add(const HomeDataLoaded()),
       child: const _HomeBody(),
     );
   }

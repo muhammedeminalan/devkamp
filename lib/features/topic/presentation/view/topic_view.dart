@@ -1,7 +1,6 @@
 import 'package:app/config/router/app_router.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/features/topic/domain/entities/topic.dart';
-import 'package:app/features/topic/domain/usecases/get_topics_usecase.dart';
 import 'package:app/features/topic/presentation/bloc/topic_bloc.dart';
 import 'package:app/features/topic/presentation/bloc/topic_event.dart';
 import 'package:app/features/topic/presentation/bloc/topic_state.dart';
@@ -26,9 +25,9 @@ class TopicView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TopicBloc>(
-      create: (_) => TopicBloc(
-        getTopicsUseCase: GetIt.instance<GetTopicsUseCase>(),
-      )..add(TopicDataLoaded(categoryId: categoryId)),
+      // DI, TopicBloc bağımlılıklarını otomatik çözer.
+      create: (_) =>
+          GetIt.instance<TopicBloc>()..add(TopicDataLoaded(categoryId: categoryId)),
       child: _TopicBody(
         categoryId: categoryId,
         categoryTitle: categoryTitle,

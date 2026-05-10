@@ -15,7 +15,9 @@ import 'package:app/features/saved/domain/usecases/save_question_usecase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   QuizBloc({
     required GetQuizQuestionsUseCase getQuizQuestionsUseCase,

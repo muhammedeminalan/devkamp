@@ -3,8 +3,6 @@ import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
-import 'package:app/features/category/domain/usecases/generate_categories_usecase.dart';
-import 'package:app/features/category/domain/usecases/get_categories_usecase.dart';
 import 'package:app/features/category/presentation/bloc/category_bloc.dart';
 import 'package:app/features/category/presentation/bloc/category_event.dart';
 import 'package:app/features/category/presentation/bloc/category_state.dart';
@@ -34,10 +32,8 @@ class CategoryScreen extends StatelessWidget {
         context.read<AuthBloc>().state.user?.id ?? '';
 
     return BlocProvider<CategoryBloc>(
-      create: (_) => CategoryBloc(
-        getCategoriesUseCase: GetIt.instance<GetCategoriesUseCase>(),
-        generateCategoriesUseCase: GetIt.instance<GenerateCategoriesUseCase>(),
-      )..add(CategoriesLoadRequested(
+      // DI, CategoryBloc bağımlılıklarını otomatik çözer.
+      create: (_) => GetIt.instance<CategoryBloc>()..add(CategoriesLoadRequested(
           topicId: topicId,
           topicName: topicName,
           userId: userId,

@@ -1,6 +1,5 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
-import 'package:app/core/constants/category_ids.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/result/result.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
@@ -11,6 +10,7 @@ import 'package:app/features/saved/domain/usecases/remove_saved_question_usecase
 import 'package:app/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:app/features/saved/presentation/bloc/saved_event.dart';
 import 'package:app/features/saved/presentation/bloc/saved_state.dart';
+import 'package:app/features/saved/presentation/mapper/saved_question_mapper.dart';
 import 'package:app/features/saved/presentation/model/saved_question_ui_model.dart';
 import 'package:app/features/saved/presentation/sections/saved_empty_state_section.dart';
 import 'package:app/features/saved/presentation/sections/saved_filter_chips_section.dart';
@@ -20,67 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-class SavedView extends StatefulWidget {
+class SavedView extends StatelessWidget {
   const SavedView({super.key});
-
-  @override
-  State<SavedView> createState() => _SavedViewState();
-}
-
-class _SavedViewState extends State<SavedView> {
-  String _selectedFilterId = 'all';
-
-  List<SavedQuestion> _filterQuestions(List<SavedQuestion> questions) {
-    if (_selectedFilterId == 'all') return questions;
-    return questions
-        .where((SavedQuestion q) => q.categoryId == _selectedFilterId)
-        .toList();
-  }
-
-  SavedQuestionUiModel _mapToUiModel(SavedQuestion item) {
-    // Zorluk: soru sayısı veya kategori bazlı basit mantık.
-    final SavedDifficulty difficulty = switch (item.categoryId) {
-      CategoryIds.flutter || CategoryIds.dart => SavedDifficulty.medium,
-      CategoryIds.python                      => SavedDifficulty.easy,
-      _                                       => SavedDifficulty.hard,
-    };
-
-    final IconData icon = switch (item.categoryId) {
-      CategoryIds.flutter => Icons.flutter_dash_rounded,
-      CategoryIds.dart    => Icons.code_rounded,
-      CategoryIds.python  => Icons.terminal_rounded,
-      CategoryIds.ios     => Icons.apple_rounded,
-      _                   => Icons.bookmark_rounded,
-    };
-
-    final Color iconColor = switch (item.categoryId) {
-      CategoryIds.flutter => const Color(0xFF2563EB),
-      CategoryIds.dart    => const Color(0xFF4F46E5),
-      CategoryIds.python  => const Color(0xFF059669),
-      CategoryIds.ios     => const Color(0xFF374151),
-      _                   => const Color(0xFF0EA5E9),
-    };
-
-    final Color iconBackgroundColor = switch (item.categoryId) {
-      CategoryIds.flutter => const Color(0xFFDBEAFE),
-      CategoryIds.dart    => const Color(0xFFEEF2FF),
-      CategoryIds.python  => const Color(0xFFD1FAE5),
-      CategoryIds.ios     => const Color(0xFFF3F4F6),
-      _                   => const Color(0xFFE0F2FE),
-    };
-
-    return SavedQuestionUiModel(
-      id: item.id,
-      questionId: item.questionId,
-      question: item.questionText,
-      categoryId: item.categoryId,
-      categoryLabel: item.categoryTitle.toUpperCase(),
-      difficulty: difficulty,
-      icon: icon,
-      iconColor: iconColor,
-      iconBackgroundColor: iconBackgroundColor,
-    );
-  }
 
   // Kaydedilen soruya tıklanınca soru + AI cevabını bottom sheet'te göster.
   void _showAnswerSheet(BuildContext context, SavedQuestionUiModel item) {
@@ -128,8 +69,8 @@ class _SavedViewState extends State<SavedView> {
                   );
                 }
 
-                final List<SavedQuestion> filtered =
-                    _filterQuestions(state.questions);
+                // filteredQuestions SavedState.getter'ından gelir; setState gerekmez.
+                final List<SavedQuestion> filtered = state.filteredQuestions;
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,9 +79,9 @@ class _SavedViewState extends State<SavedView> {
                     const SizedBox(height: 12),
                     SavedFilterChipsSection(
                       questions: state.questions,
-                      selectedFilterId: _selectedFilterId,
+                      selectedFilterId: state.selectedFilterId,
                       onFilterSelected: (String id) =>
-                          setState(() => _selectedFilterId = id),
+                          context.read<SavedBloc>().add(SavedFilterChanged(id)),
                     ),
                     const SizedBox(height: 12),
                     if (filtered.isEmpty)
@@ -152,7 +93,7 @@ class _SavedViewState extends State<SavedView> {
                         child: SingleChildScrollView(
                           child: SavedQuestionListSection(
                             questions: filtered
-                                .map(_mapToUiModel)
+                                .map(SavedQuestionMapper.toUiModel)
                                 .toList(growable: false),
                             onRemove: (String id) =>
                                 context.read<SavedBloc>().add(SavedQuestionRemoved(id)),

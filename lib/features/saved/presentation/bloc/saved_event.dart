@@ -13,3 +13,10 @@ class SavedQuestionRemoved extends SavedEvent {
 
   final String questionId;
 }
+
+// Kullanıcı kategori filtresi seçtiğinde tetiklenir.
+class SavedFilterChanged extends SavedEvent {
+  const SavedFilterChanged(this.filterId);
+
+  final String filterId;
+}

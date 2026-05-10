@@ -17,6 +17,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
         super(const SavedState()) {
     on<SavedQuestionsLoaded>(_onSavedQuestionsLoaded);
     on<SavedQuestionRemoved>(_onSavedQuestionRemoved);
+    on<SavedFilterChanged>(_onSavedFilterChanged);
   }
 
   final GetSavedQuestionsUseCase _getSavedQuestionsUseCase;
@@ -49,6 +50,14 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
         questions: questions,
       ),
     );
+  }
+
+  void _onSavedFilterChanged(
+    SavedFilterChanged event,
+    Emitter<SavedState> emit,
+  ) {
+    // Yalnızca seçili filtre değiştiğinde yeni state yayılır; senkron işlem.
+    emit(state.copyWith(selectedFilterId: event.filterId));
   }
 
   Future<void> _onSavedQuestionRemoved(

@@ -46,13 +46,21 @@ class FirestoreQuestionRepository {
   Future<Result<List<QuizQuestion>>> getQuestions({
     required String categoryId,
     required bool isRandom,
+    String? topicId,
   }) async {
     try {
-      final QuerySnapshot<Map<String, dynamic>> snap = await _firestore
-          .collection('questions')
-          .where('categoryId', isEqualTo: categoryId)
-          .orderBy('order')
-          .get();
+      // Rastgele quiz: topicId ile tüm kategorilerdeki soruları çek ve karıştır.
+      // Normal quiz: categoryId ile belirli kategorinin sorularını sıralı çek.
+      final QuerySnapshot<Map<String, dynamic>> snap = isRandom && topicId != null
+          ? await _firestore
+              .collection('questions')
+              .where('topicId', isEqualTo: topicId)
+              .get()
+          : await _firestore
+              .collection('questions')
+              .where('categoryId', isEqualTo: categoryId)
+              .orderBy('order')
+              .get();
 
       final List<QuizQuestion> questions = snap.docs.map(_mapDoc).toList();
       if (isRandom) questions.shuffle();

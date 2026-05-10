@@ -22,7 +22,7 @@ abstract class AppModule {
   // dotenv main'de yüklendikten sonra güvenle erişilebilir.
   @lazySingleton
   GenerativeModel geminiModel() => GenerativeModel(
-        model: 'gemini-2.0-flash',
+        model: 'gemini-flash-latest',
         apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
       );
 

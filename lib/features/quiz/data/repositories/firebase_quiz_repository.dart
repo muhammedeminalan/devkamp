@@ -31,7 +31,11 @@ class GeminiQuizRepository implements QuizRepository {
     required bool isRandom,
     String? topicId,
   }) =>
-      _questionRepo.getQuestions(categoryId: categoryId, isRandom: isRandom);
+      _questionRepo.getQuestions(
+        categoryId: categoryId,
+        isRandom: isRandom,
+        topicId: topicId,
+      );
 
   @override
   Future<Result<String>> getAiAnswer({

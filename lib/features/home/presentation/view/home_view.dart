@@ -1,5 +1,6 @@
 import 'package:app/config/router/app_router.dart';
 import 'package:app/core/extensions/project_extensions.dart';
+import 'package:app/core/utils/app_snackbar.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/home/domain/entities/last_session.dart';
 import 'package:app/features/home/presentation/bloc/home_bloc.dart';
@@ -41,20 +42,29 @@ class _HomeBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: BlocBuilder<HomeBloc, HomeState>(
+        child: BlocConsumer<HomeBloc, HomeState>(
+          listenWhen: (HomeState prev, HomeState curr) =>
+              curr.status == HomeStatus.failure &&
+              prev.status != HomeStatus.failure,
+          listener: (BuildContext context, HomeState state) {
+            // Veriler yüklenemedi → snackbar; sayfa açık kalır, tekrar dene aksiyonu sunar.
+            AppSnackBar.showError(
+              context,
+              message: state.errorMessage ?? 'Veriler yüklenemedi.',
+              actionLabel: 'Tekrar Dene',
+              onAction: () =>
+                  context.read<HomeBloc>().add(const HomeDataLoaded()),
+            );
+          },
           builder: (BuildContext context, HomeState state) {
             if (state.status == HomeStatus.loading ||
                 state.status == HomeStatus.initial) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (state.status == HomeStatus.failure || state.progress == null) {
-              return Center(
-                child: Text(
-                  state.errorMessage ?? 'Home verileri yüklenemedi.',
-                  textAlign: TextAlign.center,
-                ),
-              );
+            // failure durumunda progress null olabilir; güvenli fallback.
+            if (state.progress == null) {
+              return const Center(child: CircularProgressIndicator());
             }
 
             return SingleChildScrollView(

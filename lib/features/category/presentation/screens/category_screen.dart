@@ -1,6 +1,7 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
+import 'package:app/core/widgets/dialogs/app_error_dialog.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/category/domain/entities/study_category.dart';
 import 'package:app/features/category/presentation/bloc/category_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:app/features/category/presentation/bloc/category_event.dart';
 import 'package:app/features/category/presentation/bloc/category_state.dart';
 import 'package:app/features/category/presentation/sections/category_generating_section.dart';
 import 'package:app/features/category/presentation/sections/category_list_section.dart';
-import 'package:app/core/widgets/states/app_error_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -70,32 +70,40 @@ class _CategoryBody extends StatelessWidget {
               ),
         ),
       ),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocConsumer<CategoryBloc, CategoryState>(
+        listenWhen: (CategoryState prev, CategoryState curr) =>
+            curr.status == CategoryBlocStatus.error &&
+            prev.status != CategoryBlocStatus.error,
+        listener: (BuildContext context, CategoryState state) {
+          // Kritik: kategoriler olmadan devam edilemez → dialog.
+          final String userId =
+              context.read<AuthBloc>().state.user?.id ?? '';
+          showAppErrorDialog(
+            context,
+            message: state.errorMessage ?? 'Kategoriler yüklenemedi.',
+            primaryLabel: context.l10n.categoryRetry,
+            onPrimary: () => context.read<CategoryBloc>().add(
+                  CategoriesLoadRequested(
+                    topicId: topicId,
+                    topicName: topicName,
+                    userId: userId,
+                  ),
+                ),
+            secondaryLabel: 'Geri Dön',
+            onSecondary: () => GoRouter.of(context).pop(),
+          );
+        },
         builder: (BuildContext context, CategoryState state) {
           if (state.status == CategoryBlocStatus.loading ||
-              state.status == CategoryBlocStatus.initial) {
+              state.status == CategoryBlocStatus.initial ||
+              state.status == CategoryBlocStatus.error) {
+            // error: dialog gösterildi, arkasında yükleme spinner'ı.
             return const Center(child: CircularProgressIndicator());
           }
 
           if (state.status == CategoryBlocStatus.generating) {
             return const SingleChildScrollView(
               child: CategoryGeneratingSection(),
-            );
-          }
-
-          if (state.status == CategoryBlocStatus.error) {
-            return AppErrorState(
-              message: state.errorMessage ?? 'Kategoriler yüklenemedi.',
-              actionLabel: context.l10n.categoryRetry,
-              onAction: () {
-                final String userId =
-                    context.read<AuthBloc>().state.user?.id ?? '';
-                context.read<CategoryBloc>().add(CategoriesLoadRequested(
-                      topicId: topicId,
-                      topicName: topicName,
-                      userId: userId,
-                    ));
-              },
             );
           }
 

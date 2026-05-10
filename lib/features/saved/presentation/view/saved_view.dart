@@ -2,6 +2,7 @@ import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/result/result.dart';
+import 'package:app/core/utils/app_snackbar.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
 import 'package:app/features/quiz/domain/usecases/get_ai_answer_usecase.dart';
 import 'package:app/features/saved/domain/entities/saved_question.dart';
@@ -50,21 +51,25 @@ class SavedView extends StatelessWidget {
           bottom: false,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-            child: BlocBuilder<SavedBloc, SavedState>(
+            child: BlocConsumer<SavedBloc, SavedState>(
+              listenWhen: (SavedState prev, SavedState curr) =>
+                  curr.status == SavedStatus.failure &&
+                  prev.status != SavedStatus.failure,
+              listener: (BuildContext context, SavedState state) {
+                // Yükleme veya silme hatası → snackbar.
+                AppSnackBar.showError(
+                  context,
+                  message: state.errorMessage ?? 'Kayıtlı sorular yüklenemedi.',
+                );
+              },
               builder: (BuildContext context, SavedState state) {
                 if (state.status == SavedStatus.loading ||
                     state.status == SavedStatus.initial) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (state.status == SavedStatus.failure) {
-                  return Center(
-                    child: Text(
-                      state.errorMessage ?? 'Kayıtlı sorular yüklenemedi.',
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }
+                // failure: snackbar gösterildi; mevcut listeyi göstermeye devam et.
+                // questions boşsa empty state gösterilecek — bu yeterli.
 
                 // filteredQuestions SavedState.getter'ından gelir; setState gerekmez.
                 final List<SavedQuestion> filtered = state.filteredQuestions;

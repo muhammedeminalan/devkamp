@@ -1,4 +1,3 @@
-import 'package:app/config/theme/constants/color/error_color.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/config/theme/constants/color/warning_color.dart';
@@ -115,10 +114,7 @@ class QuestionCardSection extends StatelessWidget {
             const SizedBox(height: 8),
             _AnswerText(text: answerText!),
           ],
-          if (answerStage == AnswerStage.error) ...<Widget>[
-            const SizedBox(height: 16),
-            _ErrorCard(onRetry: onRetry),
-          ],
+          // AnswerStage.error → snackbar quiz_view'dan gösterilir; kart boş kalır.
         ],
       ),
     );
@@ -332,54 +328,4 @@ class _AnswerText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AppMarkdownBody(text: text);
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: ErrorColor.error100,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: ErrorColor.error200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            context.l10n.quizAnswerError,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: ErrorColor.error700,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            context.l10n.quizAnswerErrorHint,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: ErrorColor.error900,
-                ),
-          ),
-          const SizedBox(height: 10),
-          OutlinedButton(
-            onPressed: onRetry,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: ErrorColor.error700,
-              side: const BorderSide(color: ErrorColor.error200),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            ),
-            child: Text(
-              context.l10n.quizAnswerRetry,
-              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

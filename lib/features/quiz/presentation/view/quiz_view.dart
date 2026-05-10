@@ -1,3 +1,6 @@
+import 'package:app/core/utils/app_snackbar.dart';
+import 'package:app/core/widgets/dialogs/app_error_dialog.dart';
+import 'package:app/features/quiz/domain/entities/quiz_question.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_bloc.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_event.dart';
 import 'package:app/features/quiz/presentation/bloc/quiz_state.dart';
@@ -7,7 +10,6 @@ import 'package:app/features/quiz/presentation/sections/question_progress_sectio
 import 'package:app/features/quiz/presentation/sections/quiz_result_actions_section.dart';
 import 'package:app/features/quiz/presentation/sections/result_breakdown_section.dart';
 import 'package:app/features/quiz/presentation/sections/result_score_section.dart';
-import 'package:app/core/widgets/states/app_error_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -81,10 +83,41 @@ class _QuizBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: BlocBuilder<QuizBloc, QuizState>(
+        child: BlocConsumer<QuizBloc, QuizState>(
+          // Yalnızca hata geçişlerinde listener'ı tetikle; tekrar emit engelle.
+          listenWhen: (QuizState prev, QuizState curr) =>
+              (curr.status == QuizStatus.failure &&
+                  prev.status != QuizStatus.failure) ||
+              (curr.answerStage == AnswerStage.error &&
+                  prev.answerStage != AnswerStage.error),
+          listener: (BuildContext context, QuizState state) {
+            if (state.status == QuizStatus.failure) {
+              // Kritik hata: quiz başlayamadı → dialog ile kullanıcıyı bildir.
+              showAppErrorDialog(
+                context,
+                message: state.errorMessage ?? 'Quiz yüklenemedi.',
+                primaryLabel: 'Tekrar Dene',
+                onPrimary: () =>
+                    context.read<QuizBloc>().add(_quizStartedEvent()),
+                secondaryLabel: 'Geri Dön',
+                onSecondary: () => context.pop(),
+              );
+            } else if (state.answerStage == AnswerStage.error) {
+              // Minor hata: AI cevabı alınamadı → snackbar, quiz devam eder.
+              AppSnackBar.showError(
+                context,
+                message: state.errorMessage ?? 'Cevap yüklenemedi.',
+                actionLabel: 'Tekrar Dene',
+                onAction: () =>
+                    context.read<QuizBloc>().add(const QuizAnswerRetried()),
+              );
+            }
+          },
           builder: (BuildContext context, QuizState state) {
             if (state.status == QuizStatus.loading ||
-                state.status == QuizStatus.initial) {
+                state.status == QuizStatus.initial ||
+                state.status == QuizStatus.failure) {
+              // failure: dialog zaten gösterildi, arkasında yükleme göster.
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -101,26 +134,13 @@ class _QuizBody extends StatelessWidget {
               );
             }
 
-            if (state.status == QuizStatus.failure) {
-              return AppErrorState(
-                message: state.errorMessage ?? 'Quiz yüklenemedi.',
-                actionLabel: 'Tekrar Dene',
-                onAction: () =>
-                    context.read<QuizBloc>().add(_quizStartedEvent()),
-              );
-            }
-
             if (state.status == QuizStatus.complete) {
               return _QuizResultSection(state: state);
             }
 
-            final question = state.currentQuestion;
+            final QuizQuestion? question = state.currentQuestion;
             if (question == null) {
-              return AppErrorState(
-                message: 'Soru bulunamadı.',
-                actionLabel: 'Başa Dön',
-                onAction: () => context.pop(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
 
             return _QuizQuestionSection(

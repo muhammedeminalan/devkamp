@@ -1,5 +1,6 @@
 import 'package:app/config/router/app_router.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
+import 'package:app/core/constants/category_ids.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/cards/app_category_card.dart';
 import 'package:app/core/widgets/sections/app_section_header.dart';
@@ -25,16 +26,12 @@ class HomeCategoriesSection extends StatelessWidget {
   }
 
   IconData _resolveIcon(String categoryId) {
-    switch (categoryId) {
-      case 'flutter':
-        return Icons.flutter_dash_rounded;
-      case 'dart':
-        return Icons.code_rounded;
-      case 'android':
-        return Icons.android_rounded;
-      default:
-        return Icons.category_rounded;
-    }
+    return switch (categoryId) {
+      CategoryIds.flutter => Icons.flutter_dash_rounded,
+      CategoryIds.dart    => Icons.code_rounded,
+      CategoryIds.android => Icons.android_rounded,
+      _                   => Icons.category_rounded,
+    };
   }
 
   double _resolveProgress(int questionCount) {
@@ -134,16 +131,12 @@ class _AllCategoriesSheet extends StatelessWidget {
   }
 
   IconData _resolveIcon(String categoryId) {
-    switch (categoryId) {
-      case 'flutter':
-        return Icons.flutter_dash_rounded;
-      case 'dart':
-        return Icons.code_rounded;
-      case 'android':
-        return Icons.android_rounded;
-      default:
-        return Icons.category_rounded;
-    }
+    return switch (categoryId) {
+      CategoryIds.flutter => Icons.flutter_dash_rounded,
+      CategoryIds.dart    => Icons.code_rounded,
+      CategoryIds.android => Icons.android_rounded,
+      _                   => Icons.category_rounded,
+    };
   }
 
   double _resolveProgress(int questionCount) {

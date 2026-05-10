@@ -1,5 +1,6 @@
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
+import 'package:app/core/constants/category_ids.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/result/result.dart';
 import 'package:app/core/widgets/app_markdown_body.dart';
@@ -39,33 +40,33 @@ class _SavedViewState extends State<SavedView> {
   SavedQuestionUiModel _mapToUiModel(SavedQuestion item) {
     // Zorluk: soru sayısı veya kategori bazlı basit mantık.
     final SavedDifficulty difficulty = switch (item.categoryId) {
-      'flutter' || 'dart' => SavedDifficulty.medium,
-      'python' => SavedDifficulty.easy,
-      _ => SavedDifficulty.hard,
+      CategoryIds.flutter || CategoryIds.dart => SavedDifficulty.medium,
+      CategoryIds.python                      => SavedDifficulty.easy,
+      _                                       => SavedDifficulty.hard,
     };
 
     final IconData icon = switch (item.categoryId) {
-      'flutter' => Icons.flutter_dash_rounded,
-      'dart'    => Icons.code_rounded,
-      'python'  => Icons.terminal_rounded,
-      'ios'     => Icons.apple_rounded,
-      _         => Icons.bookmark_rounded,
+      CategoryIds.flutter => Icons.flutter_dash_rounded,
+      CategoryIds.dart    => Icons.code_rounded,
+      CategoryIds.python  => Icons.terminal_rounded,
+      CategoryIds.ios     => Icons.apple_rounded,
+      _                   => Icons.bookmark_rounded,
     };
 
     final Color iconColor = switch (item.categoryId) {
-      'flutter' => const Color(0xFF2563EB),
-      'dart'    => const Color(0xFF4F46E5),
-      'python'  => const Color(0xFF059669),
-      'ios'     => const Color(0xFF374151),
-      _         => const Color(0xFF0EA5E9),
+      CategoryIds.flutter => const Color(0xFF2563EB),
+      CategoryIds.dart    => const Color(0xFF4F46E5),
+      CategoryIds.python  => const Color(0xFF059669),
+      CategoryIds.ios     => const Color(0xFF374151),
+      _                   => const Color(0xFF0EA5E9),
     };
 
     final Color iconBackgroundColor = switch (item.categoryId) {
-      'flutter' => const Color(0xFFDBEAFE),
-      'dart'    => const Color(0xFFEEF2FF),
-      'python'  => const Color(0xFFD1FAE5),
-      'ios'     => const Color(0xFFF3F4F6),
-      _         => const Color(0xFFE0F2FE),
+      CategoryIds.flutter => const Color(0xFFDBEAFE),
+      CategoryIds.dart    => const Color(0xFFEEF2FF),
+      CategoryIds.python  => const Color(0xFFD1FAE5),
+      CategoryIds.ios     => const Color(0xFFF3F4F6),
+      _                   => const Color(0xFFE0F2FE),
     };
 
     return SavedQuestionUiModel(

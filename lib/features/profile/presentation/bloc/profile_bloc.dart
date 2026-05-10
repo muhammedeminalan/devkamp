@@ -34,29 +34,32 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     dev.log('👤 Profil verileri yükleniyor...', name: 'ProfileBloc');
     emit(state.copyWith(status: ProfileStatus.loading));
 
-    final List<Result<dynamic>> results = await Future.wait(<Future<Result<dynamic>>>[
+    // Her sonuç doğru generic tipiyle alınır; unsafe cast gereksiz.
+    final (
+      Result<UserStats> statsResult,
+      Result<List<Achievement>> achievementsResult,
+      Result<List<CategoryPerformance>> categoryResult,
+    ) = await (
       _getStats(),
       _getAchievements(),
       _getCategoryPerformance(),
-    ]);
+    ).wait;
 
-    final Result<dynamic> statsResult = results[0];
-    final Result<dynamic> achievementsResult = results[1];
-    final Result<dynamic> categoryResult = results[2];
+    if (statsResult is Failure<UserStats>) {
+      dev.log('❌ Profil yükleme hatası: ${statsResult.exception.message}', name: 'ProfileBloc');
+      emit(state.copyWith(status: ProfileStatus.failure, errorMessage: statsResult.exception.message));
+      return;
+    }
 
-    if (statsResult is Failure || achievementsResult is Failure) {
-      final String error = statsResult is Failure
-          ? statsResult.exception.message
-          : (achievementsResult as Failure).exception.message;
-      dev.log('❌ Profil yükleme hatası: $error', name: 'ProfileBloc');
-      emit(state.copyWith(status: ProfileStatus.failure, errorMessage: error));
+    if (achievementsResult is Failure<List<Achievement>>) {
+      dev.log('❌ Profil yükleme hatası: ${achievementsResult.exception.message}', name: 'ProfileBloc');
+      emit(state.copyWith(status: ProfileStatus.failure, errorMessage: achievementsResult.exception.message));
       return;
     }
 
     // Kategori performansı kritik değil; hata olsa da devam edilir.
-    final List<CategoryPerformance> categoryPerf = categoryResult is Success
-        ? (categoryResult as Success<List<CategoryPerformance>>).data
-        : <CategoryPerformance>[];
+    final List<CategoryPerformance> categoryPerf =
+        categoryResult is Success<List<CategoryPerformance>> ? categoryResult.data : <CategoryPerformance>[];
 
     dev.log('✅ Profil verileri hazır | kategori: ${categoryPerf.length}', name: 'ProfileBloc');
     emit(

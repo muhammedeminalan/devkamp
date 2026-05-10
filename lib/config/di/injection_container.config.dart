@@ -21,8 +21,6 @@ import '../../features/auth/data/repositories/firebase_auth_repository.dart'
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/usecases/check_session_usecase.dart'
     as _i1011;
-import '../../features/auth/domain/usecases/sign_in_with_email_usecase.dart'
-    as _i744;
 import '../../features/auth/domain/usecases/sign_in_with_google_usecase.dart'
     as _i673;
 import '../../features/auth/domain/usecases/sign_out_usecase.dart' as _i915;
@@ -122,8 +120,6 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i161.AuthRemoteDataSource>()));
     gh.lazySingleton<_i1011.CheckSessionUseCase>(
         () => _i1011.CheckSessionUseCase(gh<_i787.AuthRepository>()));
-    gh.lazySingleton<_i744.SignInWithEmailUseCase>(
-        () => _i744.SignInWithEmailUseCase(gh<_i787.AuthRepository>()));
     gh.lazySingleton<_i673.SignInWithGoogleUseCase>(
         () => _i673.SignInWithGoogleUseCase(gh<_i787.AuthRepository>()));
     gh.lazySingleton<_i915.SignOutUseCase>(
@@ -140,17 +136,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i349.GetUserStatsUseCase(gh<_i894.ProfileRepository>()));
     gh.lazySingleton<_i2.UpdateStreakUseCase>(
         () => _i2.UpdateStreakUseCase(gh<_i894.ProfileRepository>()));
-    await gh.factoryAsync<_i797.AuthBloc>(
-      () => appModule.authBloc(
-        gh<_i1011.CheckSessionUseCase>(),
-        gh<_i673.SignInWithGoogleUseCase>(),
-        gh<_i744.SignInWithEmailUseCase>(),
-        gh<_i915.SignOutUseCase>(),
-        gh<_i787.AuthRepository>(),
-        gh<_i2.UpdateStreakUseCase>(),
-      ),
-      preResolve: true,
-    );
     gh.lazySingleton<_i105.SavedRepository>(
         () => _i1011.FirestoreSavedRepository(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i599.GetSavedQuestionsUseCase>(
@@ -183,14 +168,24 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.lazySingleton<_i652.GetTopicsUseCase>(
         () => _i652.GetTopicsUseCase(gh<_i1062.TopicRepository>()));
-    gh.lazySingleton<_i81.AppRouter>(
-        () => appModule.appRouter(gh<_i797.AuthBloc>()));
+    await gh.factoryAsync<_i797.AuthBloc>(
+      () => appModule.authBloc(
+        gh<_i1011.CheckSessionUseCase>(),
+        gh<_i673.SignInWithGoogleUseCase>(),
+        gh<_i915.SignOutUseCase>(),
+        gh<_i787.AuthRepository>(),
+        gh<_i2.UpdateStreakUseCase>(),
+      ),
+      preResolve: true,
+    );
     gh.lazySingleton<_i764.GenerateQuestionsUseCase>(
         () => _i764.GenerateQuestionsUseCase(gh<_i613.QuizRepository>()));
     gh.lazySingleton<_i892.GetAiAnswerUseCase>(
         () => _i892.GetAiAnswerUseCase(gh<_i613.QuizRepository>()));
     gh.lazySingleton<_i650.GetQuizQuestionsUseCase>(
         () => _i650.GetQuizQuestionsUseCase(gh<_i613.QuizRepository>()));
+    gh.lazySingleton<_i81.AppRouter>(
+        () => appModule.appRouter(gh<_i797.AuthBloc>()));
     return this;
   }
 }

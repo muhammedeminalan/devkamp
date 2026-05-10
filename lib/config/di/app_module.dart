@@ -2,7 +2,6 @@ import 'package:app/config/router/app_router.dart';
 import 'package:app/features/auth/domain/entities/app_user.dart';
 import 'package:app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
-import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -31,7 +30,6 @@ abstract class AppModule {
   Future<AuthBloc> authBloc(
     CheckSessionUseCase checkSessionUseCase,
     SignInWithGoogleUseCase signInWithGoogleUseCase,
-    SignInWithEmailUseCase signInWithEmailUseCase,
     SignOutUseCase signOutUseCase,
     AuthRepository authRepository,
     UpdateStreakUseCase updateStreakUseCase,
@@ -40,7 +38,6 @@ abstract class AppModule {
     return AuthBloc(
       checkSessionUseCase: checkSessionUseCase,
       signInWithGoogleUseCase: signInWithGoogleUseCase,
-      signInWithEmailUseCase: signInWithEmailUseCase,
       signOutUseCase: signOutUseCase,
       updateStreakUseCase: updateStreakUseCase,
       initialUser: initialUser,

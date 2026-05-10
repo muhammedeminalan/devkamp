@@ -3,7 +3,6 @@ import 'dart:developer' as dev;
 
 import 'package:app/features/auth/domain/entities/app_user.dart';
 import 'package:app/features/auth/domain/usecases/check_session_usecase.dart';
-import 'package:app/features/auth/domain/usecases/sign_in_with_email_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:app/features/profile/domain/usecases/update_streak_usecase.dart';
@@ -19,13 +18,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required CheckSessionUseCase checkSessionUseCase,
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
-    required SignInWithEmailUseCase signInWithEmailUseCase,
     required SignOutUseCase signOutUseCase,
     required UpdateStreakUseCase updateStreakUseCase,
     AppUser? initialUser,
   })  : _checkSessionUseCase = checkSessionUseCase,
         _signInWithGoogleUseCase = signInWithGoogleUseCase,
-        _signInWithEmailUseCase = signInWithEmailUseCase,
         _signOutUseCase = signOutUseCase,
         _updateStreak = updateStreakUseCase,
         super(
@@ -38,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<AuthSignInWithGoogleRequested>(_onAuthSignInWithGoogleRequested);
-    on<AuthSignInWithEmailRequested>(_onAuthSignInWithEmailRequested);
     on<AuthSignOutRequested>(_onAuthSignOutRequested);
 
     // Uygulama başlatılırken zaten oturum açıksa seeder ve streak'i çalıştır.
@@ -50,7 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final CheckSessionUseCase _checkSessionUseCase;
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
-  final SignInWithEmailUseCase _signInWithEmailUseCase;
   final SignOutUseCase _signOutUseCase;
   final UpdateStreakUseCase _updateStreak;
 
@@ -126,36 +121,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           clearUser: true,
           isLoading: false,
           errorMessage: 'Google ile giriş başarısız: $error',
-        ),
-      );
-    }
-  }
-
-  Future<void> _onAuthSignInWithEmailRequested(
-    AuthSignInWithEmailRequested event,
-    Emitter<AuthState> emit,
-  ) async {
-    dev.log('🔑 E-posta ile giriş başlatıldı', name: 'AuthBloc');
-    emit(state.copyWith(isLoading: true, clearError: true));
-    try {
-      final AppUser user = await _signInWithEmailUseCase();
-      dev.log('✅ E-posta girişi başarılı | userId: ${user.id}', name: 'AuthBloc');
-      emit(
-        state.copyWith(
-          status: AuthStatus.authenticated,
-          user: user,
-          isLoading: false,
-          clearError: true,
-        ),
-      );
-    } on Exception catch (error) {
-      dev.log('❌ E-posta giriş hatası: $error', name: 'AuthBloc');
-      emit(
-        state.copyWith(
-          status: AuthStatus.unauthenticated,
-          clearUser: true,
-          isLoading: false,
-          errorMessage: 'E-posta ile giriş başarısız: $error',
         ),
       );
     }

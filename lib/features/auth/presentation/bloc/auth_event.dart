@@ -15,10 +15,6 @@ final class AuthSignInWithGoogleRequested extends AuthEvent {
   const AuthSignInWithGoogleRequested();
 }
 
-final class AuthSignInWithEmailRequested extends AuthEvent {
-  const AuthSignInWithEmailRequested();
-}
-
 final class AuthSignOutRequested extends AuthEvent {
   const AuthSignOutRequested();
 }

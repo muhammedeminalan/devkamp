@@ -1,3 +1,4 @@
+import 'package:app/config/router/app_router.dart';
 import 'package:app/config/theme/constants/color/neutral_color.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/core/widgets/cards/app_category_card.dart';
@@ -59,7 +60,7 @@ class HomeCategoriesSection extends StatelessWidget {
       builder: (BuildContext context) => _AllCategoriesSheet(
         categories: data,
         onCategoryTap: (Category category) => context.push(
-          '/category',
+          AppRouter.categoryPath,
           extra: <String, dynamic>{
             'topicId': category.id,
             'topicName': category.title,
@@ -102,7 +103,7 @@ class HomeCategoriesSection extends StatelessWidget {
               iconColor: iconColor,
               iconBackgroundColor: _resolveBackgroundColor(iconColor),
               onTap: () => context.push(
-                '/category',
+                AppRouter.categoryPath,
                 extra: <String, dynamic>{
                   'topicId': item.id,
                   'topicName': item.title,

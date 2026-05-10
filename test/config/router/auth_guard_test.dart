@@ -1,3 +1,4 @@
+import 'package:app/config/router/app_router.dart';
 import 'package:app/config/router/auth_guard.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,13 +11,13 @@ void main() {
         location: '/home',
       );
 
-      expect(result, AuthGuard.splashPath);
+      expect(result, AppRouter.splashPath);
     });
 
     test('unknown iken splashte kalir', () {
       final String? result = AuthGuard.redirect(
         status: AuthStatus.unknown,
-        location: AuthGuard.splashPath,
+        location: AppRouter.splashPath,
       );
 
       expect(result, isNull);
@@ -28,21 +29,21 @@ void main() {
         location: '/saved',
       );
 
-      expect(result, AuthGuard.authPath);
+      expect(result, AppRouter.authPath);
     });
 
     test('authenticated iken splash veya authtan homea yonlendirir', () {
       final String? fromSplash = AuthGuard.redirect(
         status: AuthStatus.authenticated,
-        location: AuthGuard.splashPath,
+        location: AppRouter.splashPath,
       );
       final String? fromAuth = AuthGuard.redirect(
         status: AuthStatus.authenticated,
-        location: AuthGuard.authPath,
+        location: AppRouter.authPath,
       );
 
-      expect(fromSplash, AuthGuard.homePath);
-      expect(fromAuth, AuthGuard.homePath);
+      expect(fromSplash, AppRouter.homePath);
+      expect(fromAuth, AppRouter.homePath);
     });
 
     test('authenticated iken protected routea geciste redirect etmez', () {

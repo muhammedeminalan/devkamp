@@ -1,3 +1,4 @@
+import 'package:app/config/router/app_router.dart';
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app/features/home/domain/entities/last_session.dart';
@@ -98,7 +99,7 @@ class _HomeBody extends StatelessWidget {
   // Son oturumun parametrelerine göre quiz sayfasına yönlendirir.
   void _navigateToLastSession(BuildContext context, LastSession session) {
     context.push(
-      '/quiz',
+      AppRouter.quizPath,
       extra: <String, dynamic>{
         'categoryId': session.categoryId,
         'topicId': session.topicId,

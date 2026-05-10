@@ -1,3 +1,4 @@
+import 'package:app/config/router/app_router.dart';
 import 'package:app/config/theme/constants/color/primary_color.dart';
 import 'package:app/features/topic/domain/entities/topic.dart';
 import 'package:app/features/topic/domain/usecases/get_topics_usecase.dart';
@@ -103,7 +104,7 @@ class _TopicBodyState extends State<_TopicBody> {
                   child: TopicListSection(
                     topics: filtered,
                     onTopicTap: (Topic topic) => context.push(
-                      '/quiz',
+                      AppRouter.quizPath,
                       extra: <String, dynamic>{
                         'categoryId': widget.categoryId,
                         'topicId': topic.id,
@@ -120,7 +121,7 @@ class _TopicBodyState extends State<_TopicBody> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(
-          '/quiz',
+          AppRouter.quizPath,
           extra: <String, dynamic>{
             'categoryId': widget.categoryId,
             'topicId': null,

@@ -4,6 +4,7 @@ import 'package:app/core/result/result.dart';
 import 'package:app/features/profile/domain/entities/achievement.dart';
 import 'package:app/features/profile/domain/entities/category_performance.dart';
 import 'package:app/features/profile/domain/entities/user_stats.dart';
+import 'package:app/features/profile/domain/usecases/get_achievements_usecase.dart';
 import 'package:app/features/profile/domain/usecases/get_category_performance_usecase.dart';
 import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart';
 import 'package:app/features/profile/presentation/bloc/profile_event.dart';

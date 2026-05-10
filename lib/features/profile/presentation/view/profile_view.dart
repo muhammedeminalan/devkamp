@@ -1,5 +1,6 @@
 import 'package:app/core/extensions/project_extensions.dart';
 import 'package:app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app/features/profile/domain/usecases/get_achievements_usecase.dart';
 import 'package:app/features/profile/domain/usecases/get_category_performance_usecase.dart';
 import 'package:app/features/profile/domain/usecases/get_user_stats_usecase.dart';
 import 'package:app/features/profile/presentation/bloc/profile_bloc.dart';

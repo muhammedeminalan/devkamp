@@ -55,7 +55,14 @@ class QuestionCardSection extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              _Badge(label: question.topic, color: PrimaryColor.primary600, bg: PrimaryColor.primary50),
+              // Uzun konu adları taştığında badge'i kısalt; difficulty sabit genişlikte kalır.
+              Flexible(
+                child: _Badge(
+                  label: question.topic,
+                  color: PrimaryColor.primary600,
+                  bg: PrimaryColor.primary50,
+                ),
+              ),
               const SizedBox(width: 8),
               _Badge(
                 label: _diffLabel(context),
@@ -132,6 +139,8 @@ class _Badge extends StatelessWidget {
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
       child: Text(
         label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
               color: color,
               fontWeight: FontWeight.w700,
